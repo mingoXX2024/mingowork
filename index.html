@@ -1,0 +1,2106 @@
+<!DOCTYPE html>
+
+<!--[if IE 8]><html class="ie" xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <title>Mingo - 个人作品集</title>
+    <meta name="author" content="themesflat.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description"
+        content="Mingo - 个人作品集是一款时尚现代的HTML模板，专为希望在线展示作品的开发者、设计师、自由职业者和专业人士设计。完全响应式、SEO友好且易于自定义，帮助您打造强大的个人品牌，给潜在客户或雇主留下深刻印象。">
+
+    <!-- font -->
+    <link rel="stylesheet" href="assets/fonts/fonts.css">
+    <link rel="stylesheet" href="assets/icon/icomoon/style.css">
+    <!-- css -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/odometer.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+
+    <!-- Favicon and Touch Icons  -->
+    <link rel="shortcut icon" href="assets/images/logo/favicon.svg">
+    <link rel="apple-touch-icon-precomposed" href="assets/images/logo/favicon.svg">
+
+    <!-- ===== 隐藏式刘海导航 CSS ===== -->
+    <style>
+        .notch-nav {
+            position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+            z-index: 200; width: 200px; height: 18px;
+            background: rgba(255,140,0,0.5); border-radius: 0 0 20px 20px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer; overflow: clip;
+        }
+        .notch-nav::before {
+            content: ''; position: absolute; top: 1px; left: 50%; transform: translateX(-50%);
+            width: 40px; height: 4px; background: rgba(255,180,80,0.8); border-radius: 1px;
+            transition: all 0.4s;
+        }
+        .notch-nav:hover { overflow: visible; width: 520px; height: 56px;
+            background: rgba(76, 87, 112, 0.92); border-radius: 0 0 28px 28px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5); }
+        .notch-nav:hover::before { opacity: 0; }
+        .notch-menu { display: flex; align-items: center; justify-content: center;
+            gap: 24px; height: 100%; opacity: 0; transition: opacity 0.3s 0.1s; padding: 0 20px; }
+        .notch-nav:hover .notch-menu { opacity: 1; }
+        .notch-menu a { color: #ccc; text-decoration: none; font-size: 13px;
+            font-family: 'Inter', 'Microsoft YaHei', sans-serif; letter-spacing: 0.06em;
+            transition: color 0.2s; white-space: nowrap; }
+        .notch-menu a:hover, .notch-menu a.active { color: #3a86ff; }
+        .notch-dropdown { position: relative; }
+        .notch-dropdown-menu { position: absolute; top: 100%; left: 50%;
+            transform: translateX(-50%) translateY(8px); background: rgba(10,16,30,0.95);
+            border: 1px solid rgba(58,134,255,0.2); border-radius: 8px; padding: 8px 0;
+            min-width: 140px; opacity: 0; visibility: hidden; transition: all 0.3s;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5); }
+        .notch-dropdown:hover .notch-dropdown-menu { opacity: 1; visibility: visible; }
+        .notch-dropdown-menu a { display: block; padding: 10px 20px; font-size: 12px; color: #ccc; }
+        .notch-dropdown-menu a:hover { background: rgba(58,134,255,0.1); color: #3a86ff; }
+    </style>
+
+    <!-- 联系板块所需 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        @keyframes scanline {
+            0% { transform: translateY(-100%); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(200px); opacity: 0; }
+        }
+        .animate-scan {
+            animation: scanline 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+        .mingo-contact-wrapper {
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            background-color: #030303;
+        }
+        .mingo-contact-wrapper::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+        @keyframes morse-blink {
+            0%, 4% { opacity: 1; }
+            5%, 9% { opacity: 0; }
+            10%, 20% { opacity: 1; }
+            21%, 25% { opacity: 0; }
+            26%, 30% { opacity: 1; }
+            31%, 45% { opacity: 0; }
+            46%, 56% { opacity: 1; }
+            57%, 61% { opacity: 0; }
+            62%, 66% { opacity: 1; }
+            67%, 100% { opacity: 1; }
+        }
+    </style>
+</head>
+
+<body class="counter-scroll">
+    <canvas class="cursor-trail d-none d-xl-block" id="trail"></canvas>
+
+
+    <!-- Scroll Top -->
+    <button id="goTop">
+        <span class="border-progress"></span>
+        <span class="ic-wrap">
+            <span class="icon icon-arrow-caret-right"></span>
+        </span>
+    </button>
+    <!-- /Scroll Top -->
+
+    <!-- Preload -->
+    <div class="preloader overflow-hidden">
+        <div class="site-name"><span>MINGO</span></div>
+        <div class="preloader-gutters">
+            <div class="bar">
+                <div class="inner-bar"></div>
+            </div>
+            <div class="bar">
+                <div class="inner-bar"></div>
+            </div>
+            <div class="bar">
+                <div class="inner-bar"></div>
+            </div>
+            <div class="bar">
+                <div class="inner-bar"></div>
+            </div>
+            <div class="bar">
+                <div class="inner-bar"></div>
+            </div>
+            <div class="bar">
+                <div class="inner-bar"></div>
+            </div>
+            <div class="bar">
+                <div class="inner-bar"></div>
+            </div>
+            <div class="bar">
+                <div class="inner-bar"></div>
+            </div>
+        </div>
+    </div>
+    <!-- /Preload -->
+
+    <main id="wrapper">
+        <!-- ===== 隐藏式刘海导航 ===== -->
+        <div class="notch-nav">
+          <div class="notch-menu">
+            <a href="index.html">首页</a>
+            <a href="index.html#aboutScroll">关于我</a>
+            <a href="index.html#skillsScroll">简历</a>
+            <div class="notch-dropdown">
+              <a href="index.html#portfolio">作品集 ▾</a>
+              <div class="notch-dropdown-menu">
+                <a href="portfolio-photo.html">平面摄影</a>
+                <a href="portfolio-3danimation.html">三维动画</a>
+                <a href="portfolio-video.html">视频影像</a>
+                <a href="portfolio-3dstatic.html">三维静态</a>
+                <a href="portfolio-media.html">社媒创意</a>
+              </div>
+            </div>
+            <a href="index.html#contactScroll">联系我</a>
+          </div>
+        </div>
+        <!-- Hero Banner -->
+        <div class="section-hero-v2 flat-spacing">
+            <div class="overlay"></div>
+            <div class="bg-video">
+                <video class="" muted="" autoplay="" loop="" playsinline="">
+                    <source src="assets/images/video/wave-bg.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="container">
+                <div class="image-wrap">
+                    <div class="img-item image-1">
+                        <img class="effectFade fadeDown" loading="lazy" width="400" height="600" src="assets/images/section/mingo.webp"
+                            alt="图片">
+                        <div class="img-item-2">
+                            <img class="effectFade fadeZoom" loading="lazy" width="1296" height="279" src="assets/images/logo/mingo-KK.svg"
+                                alt="图片">
+                        </div>
+                    </div>
+                    <div class="img-item-2">
+                        <img class="effectFade fadeZoom" loading="lazy" width="1296" height="279" src="assets/images/logo/mingo-W.svg"
+                            alt="图片">
+                    </div>
+                </div>
+                <div class="bottom">
+                    <ul class="tf-list text-caption letter-space--1 fw-medium scroll-fadeUp2">
+                        <li><a href="#" class="link effectFade view-visible">视频设计师</a></li>
+                        <li class="effectFade view-visible" data-delay="0.1">/</li>
+                        <li><a href="#" class="link effectFade view-visible" data-delay="0.2">摄影师</a></li>
+                        <li class="effectFade view-visible" data-delay="0.3">/</li>
+                        <li><a href="#" class="link effectFade view-visible" data-delay="0.4">导演</a></li>
+                    </ul>
+                    <div class="effectFade fadeUp no-div view-visible" data-delay="0.1">
+                        <a href="#contactScroll" class="tf-btn style-2 style-fill-white animate-btn animate-dark">
+                            <span class="text-caption letter-space--1 fw-medium">联系我</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Hero Banner -->
+        <!-- Select Work -->
+        <section class="section-selected-work-v2 flat-spacing stack-element" id="workScroll">
+            <div class="s-header d-block overflow-hidden">
+                <div class="infiniteSlide infiniteSlide_select_work" data-clone="5">
+                    <!-- clone 1 -->
+                    <p class="text-display-1 letter-space--3 fw-semibold">
+                        SELECTED WORKS
+                    </p>
+                    <div class="icon-app">
+                        <img loading="lazy" width="120" height="120" src="assets/images/item/global.svg" alt="图片">
+                    </div>
+                    <!-- clone 2 -->
+                    <p class="text-display-1 letter-space--3 fw-semibold">
+                        SELECTED WORKS
+                    </p>
+                    <div class="icon-app">
+                        <img loading="lazy" width="120" height="120" src="assets/images/item/global.svg" alt="图片">
+                    </div>
+                    <!-- clone 3 -->
+                    <p class="text-display-1 letter-space--3 fw-semibold">
+                        SELECTED WORKS
+                    </p>
+                    <div class="icon-app">
+                        <img loading="lazy" width="120" height="120" src="assets/images/item/global.svg" alt="图片">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="work-list stack-element-main position-relative">
+                    <!-- 1. 社媒创意 -->
+                    <div class="element">
+                        <a href="portfolio-media.html" class="wg-work effectFade fadeUp no-div">
+                            <div class="work-image">
+                                <video class="" muted="" autoplay="" loop="" playsinline="">
+                                    <source src="assets/社媒视频/社媒 (1).mp4" type="video/mp4">
+                                </video>
+                                <span class="arrow-icon"></span>
+                            </div>
+                            <div class="work-content">
+                                <div class="work_top">
+                                    <h5 class="letter-space--2">社媒创意</h5>
+                                    <ul class="tf-list vertical text-end">
+                                        <li class="text-white-64">方向</li>
+                                        <li class="effectFade fadeUp">社交媒体</li>
+                                        <li class="effectFade fadeUp">视觉推广</li>
+                                    </ul>
+                                </div>
+                                <div class="work_bottom">
+                                    <ul class="tf-list vertical">
+                                        <li class="text-white-64">服务</li>
+                                        <li class="effectFade fadeUp">社媒策略</li>
+                                        <li class="effectFade fadeUp">短视频创意</li>
+                                    </ul>
+                                    <h5 class="letter-space--2 js-year">2026</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- 2. 三维动态 -->
+                    <div class="element">
+                        <a href="portfolio-3danimation.html" class="wg-work">
+                            <div class="work-image">
+                                <video class="" muted="" autoplay="" loop="" playsinline="">
+                                    <source src="assets/三维动态/3dvideo1 (14).mp4" type="video/mp4">
+                                </video>
+                                <span class="arrow-icon"></span>
+                            </div>
+                            <div class="work-content">
+                                <div class="work_top">
+                                    <h5 class="letter-space--2">三维动态</h5>
+                                    <ul class="tf-list vertical text-end">
+                                        <li class="text-white-64">方向</li>
+                                        <li class="effectFade fadeUp">3D动画</li>
+                                        <li class="effectFade fadeUp">动态设计</li>
+                                    </ul>
+                                </div>
+                                <div class="work_bottom">
+                                    <ul class="tf-list vertical">
+                                        <li class="text-white-64">服务</li>
+                                        <li class="effectFade fadeUp">产品动画</li>
+                                        <li class="effectFade fadeUp">动态图形</li>
+                                    </ul>
+                                    <h5 class="letter-space--2 js-year">2026</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- 3. 视频影像 -->
+                    <div class="element">
+                        <a href="portfolio-video.html" class="wg-work">
+                            <div class="work-image">
+                                <video class="" muted="" autoplay="" loop="" playsinline="">
+                                    <source src="assets/video/video (7).mp4" type="video/mp4">
+                                </video>
+                                <span class="arrow-icon"></span>
+                            </div>
+                            <div class="work-content">
+                                <div class="work_top">
+                                    <h5 class="letter-space--2">视频影像</h5>
+                                    <ul class="tf-list vertical text-end">
+                                        <li class="text-white-64">方向</li>
+                                        <li class="effectFade fadeUp">影视拍摄</li>
+                                        <li class="effectFade fadeUp">视觉叙事</li>
+                                    </ul>
+                                </div>
+                                <div class="work_bottom">
+                                    <ul class="tf-list vertical">
+                                        <li class="text-white-64">服务</li>
+                                        <li class="effectFade fadeUp">短片导演</li>
+                                        <li class="effectFade fadeUp">后期制作</li>
+                                    </ul>
+                                    <h5 class="letter-space--2 js-year">2026</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- 4. 三维静态 -->
+                    <div class="element">
+                        <a href="portfolio-3dstatic.html" class="wg-work">
+                            <div class="work-image">
+                                <img loading="lazy" width="1296" height="648" src="assets/三维静态/三维静态 (1).png" alt="三维静态">
+                                <span class="arrow-icon"></span>
+                            </div>
+                            <div class="work-content">
+                                <div class="work_top">
+                                    <h5 class="letter-space--2">三维静态</h5>
+                                    <ul class="tf-list vertical text-end">
+                                        <li class="text-white-64">方向</li>
+                                        <li class="effectFade fadeUp">产品表现</li>
+                                        <li class="effectFade fadeUp">未来视觉</li>
+                                    </ul>
+                                </div>
+                                <div class="work_bottom">
+                                    <ul class="tf-list vertical">
+                                        <li class="text-white-64">服务</li>
+                                        <li class="effectFade fadeUp">静帧渲染</li>
+                                        <li class="effectFade fadeUp">产品视觉</li>
+                                    </ul>
+                                    <h5 class="letter-space--2 js-year">2026</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- 5. 平面摄影 -->
+                    <div class="element">
+                        <a href="portfolio-photo.html" class="wg-work">
+                            <div class="work-image">
+                                <img loading="lazy" width="1296" height="648" src="assets/模特照片/模特(51).jpg" alt="平面摄影">
+                                <span class="arrow-icon"></span>
+                            </div>
+                            <div class="work-content">
+                                <div class="work_top">
+                                    <h5 class="letter-space--2">平面摄影</h5>
+                                    <ul class="tf-list vertical text-end">
+                                        <li class="text-white-64">方向</li>
+                                        <li class="effectFade fadeUp">人像摄影</li>
+                                        <li class="effectFade fadeUp">静物摄影</li>
+                                    </ul>
+                                </div>
+                                <div class="work_bottom">
+                                    <ul class="tf-list vertical">
+                                        <li class="text-white-64">服务</li>
+                                        <li class="effectFade fadeUp">创意摄影</li>
+                                        <li class="effectFade fadeUp">品牌视觉</li>
+                                    </ul>
+                                    <h5 class="letter-space--2 js-year">2026</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /Select Work -->
+        <!-- About Me -->
+        <section class="section-about-me-v2 flat-spacing" id="aboutScroll">
+            <div class="container">
+                <div class="s-header d-block">
+                    <h2 class="text-display-2 letter-space--3 text-center effectFade fadeUp" style="line-height:1.2!important;padding-bottom:0.15em!important;">
+                        <span class="text-primary"></span> 关于 Mingo
+                    </h2>
+                </div>
+                <div class="about-main flat-spacing-bottom">
+                    <div class="davies-video" id="aboutVideoWrap" onclick="(function(){var m=document.getElementById('videoModal');var v=document.getElementById('modalVideo');if(m&&v){v.currentTime=0;v.muted=false;v.play();m.classList.add('active');}})()">
+                        <video class="video" id="aboutVideo" muted="" autoplay="" loop="" playsinline="">
+                            <source src="assets/images/video/davies-video.mp4" type="video/mp4">
+                        </video>
+                        <div class="overlay mark"></div>
+                        <div class="overlay bg-effect">
+                            <img loading="lazy" width="1296" height="729" src="assets/images/item/dither-effect.svg" alt="图片">
+                        </div>
+                    </div>
+                    <div class="content" style="background:transparent !important;">
+                        <h5 class="text-color-change letter-space--2 fw-normal" style="background:transparent !important;">
+                            大家好！我是一名视频设计师，拥有10年视觉创作实战经验，可从0到1独立完成三维动画、TVC广告、产品摄影的全流程落地制作。
+                        </h5>
+                    </div>
+                </div>
+                <!-- 视频放大灯箱 -->
+                <div class="video-modal-overlay" id="videoModal">
+                    <div class="video-modal-bg"></div>
+                    <div class="video-modal-close" id="videoModalClose">&times;</div>
+                    <div class="video-modal-content">
+                        <video class="video-modal-player" id="modalVideo" controls="" playsinline="">
+                            <source src="assets/images/video/davies-video.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="br-line d-flex flat-spacing-bottom"></div>
+                <div class="award-main">
+                    <div class="left">
+                        <div class="badget animate-box">
+                            <!-- ===== SVG 旋转徽章（内联代码）开始 ===== -->
+                            <!-- 可在此区域直接修改颜色、大小、文字、图标等 -->
+                            <svg class="badge-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <!-- 弯曲文字的路径（圆弧） -->
+                                    <path id="badgeTextPath-v2" d="M 200, 55 a 145,145 0 1,1 -0.1,0"/>
+                                </defs>
+                                <!-- 最外圈：蓝色半透明描边 -->
+                                <circle cx="200" cy="200" r="190" fill="none" stroke="rgba(58,134,255,0.35)" stroke-width="2"/>
+                                <!-- 中圈：极淡白线 -->
+                                <circle cx="200" cy="200" r="185" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+                                <!-- 内圈：极淡白线（文字路径参考线） -->
+                                <circle cx="200" cy="200" r="140" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+                                <!-- 点阵装饰：12个蓝色小圆点 -->
+                                <g fill="rgba(58,134,255,0.3)" opacity="0.6">
+                                    <circle cx="200" cy="58" r="3"/>
+                                    <circle cx="200" cy="342" r="3"/>
+                                    <circle cx="58" cy="200" r="3"/>
+                                    <circle cx="342" cy="200" r="3"/>
+                                    <circle cx="100" cy="100" r="2"/>
+                                    <circle cx="300" cy="100" r="2"/>
+                                    <circle cx="100" cy="300" r="2"/>
+                                    <circle cx="300" cy="300" r="2"/>
+                                </g>
+                                <!-- 弯曲文字：年份通过 JS 自动更新 -->
+                                <text fill="#ffffff" font-family="'Montserrat','Inter',sans-serif" font-size="26" font-weight="500" letter-spacing="6">
+                                    <textPath href="#badgeTextPath-v2" startOffset="0%" textLength="860" lengthAdjust="spacing">
+                                        PASSIONATE VIDEO DESIGNER - SINCE 2026 -
+                                    </textPath>
+                                </text>
+                                <!-- 中心图标：四个重叠椭圆线圈（蓝色描边） -->
+                                <g class="center-icon" stroke="#3a86ff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="rotate(-40 200 200)">
+                                    <ellipse cx="161" cy="200" rx="26" ry="70"/>
+                                    <ellipse cx="187" cy="200" rx="26" ry="70"/>
+                                    <ellipse cx="213" cy="200" rx="26" ry="70"/>
+                                    <ellipse cx="239" cy="200" rx="26" ry="70"/>
+                                </g>
+                            </svg>
+                            <!-- ===== 徽章结束 ===== -->
+                        </div>
+                    </div>
+                    <ul class="experience-list overflow-hidden">
+                        <li>工作经验</li>
+                        <li class="effectFade fadeRight">
+                            <p class="exp_name">视频设计师</p>
+                            <p class="exp_year">2025 - 至今</p>
+                        </li>
+                        <li class="effectFade fadeRight">
+                            <p class="exp_name">动态设计师</p>
+                            <p class="exp_year">2021 - 2025</p>
+                        </li>
+                        <li class="effectFade fadeRight">
+                            <p class="exp_name">执行导演</p>
+                            <p class="exp_year">2019 - 2021</p>
+                        </li>
+                        <li class="effectFade fadeRight">
+                            <p class="exp_name">视频经理</p>
+                            <p class="exp_year">2014 - 2019</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- About Me -->
+        <!-- Skills -->
+        <section class="section-skills flat-spacing" id="skillsScroll">
+            <div class="container">
+                <div class="s-header d-block">
+                    <h2 class="text-display-2 letter-space--3 text-center effectFade fadeUp">我的技能</h2>
+                </div>
+                <div class="skills-scroll-wrap">
+                    <div class="skills-track no-scrollbar" id="skillsTrack">
+                        <!-- C4D -->
+                        <div class="skill-card" data-percent="80" style="--theme-color: rgba(0, 123, 255, 0.25);">
+                            <div class="skill-card-bg"><div class="water"><div class="wave-bg"></div><div class="wave-bg"></div></div></div>
+                            <div class="card-inner">
+                                <div class="skill-percent"><span class="val">0</span><small>%</small></div>
+                                <div class="skill-icon"><img src="assets/images/技能/Cinema4D.png" alt="C4D"></div>
+                                <div class="skill-name">C4D</div>
+                            </div>
+                        </div>
+                        <!-- DaVinci -->
+                        <div class="skill-card" data-percent="90" style="--theme-color: rgba(76, 175, 80, 0.25);">
+                            <div class="skill-card-bg"><div class="water"><div class="wave-bg"></div><div class="wave-bg"></div></div></div>
+                            <div class="card-inner">
+                                <div class="skill-percent"><span class="val">0</span><small>%</small></div>
+                                <div class="skill-icon"><img src="assets/images/技能/DaVinci_Resolve.png" alt="DaVinci"></div>
+                                <div class="skill-name">DaVinci</div>
+                            </div>
+                        </div>
+                        <!-- Redshift -->
+                        <div class="skill-card" data-percent="85" style="--theme-color: rgba(229, 57, 53, 0.25);">
+                            <div class="skill-card-bg"><div class="water"><div class="wave-bg"></div><div class="wave-bg"></div></div></div>
+                            <div class="card-inner">
+                                <div class="skill-percent"><span class="val">0</span><small>%</small></div>
+                                <div class="skill-icon"><img src="assets/images/技能/Redshift.png" alt="Redshift"></div>
+                                <div class="skill-name">Redshift</div>
+                            </div>
+                        </div>
+                        <!-- Adobe -->
+                        <div class="skill-card" data-percent="70" style="--theme-color: rgba(255, 0, 0, 0.25);">
+                            <div class="skill-card-bg"><div class="water"><div class="wave-bg"></div><div class="wave-bg"></div></div></div>
+                            <div class="card-inner">
+                                <div class="skill-percent"><span class="val">0</span><small>%</small></div>
+                                <div class="skill-icon"><img src="assets/images/技能/Adobe.png" alt="Adobe"></div>
+                                <div class="skill-name">Adobe</div>
+                            </div>
+                        </div>
+                        <!-- Blender -->
+                        <div class="skill-card" data-percent="65" style="--theme-color: rgba(245, 121, 42, 0.25);">
+                            <div class="skill-card-bg"><div class="water"><div class="wave-bg"></div><div class="wave-bg"></div></div></div>
+                            <div class="card-inner">
+                                <div class="skill-percent"><span class="val">0</span><small>%</small></div>
+                                <div class="skill-icon"><img src="assets/images/技能/blender.png" alt="Blender"></div>
+                                <div class="skill-name">Blender</div>
+                            </div>
+                        </div>
+                        <!-- Houdini -->
+                        <div class="skill-card" data-percent="60" style="--theme-color: rgba(255, 87, 34, 0.25);">
+                            <div class="skill-card-bg"><div class="water"><div class="wave-bg"></div><div class="wave-bg"></div></div></div>
+                            <div class="card-inner">
+                                <div class="skill-percent"><span class="val">0</span><small>%</small></div>
+                                <div class="skill-icon"><img src="assets/images/技能/Houdini.png" alt="Houdini"></div>
+                                <div class="skill-name">Houdini</div>
+                            </div>
+                        </div>
+                        <!-- PFTrack -->
+                        <div class="skill-card" data-percent="72" style="--theme-color: rgba(255, 235, 59, 0.25);">
+                            <div class="skill-card-bg"><div class="water"><div class="wave-bg"></div><div class="wave-bg"></div></div></div>
+                            <div class="card-inner">
+                                <div class="skill-percent"><span class="val">0</span><small>%</small></div>
+                                <div class="skill-icon"><img src="assets/images/技能/PFTrack.png" alt="PFTrack"></div>
+                                <div class="skill-name">PFTrack</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /Skills -->
+        <!-- Tech Stack -->
+        <section class="section-tech-stack-v2 flat-spacing">
+            <div class="container">
+                <div class="s-header d-block">
+                    <h2 class="text-display-2 letter-space--3 text-center effectFade fadeUp"></h2>
+                </div>
+                <div class="tf-grid-layout lg-col-4">
+                    <div class="wg-tech-v2" data-us-project="lHlDvoJDIXCxxXVqTNOC?update=0.8924711990022087">
+                        <div class="tech-content">
+                            <h5 class="tech-name letter-space--2">AIGC</h5>
+                            <p class="tech-desc letter-space--1">
+                                能独立完成智能生图、海报设计、AI短视频制作及产品广告的全流程。这让我在创意提案、物料批产、短周期项目中拥有显著的速度与灵活度优势。
+                            </p>
+                            <div class="ic-img">
+                                <svg width="48" height="48" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#e6e6e6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 3l2.5 5.5L20 11l-5.5 2.5L12 19l-2.5-5.5L4 11l5.5-2.5z"/>
+                                    <path d="M18 14l1 2 2 1-2 1-1 2-1-2-2-1 2-1z"/>
+                                    <path d="M4 14l1 2 2 1-2 1-1 2-1-2-2-1 2-1z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wg-tech-v2" data-us-project="lHlDvoJDIXCxxXVqTNOC?update=0.8924711990022087">
+                        <div class="tech-content">
+                            <h5 class="tech-name letter-space--2">视频设计</h5>
+                            <p class="tech-desc letter-space--1">
+                                我能完成品牌形象片、新媒体短视频、广告TVC、企业宣传片及产品种草视频的全流程制作，用节奏与叙事让内容既有质感也有传播力。
+                            </p>
+                            <div class="ic-img">
+                                <svg width="48" height="48" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#e6e6e6">
+                                    <path d="M825.6 153.6H198.4C124.5 153.6 64 214.1 64 288v448c0 73.9 60.5 134.4 134.4 134.4h627.2c73.9 0 134.4-60.5 134.4-134.4V288c0-73.9-60.5-134.4-134.4-134.4z m-138.2 44.8l112 112H706l-112-112h93.4z m-156.8 0l112 112H526.7l-112-112h115.9z m-179.2 0l112 112H347.5l-112-112h115.9zM108.8 288c0-41.4 28.4-76.1 66.7-86.3l108.7 108.7H108.8V288z m806.4 448c0 49.4-40.2 89.6-89.6 89.6H198.4c-49.4 0-89.6-40.2-89.6-89.6V355.2h806.4V736z m0-425.6h-52.5l-112-112h74.9c49.4 0 89.6 40.2 89.6 89.6v22.4z"/>
+                                    <path d="M454 687.2l149.3-77.6c27.5-13.8 27.5-53 0-66.8L468 472.2c-31.2-15.6-68 7.1-68 42v139.6c0 27.8 29.2 45.8 54 33.4zM444.8 512l134.4 67.2-134.4 67.2V512z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wg-tech-v2" data-us-project="lHlDvoJDIXCxxXVqTNOC?update=0.8924711990022087">
+                        <div class="tech-content">
+                            <h5 class="tech-name letter-space--2">三维动态设计</h5>
+                            <p class="tech-desc letter-space--1">
+                                我能独立落地产品三维展示、栏目包装动效、抽象视觉演绎、建筑与空间可视化以及IP角色动画，为画面注入立体维度的呼吸与张力。
+                            </p>
+                            <div class="ic-img">
+                                <svg width="48" height="48" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#e6e6e6">
+                                    <path d="M494.08 558.08c51.2-2.56 97.28 35.84 99.84 87.04 0 23.04-10.24 43.52-25.6 58.88 15.36 15.36 25.6 35.84 25.6 58.88-7.68 56.32-61.44 94.72-117.76 84.48-43.52-7.68-79.36-40.96-84.48-84.48h58.88c0 15.36 20.48 28.16 43.52 28.16s43.52-12.8 43.52-28.16-20.48-28.16-43.52-28.16h-43.52v-58.88h43.52c23.04 0 43.52-12.8 43.52-28.16s-20.48-33.28-43.52-33.28-43.52 12.8-43.52 28.16h-58.88c5.12-51.2 51.2-89.6 102.4-84.48z m217.6 0c79.36 0 143.36 64 143.36 143.36S791.04 844.8 711.68 844.8h-87.04V558.08h87.04z m0 56.32h-28.16v174.08h28.16c48.64 0 87.04-38.4 87.04-87.04-2.56-48.64-40.96-87.04-87.04-87.04zM499.2 156.16c5.12-2.56 12.8-2.56 20.48 0l317.44 115.2c2.56 0 5.12 2.56 7.68 2.56l2.56 2.56c2.56 0 2.56 2.56 5.12 5.12 0 0 0 2.56 2.56 2.56 0 2.56 2.56 2.56 2.56 5.12v268.8l-58.88-28.16v-189.44L537.6 432.64v94.72h-58.88v-94.72L220.16 337.92v322.56l143.36 61.44v64L179.2 706.56c-10.24-5.12-17.92-15.36-17.92-25.6v-384-7.68-2.56c0-2.56 2.56-2.56 2.56-5.12 0 0 0-2.56 2.56-2.56 0-2.56 2.56-2.56 5.12-5.12l2.56-2.56c2.56-2.56 5.12-2.56 7.68-2.56l317.44-112.64z m10.24 56.32l-232.96 84.48 232.96 84.48 232.96-84.48-232.96-84.48z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wg-tech-v2" data-us-project="lHlDvoJDIXCxxXVqTNOC?update=0.8924711990022087">
+                        <div class="tech-content">
+                            <h5 class="tech-name letter-space--2">平面视觉</h5>
+                            <p class="tech-desc letter-space--1">
+                                我能交付从品牌形象大片、人像情绪、静物产品质感，到空间建筑记录和活动纪实跟拍的服务，用构图与光影定格值得被记住的每一个瞬间。
+                            </p>
+                            <div class="ic-img">
+                                <svg width="48" height="48" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#e6e6e6">
+                                    <path d="M315.27 221.13c12.509 0 24.424 2.392 35.744 7.21 11.32 4.786 21.126 11.345 29.471 19.752 8.345 8.373 14.89 18.266 19.648 29.61 4.776 11.38 7.156 23.667 7.156 36.822 0 12.577-2.38 24.427-7.156 35.48-4.759 11.09-11.303 20.803-19.648 29.21-8.345 8.372-18.151 14.969-29.471 19.753-11.32 4.784-23.235 7.175-35.744 7.175-12.493 0-24.407-2.391-35.727-7.175-11.32-4.784-21.143-11.38-29.49-19.752-8.327-8.408-14.889-18.12-19.647-29.21-4.76-11.054-7.14-22.905-7.14-35.48 0-13.156 2.38-25.443 7.14-36.822 4.757-11.344 11.32-21.238 19.648-29.61 8.346-8.408 18.17-14.967 29.49-19.752 11.319-4.82 23.233-7.212 35.726-7.212zM906.663 63.078c14.296 0 26.661 5.219 37.08 15.729 10.417 10.473 15.627 22.578 15.627 36.35v793.91c0 13.772-5.211 25.877-15.627 36.35-10.42 10.474-22.785 15.728-37.08 15.728H117.837c-14.276 0-26.497-5.254-36.627-15.728-10.112-10.473-15.178-22.578-15.178-36.35v-793.91c0-13.772 5.066-25.877 15.178-36.35 10.13-10.51 22.351-15.73 36.627-15.73h788.826z m-26.801 132.897c0-14.967-5.067-27.688-15.179-38.162-10.13-10.473-22.642-15.692-37.528-15.692H197.348c-14.889 0-27.38 5.219-37.511 15.692-10.13 10.474-15.196 23.195-15.196 38.162v316.136c0 17.36 4.326 33.813 12.96 49.398 8.635 15.547 21 29.5 37.078 41.75 16.078 12.286 35.437 21.997 58.06 29.175 22.64 7.21 47.947 11.09 75.94 11.706 39.89 0.577 72.21-4.821 96.924-16.164 24.712-11.383 46.163-25.77 64.314-43.128 18.168-17.361 35.15-36.204 50.92-56.574 15.792-20.366 34.556-39.502 56.296-57.478 21.72-17.977 48.524-33.09 80.393-45.339 31.871-12.285 73.11-18.737 123.725-19.316 8.94-0.616 14.15-0.76 15.628-0.435 1.497 0.29 3.425 0.435 5.805 0.435 2.397 0 7.302 0.144 14.744 0.435 7.443 0.326 21.596 0.144 42.434-0.435V195.976z m0 0"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /Tech Stack -->
+        <!-- Service -->
+        <section class="section-service-v2 flat-spacing" id="serviceScroll">
+            <div class="container">
+                <div class="br-line d-flex"></div>
+                <div class="service-accordion-main" id="service-accordion-main">
+                    <div class="service-accordion_item effectFade fadeUp no-div" role="presentation">
+                        <div class="accordion-action active" data-target="service-1" role="button">
+                            <h5 class="text-display-1 letter-space--3">AIGC</h5>
+                        </div>
+                        <div id="service-1" class="service-body open">
+                            <div class="accordion-content">
+                                <div class="image-left">
+                                    <img width="860" height="373" src="assets/AIGC/aigc-21.jpg" alt="Image">
+                                </div>
+                                <div class="content-right">
+                                    <p class="number-order text-display-1 fw-medium letter-space--3 text-white-32">01</p>
+                                    <ul class="tf-list vertical gap-12 text-body-1">
+                                        <li><span class="text-primary">//</span> 产品美图生成</li>
+                                        <li><span class="text-primary">//</span> 概念海报设计</li>
+                                        <li><span class="text-primary">//</span> AI短视频制作</li>
+                                        <li><span class="text-primary">//</span> 产品广告短片</li>
+                                        <li><span class="text-primary">//</span> 产品卖点表现</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-accordion_item effectFade fadeUp no-div" role="presentation">
+                        <div class="accordion-action" data-target="service-2" role="button">
+                            <h5 class="text-display-1 letter-space--3">视频设计</h5>
+                        </div>
+                        <div id="service-2" class="service-body">
+                            <div class="accordion-content">
+                                <div class="image-left">
+                                    <img width="860" height="373" src="assets/模特照片/模特(58).jpg" alt="Image">
+                                </div>
+                                <div class="content-right">
+                                    <p class="number-order text-display-1 fw-medium letter-space--3 text-white-32">02</p>
+                                    <ul class="tf-list vertical gap-12 text-body-1">
+                                        <li><span class="text-primary">//</span> 品牌形象片</li>
+                                        <li><span class="text-primary">//</span> 新媒体短视频</li>
+                                        <li><span class="text-primary">//</span> 产品TVC</li>
+                                        <li><span class="text-primary">//</span> 企业宣传片</li>
+                                        <li><span class="text-primary">//</span> 产品卖点演示</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-accordion_item effectFade fadeUp no-div" role="presentation">
+                        <div class="accordion-action" data-target="service-3" role="button">
+                            <h5 class="text-display-1 letter-space--3">三维动态设计</h5>
+                        </div>
+                        <div id="service-3" class="service-body">
+                            <div class="accordion-content">
+                                <div class="image-left">
+                                    <img width="860" height="373" src="assets/三维静态/三维静态 (2).png" alt="Image">
+                                </div>
+                                <div class="content-right">
+                                    <p class="number-order text-display-1 fw-medium letter-space--3 text-white-32">03</p>
+                                    <ul class="tf-list vertical gap-12 text-body-1">
+                                        <li><span class="text-primary">//</span> 产品三维展示</li>
+                                        <li><span class="text-primary">//</span> 栏目包装动效</li>
+                                        <li><span class="text-primary">//</span> 抽象视觉演绎</li>
+                                        <li><span class="text-primary">//</span> 建筑与空间可视化</li>
+                                        <li><span class="text-primary">//</span> IP角色动画</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-accordion_item effectFade fadeUp no-div" role="presentation">
+                        <div class="accordion-action" data-target="service-4" role="button">
+                            <h5 class="text-display-1 letter-space--3">摄影设计</h5>
+                        </div>
+                        <div id="service-4" class="service-body">
+                            <div class="accordion-content">
+                                <div class="image-left">
+                                    <img width="860" height="373" src="assets/产品图片/产品photo (9).jpg" alt="Image">
+                                </div>
+                                <div class="content-right">
+                                    <p class="number-order text-display-1 fw-medium letter-space--3 text-white-32">04</p>
+                                    <ul class="tf-list vertical gap-12 text-body-1">
+                                        <li><span class="text-primary">//</span> 品牌形象大片</li>
+                                        <li><span class="text-primary">//</span> 人像/情绪摄影</li>
+                                        <li><span class="text-primary">//</span> 静物与产品质感摄影</li>
+                                        <li><span class="text-primary">//</span> 空间与建筑记录摄影</li>
+                                        <li><span class="text-primary">//</span> 活动纪实跟拍</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /Service -->
+        <!-- Award -->
+        <section class="section-award flat-spacing bg-surface">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5 ms-auto">
+                        <div class="col-right">
+                            <h6 class="mini-title text-caption text-black-64">
+                              经历  
+                            </h6>
+                            <h5 class="fw-normal letter-space--2 text-black">
+                                自2014年以来，我参与过众多项目，涵盖大型企业合作，也与业内知名导演、制片人、后期专家并肩工作。每一项作品都凝聚着创意、精准与影响力。
+大胆的构想，完美的执行。
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="col-left">
+                            <p class="desc text-black-64 mini-title">
+                                 <br>
+                                
+                            </p>
+                            <div dir="ltr" class="swiper tf-swiper swiper-t2" data-preview="3" data-tablet="3" data-mobile="3" data-mobile-sm="3"
+                                data-loop="true" data-auto="true" data-delay="1000" data-speed="1000" data-direction="vertical" data-space="4">
+                                <div class="swiper-wrapper">
+                                    <!-- item 1 -->
+                                    <div class="swiper-slide">
+                                        <div class="award-item h4 letter-space--2">
+                                            微众银行
+                                            <span class="text-body-1 letter-space--1"></span>
+                                        </div>
+                                    </div>
+                                    <!-- item 2 -->
+                                    <div class="swiper-slide">
+                                        <div class="award-item h4 letter-space--2">
+                                            中国哈曼
+                                            <span class="text-body-1 letter-space--1"></span>
+                                        </div>
+                                    </div>
+                                    <!-- item 3 -->
+                                    <div class="swiper-slide">
+                                        <div class="award-item h4 letter-space--2">
+                                            万魔科技
+                                            <span class="text-body-1 letter-space--1"></span>
+                                        </div>
+                                    </div>
+                                    <!-- item 1 -->
+                                    <div class="swiper-slide">
+                                        <div class="award-item h4 letter-space--2">
+                                            华为
+                                            <span class="text-body-1 letter-space--1"></span>
+                                        </div>
+                                    </div>
+                                    <!-- item 2 -->
+                                    <div class="swiper-slide">
+                                        <div class="award-item h4 letter-space--2">
+                                            顺丰
+                                            <span class="text-body-1 letter-space--1"></span>
+                                        </div>
+                                    </div>
+                                    <!-- item 3 -->
+                                    <div class="swiper-slide">
+                                        <div class="award-item h4 letter-space--2">
+                                            vivo
+                                            <span class="text-body-1 letter-space--1"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wrap-flip-image flat-spacing">
+                <div class="container">
+                    <div class="flip-image-list gsap-anime-2">
+                        <div class="flip-image">
+                            <img loading="lazy" width="325" height="325" src="assets/images/花絮/花絮照 (1).jpg" alt="Image">
+                        </div>
+                        <div class="flip-image">
+                            <img loading="lazy" width="325" height="325" src="assets/images/花絮/花絮照 (2).jpg" alt="Image">
+
+                        </div>
+                        <div class="flip-image">
+                            <img loading="lazy" width="325" height="325" src="assets/images/花絮/花絮照 (3).jpg" alt="Image">
+                        </div>
+                        <div class="flip-image">
+                            <img loading="lazy" width="325" height="325" src="assets/images/花絮/花絮照 (4).jpg" alt="Image">
+
+                        </div>
+                        <div class="flip-image">
+                            <img loading="lazy" width="325" height="325" src="assets/images/花絮/花絮照 (5).jpg" alt="Image">
+
+                        </div>
+                        <div class="flip-image">
+                            <img loading="lazy" width="325" height="325" src="assets/images/花絮/花絮照 (6).jpg" alt="Image">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /Award -->
+        <!-- Testimonial -->
+        <section class="section-testimonial flat-spacing tf-btn-swiper-main" id="testimonialScroll">
+            <h6 class="text-display-2 letter-space--3 text-white-64 text-center">
+                项目志
+            </h6>
+            <div dir="ltr" class="swiper tf-swiper swiper-testimonial" data-preview="2.15" data-tablet="2.2" data-mobile-sm="1.5" data-mobile="1.2"
+                data-loop="true" data-center="true" data-space-lg="40" data-space-md="30" data-space="15" data-init="1">
+                <div class="swiper-wrapper">
+                    <!-- item 1 -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-v01">
+                            <div class="tes-author">
+                                <div class="author_image">
+                                    <img loading="lazy" width="437" height="328" src="assets/AIGC/aigc 20.jpg" alt="Image">
+                                </div>
+                                <div class="author_info">
+                                    <h6 class="info__name text-body-1 letter-space--1"></h6>
+                                    <p class="info__duty">AI产品广告</p>
+                                </div>
+                            </div>
+                            <div class="br-line"></div>
+                            <p class="tes-text text-body-1">
+                                "影片讲述四位年轻人在海边聚会的轻松场景，通过产品自然融入互动瞬间，传递“自由、分享、科技与自然共存”的品牌理念。"
+                            </p>
+                        </div>
+                    </div>
+                    <!-- item 2 -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-v01">
+                            <div class="tes-author">
+                                <div class="author_image">
+                                    <img loading="lazy" width="437" height="328" src="assets/images/项目 (2).jpg" alt="Image">
+                                </div>
+                                <div class="author_info">
+                                    <h6 class="info__name text-body-1 letter-space--1"></h6>
+                                    <p class="info__duty">产品三维</p>
+                                </div>
+                            </div>
+                            <div class="br-line"></div>
+                            <p class="tes-text text-body-1">
+                                "本片为全三维动画制作的游戏音响广告，通过炫酷灯光、硬朗造型与可视化声波，演绎产品在电竞场景中的沉浸音效与强劲性能。
+
+"
+                            </p>
+                        </div>
+                    </div>
+                    <!-- item 3 -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-v01">
+                            <div class="tes-author">
+                                <div class="author_image">
+                                    <img loading="lazy" width="437" height="328" src="assets/images/项目 (3).jpg" alt="Image">
+                                </div>
+                                <div class="author_info">
+                                    <h6 class="info__name text-body-1 letter-space--1"></h6>
+                                    <p class="info__duty">耳机广告</p>
+                                </div>
+                            </div>
+                            <div class="br-line"></div>
+                            <p class="tes-text text-body-1">
+                                "本片为平行时间线叙事的有线耳机广告，通过一男一女各自使用场景的交织剪辑，呈现大师级音质与产品的高端质感。"
+                            </p>
+                        </div>
+                    </div>
+                    <!-- item 2 -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-v01">
+                            <div class="tes-author">
+                                <div class="author_image">
+                                    <img loading="lazy" width="437" height="328" src="assets/images/项目 (1).jpg" alt="Image">
+                                </div>
+                                <div class="author_info">
+                                    <h6 class="info__name text-body-1 letter-space--1"></h6>
+                                    <p class="info__duty">口袋相机</p>
+                                </div>
+                            </div>
+                            <div class="br-line"></div>
+                            <p class="tes-text text-body-1">
+                                "本片采用三维结合实拍的方式，通过模特日常使用场景，呈现口袋相机的可爱灵巧外观与便捷拍摄功能。"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="group-btn-slider">
+                    <div class="lh-1 nav-prev-swiper">
+                        <i class="fs-8 icon icon-arrow-caret-left"></i>
+                    </div>
+                    <div class="sw-dot-default tf-sw-pagination"></div>
+                    <div class="lh-1 nav-next-swiper">
+                        <i class="fs-8 icon icon-arrow-caret-right"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="indicator-wrap flat-spacing">
+                <div class="bg-img">
+                    <img loading="lazy" width="1440" height="800" src="assets/images/item/gird-net.png" alt="Image">
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="wg-indicator mb-md-0">
+                                <p class="indicate-title text-body-1 letter-space--1">
+                                    <span class="text-primary">//</span> 完成项目
+                                </p>
+                                <p class="indicate-counter wg-counter text-display-1 fw-medium">
+                                    <span class="odometer" data-number="40">80</span> <span class="text-primary">+</span>
+                                </p>
+                                <p class="indicate-sub">
+                                    高质量动画及视频项目， <br>
+                                    覆盖AI全流程、三维、实拍等多种媒介
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="wg-indicator mb-md-0">
+                                <p class="indicate-title text-body-1 letter-space--1">
+                                    <span class="text-primary">//</span> 满意度
+                                </p>
+                                <p class="indicate-counter wg-counter text-display-1 fw-medium">
+                                    <span class="odometer" data-number="96">99</span> <span class="text-primary">%</span>
+                                </p>
+                                <p class="indicate-sub">
+                                    不满足于完成交付，而是持续追求超越客户最初期望 <br>
+                                   而是持续追求超越客户最初期望
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="wg-indicator mb-0">
+                                <p class="indicate-title text-body-1 letter-space--1">
+                                    <span class="text-primary">//</span> 经验
+                                </p>
+                                <p class="indicate-counter wg-counter text-display-1 fw-medium">
+                                    <span class="odometer" data-number="10">10</span> <span class="text-primary">+</span>
+                                </p>
+                                <p class="indicate-sub">
+                                    伴随行业技术变革与设计理念迭代<br>
+                                   持续精进与时俱进的思维与技术
+                                    
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /Testimonial -->
+        <!-- Faq -->
+        <section class="section-faq type-2 flat-spacing" style="padding-bottom: 40px !important;">
+            <div class="container">
+                <div class="s-header d-block" style="margin-bottom: 0 !important;">
+                    <h2 class="title text-display-2 letter-space--3 text-center effectFade fadeUp">
+                        <span class="text">
+                            常见
+                            <span class="icon"><img loading="lazy" width="80" height="80" src="assets/images/item/global-2.svg" alt="Image"></span>
+                        </span> <br>
+                        问题
+                    </h2>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="accordion-faq_list" id="accordion-faq_list">
+                            <div class="accordion-faq_item cl-line-2" role="presentation">
+                                <div class="accordion-action text-body-1 letter-space--1 fw-medium" data-target="faq-1" role="button">
+                                    <span class="accordion-order text-black-64">01</span>
+                                    <p class="accordion-text">一个项目通常需要多长时间？</p>
+                                    <div class="ic-wrap d-flex">
+                                        <i class="icon icon-arrow-caret-down fs-10 text-black"></i>
+                                    </div>
+                                </div>
+                                <div id="faq-1" class="faq-body">
+                                    <p class="accordion-content">
+                                        具体看项目类型和复杂度。短视频或海报设计一般 3～7 天；三维动态、品牌形象片或产品广告大约 2～4 周。大型项目我会拆分阶段交付，并在启动前给出清晰的时间节点。
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="accordion-faq_item cl-line-2" role="presentation">
+                                <div class="accordion-action text-body-1 letter-space--1 fw-medium active" data-target="faq-2" role="button">
+                                    <span class="accordion-order text-black-64">02</span>
+                                    <p class="accordion-text">你既能做视频，也能做平面拍摄吗？</p>
+                                    <div class="ic-wrap d-flex">
+                                        <i class="icon icon-arrow-caret-down fs-10 text-black"></i>
+                                    </div>
+                                </div>
+                                <div id="faq-2" class="faq-body open">
+                                    <p class="accordion-content">
+                                        是的。我具备完整的视频设计（品牌片、TVC、短视频、宣传片）和平面摄影（品牌形象、人像、静物、空间）能力。可以独立完成从拍摄、剪辑到后期包装的全流程。
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="accordion-faq_item cl-line-2" role="presentation">
+                                <div class="accordion-action text-body-1 letter-space--1 fw-medium" data-target="faq-3" role="button">
+                                    <span class="accordion-order text-black-64">03</span>
+                                    <p class="accordion-text">你有带领团队完成项目的经验吗？</p>
+                                    <div class="ic-wrap d-flex">
+                                        <i class="icon icon-arrow-caret-down fs-10 text-black"></i>
+                                    </div>
+                                </div>
+                                <div id="faq-3" class="faq-body">
+                                    <p class="accordion-content">
+                                        有。我曾作为项目负责人，带领小团队（摄像、后期、三维、文案）完成过多个商业项目，包括企业宣传片和产品广告。我能进行任务拆解、进度把控和跨工种协调，确保项目保质保量交付。
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="accordion-faq_item cl-line-2" role="presentation">
+                                <div class="accordion-action text-body-1 letter-space--1 fw-medium" data-target="faq-4" role="button">
+                                    <span class="accordion-order text-black-64">04</span>
+                                    <p class="accordion-text">你的视频工作流程是什么样的？</p>
+                                    <div class="ic-wrap d-flex">
+                                        <i class="icon icon-arrow-caret-down fs-10 text-black"></i>
+                                    </div>
+                                </div>
+                                <div id="faq-4" class="faq-body">
+                                    <p class="accordion-content">
+                                        我遵循标准工业流程：1️⃣ 前期沟通：明确需求、脚本、风格参考；2️⃣ 拍摄/素材制作：实拍 + 三维/AIGC辅助；3️⃣ 剪辑与粗剪：确定叙事结构和节奏；4️⃣ 包装与特效：调色、动效、字幕、音效；5️⃣ 反馈与交付：按修改意见精修，输出多版本成片。所有环节均由我独立或带领团队完成。
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="accordion-faq_item cl-line-2" role="presentation">
+                                <div class="accordion-action text-body-1 letter-space--1 fw-medium" data-target="faq-5" role="button">
+                                    <span class="accordion-order text-black-64">05</span>
+                                    <p class="accordion-text">你在项目中 AIGC 的运用怎么样？</p>
+                                    <div class="ic-wrap d-flex">
+                                        <i class="icon icon-arrow-caret-down fs-10 text-black"></i>
+                                    </div>
+                                </div>
+                                <div id="faq-5" class="faq-body">
+                                    <p class="accordion-content">
+                                        我已经将 AIGC 深度融入创作流程。我能独立完成：智能生图与概念海报、AI 辅助短视频和产品广告制作、风格化视觉转绘、快速产出多种视觉方案供提案。AIGC 极大提升了我的迭代速度和创意宽度，同时我保持最终审美与细节的手工把控，做到效率与质量的平衡。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /Faq -->
+        <!-- Contact (New Design) -->
+        <section class="mingo-contact-wrapper text-white m-0 relative overflow-hidden selection:bg-[#FF7F00] selection:text-white flex items-center w-full" id="contactScroll" style="padding-top: 20px !important; padding-bottom: 40px !important;">
+
+            <!-- 装饰背景：全屏建筑感网格线 -->
+            <div class="absolute top-0 bottom-0 left-[10%] lg:left-[15%] w-[1px] bg-[#1a1a1a] z-0"></div>
+            <div class="absolute top-[20%] left-0 w-full h-[1px] bg-[#1a1a1a] z-0"></div>
+            <div class="absolute top-[80%] left-0 w-full h-[1px] bg-[#1a1a1a] z-0 hidden lg:block"></div>
+            
+            <!-- 页面核心主容器 -->
+            <div class="w-full max-w-[1400px] mx-auto px-6 lg:px-0 relative z-20 py-12 lg:py-0">
+                
+                <!-- 背景大字 -->
+                <div class="absolute top-[-40px] left-1/2 -translate-x-1/2 text-[10vw] font-bold text-[#0a0a0a] select-none tracking-tighter whitespace-nowrap -z-10 pointer-events-none hidden md:block">
+                    CONTACT
+                </div>
+
+                <!-- Logo + 标题同一行 -->
+                <div class="flex items-center justify-center gap-6 mb-20">
+                    <div class="w-16 h-16 bg-[#030303] border border-[#2a2a2a] flex items-center justify-center hover:border-[#FF7F00] transition-colors duration-500 flex-shrink-0">
+                        <img src="assets/images/logo/logo.png" alt="Mingo Logo" class="w-10 h-auto">
+                    </div>
+                    <h1 class="text-display-2 letter-space--3 text-white tracking-tight">
+                        联系我<span class="text-[#FF7F00]">.</span>
+                    </h1>
+                </div>
+
+                <!-- 极简不对称双栏布局 -->
+                <div class="flex flex-col lg:flex-row gap-16 lg:gap-0 justify-center">
+
+
+
+
+                    <!-- 左侧：文字信息与按钮 -->
+                    <div class="w-full lg:w-1/2 flex flex-col justify-center pr-0 lg:pr-20 max-w-[500px] mx-auto lg:mx-0">
+                        
+                        <!-- 邮箱模块 -->
+                        <div class="group border-b border-[#222] py-8 hover:border-[#FF7F00] transition-colors duration-500 cursor-default">
+                            <p class="text-[10px] text-[#666] tracking-[0.3em] uppercase mb-4 group-hover:text-[#FF7F00] transition-colors">Email Address</p>
+                            <p class="text-2xl md:text-3xl font-light tracking-wide text-[#e0e0e0] group-hover:translate-x-4 transition-transform duration-500 ease-out">
+                                496120811@qq.com
+                            </p>
+                        </div>
+
+                        <!-- 电话模块 -->
+                        <div class="group border-b border-[#222] py-8 hover:border-[#FF7F00] transition-colors duration-500 cursor-default">
+                            <p class="text-[10px] text-[#666] tracking-[0.3em] uppercase mb-4 group-hover:text-[#FF7F00] transition-colors">Phone Number</p>
+                            <p class="text-2xl md:text-3xl font-light tracking-wide text-[#e0e0e0] group-hover:translate-x-4 transition-transform duration-500 ease-out">
+                                +86 189-2462-9224
+                            </p>
+                        </div>
+
+                        <!-- 下载按钮区域 -->
+                        <div class="pt-16">
+                            <a href="assets/简历/邵江-18924629224.pdf" download class="relative overflow-hidden group border border-[#333] hover:border-[#FF7F00] bg-transparent text-white px-8 py-4 flex items-center justify-between w-full md:w-[320px] rounded-md transition-all duration-300 no-underline">
+                                <div class="absolute inset-0 w-0 bg-[#FF7F00] transition-all duration-500 ease-out group-hover:w-full -z-10"></div>
+                                
+                                <span class="text-sm font-medium tracking-widest uppercase z-10">下载简历 (PDF)</span>
+                                
+                                <svg class="w-5 h-5 z-10 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 右侧：二维码艺术化展示 -->
+                    <div class="w-full lg:w-1/2 flex items-center justify-center relative mt-10 lg:mt-0">
+                        
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-[#FF7F00] opacity-[0.03] blur-[60px] rounded-full pointer-events-none"></div>
+
+                        <div class="relative p-1 bg-[#0a0a0a] border border-[#1a1a1a] hover:border-[#333] transition-colors duration-500 group z-10 w-full md:w-[380px]">
+                            
+                            <div class="absolute -top-1 -left-1 w-2 h-2 bg-[#FF7F00]"></div>
+                            <div class="absolute -bottom-1 -right-1 w-2 h-2 bg-[#FF7F00]"></div>
+
+                            <div class="border border-[#1a1a1a] p-10 flex flex-col items-center bg-[#050505]">
+                                
+                                <div class="w-full flex justify-between items-center mb-10">
+                                    <span class="text-[10px] text-[#888] tracking-[0.2em] uppercase">Primary Contact</span>
+                                    <span class="text-[#FF7F00] text-[10px] tracking-[0.2em] uppercase bg-[#FF7F00]/10 px-3 py-1">微信扫一扫</span>
+                                </div>
+
+                                <div class="relative w-48 h-48 bg-black p-2 mb-8 overflow-hidden group-hover:shadow-[0_0_50px_rgba(255,127,0,0.1)] transition-shadow duration-500">
+                                    <div class="w-full h-full flex items-center justify-center relative">
+                                        <img src="assets/images/微信二维码.png" alt="微信二维码" class="w-full h-full object-contain">
+                                    </div>
+                                    
+                                    <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#FF7F00] to-transparent animate-scan z-20 shadow-[0_2px_10px_#FF7F00]"></div>
+                                    <div class="absolute top-0 left-0 w-full h-[40px] bg-gradient-to-b from-[#FF7F00]/20 to-transparent animate-scan z-10 pointer-events-none"></div>
+                                </div>
+
+                                <div class="text-center">
+                                    <p class="text-white text-xl font-light tracking-widest mb-1">WeChat ID</p>
+                                    <p class="text-[#666] text-sm tracking-wider font-mono">Fly-Mingo</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+        <!-- /Contact (New Design) -->
+        <!-- Footer -->
+        <footer class="tf-footer style-2">
+            <div class="container">
+                <div class="br-line"></div>
+            </div>
+            <div class="container">
+                <div class="footer-inner text-caption letter-space--1 fw-medium">
+                    <a href="#workScroll" class="link">案例</a>
+                    <a href="#serviceScroll" class="link">项目介绍</a>
+                    <a href="#aboutScroll" class="link">关于我</a>
+                    <a href="#" class="action-go-top tf-link-icon link">
+                        回到顶部
+                        <i class="icon icon-arrow-long-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="img-agency scroll-fadeZoom" style="display:flex; justify-content:center; align-items:center; width:100%; overflow:hidden;">
+                        
+                        <div class="logo-text-wrapper" style="position:relative; display:inline-flex; align-items:center; justify-content:center;">
+                            <img src="assets/images/logo/mingo-KK.svg" alt="MINGO" style="height:120px; width:auto; display:block; filter:brightness(0) invert(1);">
+                            <span class="footer-orange-block" style="position:absolute; bottom:2px; left:100%; margin-left:4px; width:60px; height:12px; background:#ff732d; border-radius:3px; animation:morse-blink 5s infinite;" 
+  ><!-- 
+      调整位置：改 margin-left(左) / bottom(下) 的值
+      调整大小：改 width(宽) / height(高) 的值
+  --></span>
+                        </div>
+                        
+                    </div>
+                    <div class="bottom text-caption letter-space--1 fw-medium">
+                        <p class="text-nocopy">
+                            © MINGO 个人作品集
+                        </p>
+                        <p class="">
+                            <span class="clock"></span>
+                        </p>
+                        <div class="right">
+                            <a href="#" class="tf-link-icon link">
+                                抖音
+                            </a>
+                            <a href="#" class="tf-link-icon link">
+                                小红书
+                            </a>
+                            <a href="#" class="tf-link-icon link">
+                                IG
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- /Footer -->
+    </main>
+    <!-- Mobile Menu -->
+    <div class="offcanvas-menu">
+        <div class="offcanvas-content">
+            <div class="container h-100">
+                <div class="offcanvas-content_wrapin">
+                    <div class="canvas_head">
+                        <a href="index.html" class="logo-site">
+                            <i class="icon icon-davies-logo"></i>
+                        </a>
+                        <div class="btn-mobile-menu close-mb-menu text-caption link">
+                            <i class="icon icon-close"></i>
+                            关闭
+                        </div>
+                    </div>
+                    <div class="canvas_center">
+                        <ul class="nav-ul-mb">
+                            <li>
+                                <div class="item close-mb-menu">
+                                    <a href="#workScroll" class="mb-menu-link text-display-1">
+                                        <span class="text">Works</span>
+                                        <div class="infiniteSlide_text_main">
+                                            <div class="infiniteSlide infiniteSlide_text" data-clone="5">
+                                                <p class="text-body-2 letter-space--1">
+                                                    <span class="text-primary">//</span> View Works
+                                                </p>
+                                                <p class="text-body-2 letter-space--1">
+                                                    <span class="text-primary">//</span> View Works
+                                                </p>
+                                                <p class="text-body-2 letter-space--1">
+                                                    <span class="text-primary">//</span> View Works
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item close-mb-menu">
+                                    <a href="#aboutScroll" class="mb-menu-link text-display-1">
+                                        <span class="text">About</span>
+                                        <div class="infiniteSlide_text_main">
+                                            <div class="infiniteSlide infiniteSlide_text" data-clone="5">
+                                                <p class="text-body-2 letter-space--1">
+                                                    <span class="text-primary">//</span> View About
+                                                </p>
+                                                <p class="text-body-2 letter-space--1">
+                                                    <span class="text-primary">//</span> View About
+                                                </p>
+                                                <p class="text-body-2 letter-space--1">
+                                                    <span class="text-primary">//</span> View About
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item close-mb-menu">
+                                    <a href="#serviceScroll" class="mb-menu-link text-display-1">
+                                        <span class="text">Services</span>
+                                        <div class="infiniteSlide_text_main">
+                                            <div class="infiniteSlide infiniteSlide_text" data-clone="5">
+                                                <p class="text-body-2 letter-space--1">
+                                                    <span class="text-primary">//</span> View Services
+                                                </p>
+                                                <p class="text-body-2 letter-space--1">
+                                                    <span class="text-primary">//</span> View Services
+                                                </p>
+                                                <p class="text-body-2 letter-space--1">
+                                                    <span class="text-primary">//</span> View Services
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item close-mb-menu">
+                                    <a href="#contactScroll" class="mb-menu-link text-display-1">
+                                        <span class="text">Contact</span>
+                                        <div class="infiniteSlide_text_main">
+                                            <div class="infiniteSlide infiniteSlide_text" data-clone="5">
+                                                <p class="text-body-2 letter-space--1">
+                                                    <span class="text-primary">//</span> View Contact
+                                                </p>
+                                                <p class="text-body-2 letter-space--1">
+                                                    <span class="text-primary">//</span> View Contact
+                                                </p>
+                                                <p class="text-body-2 letter-space--1">
+                                                    <span class="text-primary">//</span> View Contact
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="canvas_foot">
+                        <div class="left">
+                            <a href="mailto:496120811@qq.com" class="link text-caption">496120811@qq.com</a>
+                            <p class="text-caption">
+                                CUP <span class="clock"></span>
+                            </p>
+                        </div>
+                        <div class="right">
+                            <a href="#" class="tf-link-icon text-caption link">
+                                <i class="icon icon-arrow-top-right"></i>
+                                推特 (X)
+                            </a>
+                            <a href="#" class="tf-link-icon text-caption link">
+                                <i class="icon icon-arrow-top-right"></i>
+                                Dribbble
+                            </a>
+                            <a href="#" class="tf-link-icon text-caption link">
+                                <i class="icon icon-arrow-top-right"></i>
+                                LinkedIn
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Mobile Menu -->
+    <!-- Javascript -->
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/swiper-bundle.min.js"></script>
+    <script src="assets/js/carousel.js"></script>
+
+    <script src="assets/js/infinityslide.js"></script>
+    <script src="assets/js/ScrollSmooth.js"></script>
+    <script src="assets/js/gsap.min.js"></script>
+    <script src="assets/js/ScrollTrigger.min.js"></script>
+    <script src="assets/js/SplitText.min.js"></script>
+    <script src="assets/js/wow.min.js"></script>
+    <script src="assets/js/gsapAnimation.js"></script>
+    <script src="assets/js/odometer.min.js"></script>
+    <script src="assets/js/jquery.nice-select.min.js"></script>
+    <script src="assets/js/unicornStudio.umd.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <style>
+        /* ===== 跑马灯 CSS 动画 ===== */
+        @keyframes marqueeScroll {
+            0%   { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+        .infiniteSlide_select_work {
+            display: flex !important;
+            flex-wrap: nowrap !important;
+            align-items: center !important;
+            width: max-content !important;
+            animation: marqueeScroll 30s linear infinite !important;
+        }
+        .infiniteSlide_select_work:hover {
+            animation-play-state: paused !important;
+        }
+        .infiniteSlide_select_work > * {
+            flex: none !important;
+            margin-left: 12px;
+            margin-right: 12px;
+        }
+        .infiniteSlide_text {
+            display: flex !important;
+            flex-wrap: nowrap !important;
+            align-items: center !important;
+            gap: 40px !important;
+            width: max-content !important;
+            animation: marqueeTextScroll 20s linear infinite !important;
+        }
+        .infiniteSlide_text:hover {
+            animation-play-state: paused !important;
+        }
+        @keyframes marqueeTextScroll {
+            0%   { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+        /* === 作品卡片统一尺寸 === */
+        .wg-work .work-image {
+            position: relative;
+            width: 100% !important;
+            height: 0 !important;
+            padding-top: 50% !important;  /* 2:1 宽高比 */
+            overflow: hidden;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+        .wg-work .work-image img,
+        .wg-work .work-image video {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            min-height: unset !important;
+            max-height: unset !important;
+            object-fit: cover !important;
+            transition: filter 0.5s ease, transform 0.5s ease;
+        }
+        .section-selected-work-v2 .work-list .element,
+        .section-selected-work-v2 .work-list .element .wg-work {
+            width: 100%;
+        }
+        /* === 悬停效果：暗色遮罩 + 渐变 + 动态箭头 === */
+        .wg-work .work-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(58,134,255,0.3) 0%, rgba(0,0,0,0.65) 100%);
+            opacity: 0;
+            z-index: 2;
+            transition: opacity 0.35s ease;
+            pointer-events: none;
+        }
+        .wg-work:hover .work-image::before {
+            opacity: 1;
+        }
+        .wg-work .work-image::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 72px;
+            height: 72px;
+            margin: -36px 0 0 -36px;
+            border: 2.5px solid rgba(255,255,255,0.85);
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0.3);
+            z-index: 3;
+            pointer-events: none;
+            transition: all 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 30px rgba(58,134,255,0.35), inset 0 0 20px rgba(58,134,255,0.08);
+        }
+        .wg-work:hover .work-image::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+        /* === 箭头：连续向右脉冲动画 === */
+        @keyframes arrowPulseRight {
+            0%, 100% { transform: translateX(0); opacity: 0.9; }
+            50%  { transform: translateX(10px); opacity: 1; }
+        }
+        .wg-work .work-image .arrow-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            margin: -15px 0 0 -15px;
+            z-index: 4;
+            pointer-events: none;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3Cpath d='M12 5l7 7-7 7'/%3E%3C/svg%3E") center/contain no-repeat;
+            filter: drop-shadow(0 3px 8px rgba(0,0,0,0.7));
+        }
+        .wg-work:hover .work-image .arrow-icon {
+            opacity: 1;
+            transform: scale(1);
+            animation: arrowPulseRight 1.2s ease-in-out infinite;
+        }
+        /* 图片/视频变暗 + 微放大 */
+        .wg-work:hover .work-image img,
+        .wg-work:hover .work-image video {
+            filter: brightness(0.38) saturate(1.2);
+            transform: scale(1.08);
+        }
+        /* 悬停时文字保持白色，不被蓝色遮罩影响 */
+        .wg-work:hover .work-content h5,
+        .wg-work:hover .work-content p,
+        .wg-work:hover .work-content li,
+        .wg-work:hover .work-content .text-white-64 {
+            color: #ffffff !important;
+        }
+        /* === 减少Selected Works区域底部间距 === */
+        .section-selected-work-v2 {
+            padding-bottom: 10px !important;
+        }
+        .section-selected-work-v2 .work-list {
+            margin-bottom: 0 !important;
+        }
+        .section-about-me-v2 {
+            padding-top: 0px !important;
+        }
+        [about-me-title] {
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 2;
+        }
+        [about-me-title] h2 {
+            color: #ffffff;
+        }
+        [about-me-title] .text-primary {
+            color: #3a86ff;
+        }
+        /* === About板块文字靠下 + 透明背景 === */
+        .section-about-me-v2 .about-main .content {
+            justify-content: flex-end !important;
+            align-items: flex-start !important;
+            padding: 0 0 40px 0 !important;
+            background: transparent !important;
+        }
+        .section-about-me-v2 .about-main .text-color-change {
+            text-align: left;
+            max-width: 600px;
+            font-size: clamp(14px, 1.8vw, 18px) !important;
+            background: transparent !important;
+            padding: 16px 20px !important;
+            border-radius: 0 !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+        }
+        .section-about-me-v2 .about-main .text-color-change .char-wrapper {
+            background: transparent !important;
+        }
+        .section-about-me-v2 .about-main.flat-spacing-bottom {
+            margin-bottom: 0 !important;
+        }
+        /* === 修复视频容器高度 === */
+        .section-about-me-v2 .davies-video .video {
+            min-height: 500px !important;
+            width: 100%;
+            max-width: 100%;
+            object-fit: cover;
+        }
+        /* === 视频放大灯箱 === */
+        .davies-video {
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .davies-video::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+            cursor: pointer;
+        }
+        .video-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 9999; display: none; align-items: center; justify-content: center;
+        }
+        .video-modal-overlay.active { display: flex !important; }
+        .video-modal-bg {
+            position: absolute; inset: 0;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+        .video-modal-close {
+            position: absolute; top: 32px; right: 40px; z-index: 10;
+            color: #fff; font-size: 48px; cursor: pointer; opacity: 0.6;
+            transition: opacity 0.2s; line-height: 1; font-weight: 300;
+            width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+        }
+        .video-modal-close:hover { opacity: 1; }
+        .video-modal-content {
+            position: relative; z-index: 1; width: 76%; max-width: 1080px;
+        }
+        .video-modal-player {
+            width: 100%; border-radius: 14px;
+            box-shadow: 0 28px 72px rgba(0,0,0,0.6);
+            background: #000;
+        }
+        .section-skills {
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+        }
+        .section-tech-stack-v2 {
+            padding-top: 20px !important;
+            padding-bottom: 20px !important;
+        }
+        /* === SVG 动态徽章 === */
+        .badge-svg {
+            width: 156px;
+            height: 156px;
+        }
+        .section-about-me-v2 .award-main .badget .badge-svg {
+            animation: spin 10s linear infinite;
+            filter: drop-shadow(0 0 20px rgba(58,134,255,0.15));
+        }
+        /* === Skills 技能板块 === */
+        .section-skills { background: transparent; }
+        .skills-scroll-wrap {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 20px 0 30px 0;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .skills-scroll-wrap::-webkit-scrollbar { display: none; }
+        .skills-track {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            gap: 20px;
+            width: max-content;
+            padding: 0 24px;
+            margin: 0 auto;
+        }
+        .skill-card {
+            flex-shrink: 0;
+            width: 160px;
+            height: 280px;
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,255,0.12);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            background: rgba(10,14,26,0.6);
+            box-shadow: 0 0 12px rgba(58,134,255,0.08), inset 0 0 12px rgba(58,134,255,0.03);
+        }
+        .skill-card:hover {
+            border-color: rgba(58,134,255,0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 0 24px rgba(58,134,255,0.2), 0 8px 30px rgba(58,134,255,0.15);
+        }
+        .skill-card .skill-card-bg {
+            position: absolute;
+            inset: 0;
+            border-radius: 40px;
+            overflow: hidden;
+        }
+        .skill-card .water {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background: var(--theme-color, rgba(0,123,255,0.15));
+            transition: height 1.5s ease-out;
+            z-index: 0;
+        }
+        .skill-card .wave-bg {
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            width: 200%;
+            height: 20px;
+            background: var(--theme-color, rgba(0,123,255,0.15));
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 100' preserveAspectRatio='none'%3E%3Cpath d='M0,50 Q100,100 200,50 T400,50 Q500,100 600,50 T800,50 L800,100 L0,100 Z'/%3E%3C/svg%3E");
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 100' preserveAspectRatio='none'%3E%3Cpath d='M0,50 Q100,100 200,50 T400,50 Q500,100 600,50 T800,50 L800,100 L0,100 Z'/%3E%3C/svg%3E");
+            background-color: var(--theme-color);
+        }
+        @keyframes waveSlide {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .skill-card .wave-bg { animation: waveSlide 3s linear infinite; }
+        .skill-card .wave-bg + .wave-bg { opacity: 0.3; animation: waveSlide 5s linear infinite reverse; }
+        .skill-card .card-inner {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 12px 20px;
+        }
+        .skill-card .skill-percent {
+            font-size: 36px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1;
+        }
+        .skill-card .skill-percent small {
+            font-size: 16px;
+            opacity: 0.6;
+            font-weight: 400;
+        }
+        .skill-card .skill-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .skill-card .skill-icon img {
+            width: 46px;
+            height: 46px;
+            object-fit: contain;
+            opacity: 0.9;
+        }
+        .skill-card .skill-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            text-align: center;
+        }
+        /* === Tech Stack 全宽 + 加厚 === */
+        .section-tech-stack-v2 {
+            padding-top: 20px !important;
+            padding-bottom: 20px !important;
+        }
+        .section-tech-stack-v2 .container {
+            max-width: 100% !important;
+            padding-left: 12px !important;
+            padding-right: 12px !important;
+        }
+        .section-tech-stack-v2 .tf-grid-layout {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            gap: 12px;
+            width: 100%;
+        }
+        .section-tech-stack-v2 .wg-tech-v2 {
+            max-width: 100% !important;
+            padding: 28px 20px !important;
+            border-radius: 50% !important;
+            aspect-ratio: 1 / 1 !important;
+            min-height: auto !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .section-tech-stack-v2 .wg-tech-v2 .tech-desc {
+            font-size: clamp(11px, 1.1vw, 14px);
+            line-height: 1.5;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        .section-tech-stack-v2 .wg-tech-v2 .tech-name {
+            font-size: clamp(14px, 1.6vw, 18px);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .ic-img {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .ic-img svg {
+            width: clamp(32px, 3.5vw, 44px);
+            height: clamp(32px, 3.5vw, 44px);
+        }
+        @media (min-width: 1200px) {
+            .section-tech-stack-v2 .container {
+                padding-left: 24px !important;
+                padding-right: 24px !important;
+            }
+            .section-tech-stack-v2 .tf-grid-layout {
+                gap: 24px;
+            }
+            .section-tech-stack-v2 .wg-tech-v2 {
+                padding: 36px 28px !important;
+            }
+            .section-tech-stack-v2 .wg-tech-v2 .tech-desc {
+                font-size: calc(0.7vw + 6px);
+                line-height: 1.5;
+            }
+            .section-tech-stack-v2 .wg-tech-v2 .tech-name {
+                font-size: calc(0.9vw + 8px);
+            }
+        }
+        @media (min-width: 1600px) {
+            .section-tech-stack-v2 .container {
+                max-width: 98vw !important;
+                padding-left: 32px !important;
+                padding-right: 32px !important;
+            }
+            .section-tech-stack-v2 .tf-grid-layout {
+                gap: 32px;
+            }
+            .section-tech-stack-v2 .wg-tech-v2 {
+                padding: 44px 36px !important;
+            }
+        }
+        /* === 奖项图片圆角 + 黑白效果 === */
+        .flip-image img {
+            border-radius: 20px !important;
+            filter: grayscale(100%);
+        }
+        /* === 缩减作品集与 about 之间的大空隙 + 修复 Service 图片显示 === */
+        .section-selected-work-v2 {
+            padding-bottom: 10px !important;
+        }
+        .section-selected-work-v2 .work-list {
+            margin-bottom: 0 !important;
+        }
+        .section-selected-work-v2 .work-list .element:not(:last-child) {
+            margin-bottom: 0 !important;
+        }
+        .section-about-me-v2 {
+            padding-top: 10px !important;
+        }
+        /* === Service 手风琴 - 平滑过渡 === */
+        #service-accordion-main {
+            gap: 48px !important;
+        }
+        .section-service-v2 #service-accordion-main .service-body {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.4s ease;
+            margin-top: 0;
+        }
+        .section-service-v2 #service-accordion-main .service-body.open {
+            max-height: 2000px;
+            opacity: 1;
+            margin-top: 24px;
+            overflow: visible;
+        }
+        .section-service-v2 .accordion-content {
+            flex-wrap: nowrap !important;
+            display: flex !important;
+        }
+        .section-service-v2 .image-left {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            border-radius: 14px;
+        }
+        .section-service-v2 .image-left img {
+            width: 100% !important;
+            height: auto !important;
+            min-height: 280px;
+            display: block !important;
+            object-fit: cover !important;
+        }
+        /* === Service 手风琴 - 标题交互反馈 === */
+        .section-service-v2 #service-accordion-main .accordion-action {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 12px 0;
+            position: relative;
+            display: inline-block;
+        }
+        .section-service-v2 #service-accordion-main .accordion-action::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ff732d;
+            transition: width 0.3s ease;
+        }
+        .section-service-v2 #service-accordion-main .accordion-action:hover::after,
+        .section-service-v2 #service-accordion-main .accordion-action.active::after {
+            width: 100%;
+        }
+        .section-service-v2 #service-accordion-main .accordion-action:hover {
+            color: #ff732d !important;
+            transform: translateX(8px);
+        }
+        .section-service-v2 #service-accordion-main .accordion-action:hover h5 {
+            color: #ff732d !important;
+        }
+        .section-service-v2 #service-accordion-main .accordion-action.active h5 {
+            color: #ff732d !important;
+        }
+        /* === FAQ 暗色背景适配 === */
+        .section-faq {
+            background: transparent !important;
+        }
+        .section-faq .title,
+        .section-faq .accordion-text,
+        .section-faq .accordion-content,
+        .section-faq .accordion-order,
+        .section-faq .ic-wrap i {
+            color: #ffffff !important;
+        }
+        .section-faq .accordion-content,
+        .section-faq .accordion-order {
+            color: rgba(255,255,255,0.64) !important;
+        }
+        .section-faq .cl-line-2 {
+            border-color: rgba(255,255,255,0.12) !important;
+        }
+        /* === Award 部分深色主题适配 === */
+        .section-award {
+            background: transparent !important;
+        }
+        .section-award .text-black-64 {
+            color: rgba(255,255,255,0.64) !important;
+        }
+        .section-award .text-black {
+            color: #ffffff8a !important;
+            font-size: clamp(24px, 3.2vw, 30px) !important;
+            line-height: clamp(34px, 4.2vw, 52px) !important;
+        }
+        .section-award .mini-tit就是le {
+            color: rgba(255,255,255,0.64) !important;
+        }
+        .section-award .award-item {
+            color: #545454 !important;
+        }
+        .section-award .desc {
+            color: rgba(255,255,255,0.64) !important;
+        }
+        /* === FAQ 暗色背景适配 === */
+        .accordion-faq_list .faq-body {
+            display: none;
+        }
+        .accordion-faq_list .faq-body.open {
+            display: block;
+        }
+        .section-faq .title,
+        .section-faq .accordion-text,
+        .section-faq .accordion-content,
+        .section-faq .accordion-order,
+        .section-faq .ic-wrap i {
+            color: #ffffff !important;
+        }
+        .section-faq .accordion-content,
+        .section-faq .accordion-order {
+            color: rgba(255,255,255,0.7) !important;
+        }
+        .section-faq .cl-line-2 {
+            border-color: rgba(255,255,255,0.12) !important;
+        }
+        /* === 主色改为橙色 === */
+        :root { --primary: #ff732d !important; --primary-rgb: 255, 107, 53 !important; }
+    </style>
+    <script>
+        // 跑马灯初始化 - 克隆内容实现无缝循环
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.infiniteSlide_select_work').forEach(function (el) {
+                el.innerHTML = el.innerHTML + el.innerHTML;
+            });
+            document.querySelectorAll('.infiniteSlide_text').forEach(function (el) {
+                el.innerHTML = el.innerHTML + el.innerHTML;
+            });
+        });
+    </script>
+    <script>
+        // 隐藏预加载器+触发动画
+        function hidePreloader() {
+            const preloader = document.querySelector('.preloader');
+            if (preloader) {
+                preloader.style.opacity = '0';
+                preloader.style.pointerEvents = 'none';
+                setTimeout(function () {
+                    preloader.style.display = 'none';
+                    // 如果 GSAP loader 未触发，在此兜底调用 runAnimations
+                    if (typeof runAnimations === 'function') runAnimations();
+                }, 400);
+            } else {
+                if (typeof runAnimations === 'function') runAnimations();
+            }
+        }
+        hidePreloader();
+    </script>
+    <script>
+        // Skills 卡片初始化 - 设置百分比和水位
+        // 以及 Service 手风琴 - 纯 JS 绕过 Bootstrap Collapse
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.skill-card').forEach(function (card) {
+                const percent = card.getAttribute('data-percent');
+                card.querySelector('.val').innerText = percent;
+                card.querySelector('.water').style.height = percent + '%';
+            });
+            // 视频放大灯箱
+            const wrap = document.getElementById('aboutVideoWrap');
+            const modal = document.getElementById('videoModal');
+            const modalVideo = document.getElementById('modalVideo');
+            const closeBtn = document.getElementById('videoModalClose');
+            if (wrap && modal && modalVideo) {
+                wrap.addEventListener('click', function () {
+                    modalVideo.currentTime = 0;
+                    modalVideo.play();
+                    modal.classList.add('active');
+                });
+                closeBtn.addEventListener('click', function () {
+                    modalVideo.pause();
+                    modal.classList.remove('active');
+                });
+                modal.addEventListener('click', function (e) {
+                    if (e.target === modal || e.target.classList.contains('video-modal-bg')) {
+                        modalVideo.pause();
+                        modal.classList.remove('active');
+                    }
+                });
+            }
+        });
+        // Service 手风琴 - 纯 JS 绕过 Bootstrap Collapse
+        document.querySelectorAll('#service-accordion-main .accordion-action').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var targetId = this.getAttribute('data-target');
+                var target = document.getElementById(targetId);
+                if (!target) return;
+                var isOpen = target.classList.contains('open');
+                // 关闭所有
+                document.querySelectorAll('#service-accordion-main .service-body').forEach(function(b) { b.classList.remove('open'); });
+                document.querySelectorAll('#service-accordion-main .accordion-action').forEach(function(a) { a.classList.remove('active'); });
+                // 打开当前（除非已打开）
+                if (!isOpen) {
+                    target.classList.add('open');
+                    this.classList.add('active');
+                }
+            });
+        });
+        // FAQ 手风琴 - 纯 JS 绕过 Bootstrap Collapse
+        document.querySelectorAll('#accordion-faq_list .accordion-action').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var targetId = this.getAttribute('data-target');
+                var target = document.getElementById(targetId);
+                if (!target) return;
+                var isOpen = target.classList.contains('open');
+                document.querySelectorAll('#accordion-faq_list .faq-body').forEach(function(b) { b.classList.remove('open'); });
+                document.querySelectorAll('#accordion-faq_list .accordion-action').forEach(function(a) { a.classList.remove('active'); });
+                if (!isOpen) {
+                    target.classList.add('open');
+                    this.classList.add('active');
+                }
+            });
+        });
+    </script>
+    <script>
+        // 动态更新徽章年份
+        (function () {
+            var year = new Date().getFullYear();
+            var textEl = document.querySelector('.badge-svg textPath');
+            if (textEl) {
+                textEl.textContent = 'PASSIONATE VIDEO DESIGNER - SINCE ' + year + ' - ';
+            }
+        })();
+    </script>
+    <script>
+        // 页面 MINGO logo 自适应缩放（页脚专属）
+        function adjustFooterMingoScale() {
+            const wrappers = document.querySelectorAll('.footer-bottom .logo-text-wrapper');
+            wrappers.forEach(function(wrapper) {
+                if (!wrapper) return;
+                // 设置一个基准尺寸测量真实宽度
+                wrapper.style.fontSize = '100px';
+                const textWidth = wrapper.scrollWidth;
+                const container = wrapper.parentElement;
+                const containerWidth = container ? container.clientWidth : 738;
+                if (textWidth === 0 || containerWidth === 0) return;
+                
+                var targetFontSize = (containerWidth * 0.88 / textWidth) * 100;
+                if (targetFontSize > 180) targetFontSize = 180;
+                wrapper.style.fontSize = targetFontSize + 'px';
+                
+                var baseStroke = parseFloat(wrapper.dataset.baseStroke || 2.5);
+                var scaledStroke = (baseStroke * (targetFontSize / 160)).toFixed(2);
+                wrapper.style.setProperty('--stroke-width', scaledStroke + 'px');
+            });
+        }
+        window.addEventListener('resize', adjustFooterMingoScale);
+        var mingoScaleTimer = 0;
+        var mingoInterval = setInterval(function() {
+            adjustFooterMingoScale();
+            if (++mingoScaleTimer > 20) clearInterval(mingoInterval);
+        }, 200);
+        if (document.fonts) document.fonts.ready.then(adjustFooterMingoScale);
+        setTimeout(adjustFooterMingoScale, 1000);
+    </script>
+    <script>
+        // 动态更新徽章年份
+        (function () {
+            var year = new Date().getFullYear();
+            var textEl = document.querySelector('.badge-svg textPath');
+            if (textEl) {
+                textEl.textContent = 'PASSIONATE VIDEO DESIGNER - SINCE ' + year + ' - ';
+            }
+        })();
+        // 动态更新所有作品卡片年份
+        (function () {
+            var year = new Date().getFullYear();
+            document.querySelectorAll('.work-card-year').forEach(function (el) {
+                el.textContent = year;
+            });
+        })();
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>摄影作品集 - 戴维斯</title>
+  <link rel="icon" href="assets/img/favicon.png">
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/fontawesome.css">
+  <link rel="stylesheet" href="assets/css/slick.css">
+  <link rel="stylesheet" href="assets/css/animate.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;700;900&family=Noto+Sans+SC:wght@200;300;400;700&display=swap');
+    /* ===== 跑马灯动画 ===== */
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .marquee-content { display: flex; gap: 5rem; animation: marquee 20s linear infinite; }
+    body { 
+      background: #0a101e !important; 
+      margin: 0; 
+      padding: 0; 
+      width: 100%;
+      overflow-x: hidden;
+      padding-top: 0 !important; /* 刘海导航不需要留空 */
+    }
+    /* ===== 隐藏式刘海导航 ===== */
+    .notch-nav { position:fixed;top:0;left:50%;transform:translateX(-50%);z-index:200;width:200px;height:18px;background:rgba(255,140,0,0.5);border-radius:0 0 20px 20px;transition:all .4s cubic-bezier(.4,0,.2,1);cursor:pointer;overflow:clip; }
+    .notch-nav::before { content:'';position:absolute;top:1px;left:50%;transform:translateX(-50%);width:40px;height:4px;background:rgba(255,180,80,.8);border-radius:1px;transition:all .4s; }
+    .notch-nav:hover { overflow:visible;width:520px;height:56px;background:rgba(76,87,112,.92);border-radius:0 0 28px 28px;box-shadow:0 4px 30px rgba(0,0,0,.5); }
+    .notch-nav:hover::before { opacity:0; }
+    .notch-menu { display:flex;align-items:center;justify-content:center;gap:24px;height:100%;opacity:0;transition:opacity .3s .1s;padding:0 20px; }
+    .notch-nav:hover .notch-menu { opacity:1; }
+    .notch-menu a { color:#ccc;text-decoration:none;font-size:14px;padding:8px 4px;font-family:'Inter','Microsoft YaHei',sans-serif;letter-spacing:.06em;transition:color .2s;white-space:nowrap; }
+    .notch-menu a:hover,.notch-menu a.active { color:#3a86ff; }
+    .notch-dropdown { position:relative; }
+    .notch-dropdown-menu { position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(8px);background:rgba(10,16,30,.95);border:1px solid rgba(58,134,255,.2);border-radius:8px;padding:8px 0;min-width:140px;opacity:0;visibility:hidden;transition:all .3s;box-shadow:0 8px 30px rgba(0,0,0,.5); }
+    .notch-dropdown:hover .notch-dropdown-menu { opacity:1;visibility:visible; }
+    .notch-dropdown-menu a { display:block;padding:10px 20px;font-size:12px;color:#ccc; }
+    .notch-dropdown-menu a:hover { background:rgba(58,134,255,.1);color:#3a86ff; }
+    .st-site-header { display:none !important; }
+
+    /* 分区容器 - 去掉边框，保留视觉区分 */
+    .gallery-section {
+      width: 100%; /* 全屏宽度 */
+      max-width: 100%; /* 取消最大宽度限制 */
+      margin: 0 auto 40px; /* 调整外边距，顶部0，底部40px */
+      padding: 0 2%; /* 百分比内边距，适配所有宽度 */
+      border: none !important; /* 强制去掉边框 */
+      background: transparent !important; /* 去掉背景色 */
+      transition: all 0.3s ease;
+      box-sizing: border-box; /* 内边距不超出容器 */
+    }
+    /* 仅保留标题区分，去掉所有框体 */
+    .model-section { margin-top: 20px; } /* 模特区顶部额外间距，确保标题完全显示 */
+    .product-section { margin-top: 30px; }
+
+    /* 分区标题 - 居中显示，加大顶部间距 */
+    .section-title {
+      text-align: center;
+      font-size: 28px;
+      color: #fff;
+      margin: 0 0 30px; /* 顶部间距0，底部30px */
+      padding: 10px 0 15px; /* 上下内边距，增加点击容错 */
+      position: relative;
+      width: 100%;
+      font-weight: 600; /* 加粗标题，更醒目 */
+    }
+    /* 模特标题下划线：金色 */
+    .model-section .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 2px;
+      background: #fec544;
+    }
+    /* 产品标题下划线：蓝色 */
+    .product-section .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 2px;
+      background: #667eea;
+    }
+
+    /* 瀑布流容器 - 完全响应式 */
+    .st-photo-gallery {
+      width: 100%; /* 全屏宽度 */
+      margin: 0 auto;
+      column-count: 4;
+      column-gap: 8px;
+      padding: 0;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+    /* 折叠容器：限制高度+滚动隐藏 */
+    .gallery-collapse {
+      max-height: calc(6 * 180px); /* 默认显示6行 */
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+    }
+    /* 折叠遮罩：提示有更多内容 */
+    .gallery-collapse::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: linear-gradient(transparent, #0a101e);
+      pointer-events: none;
+    }
+    /* 展开后取消高度限制和遮罩 */
+    .gallery-collapse.expanded {
+      max-height: none;
+    }
+    .gallery-collapse.expanded::after {
+      display: none;
+    }
+
+    .st-photo-item {
+      break-inside: avoid;
+      margin-bottom: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+      width: 100%;
+      position: relative;
+    }
+    
+    /* 加载状态指示器 */
+    .loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(10, 16, 30, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+    
+    .loading-spinner {
+      width: 24px;
+      height: 24px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top: 2px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* 相机对焦动画 */
+    @keyframes camera-focus {
+        0% { 
+            filter: blur(0px); 
+            transform: scale(1); 
+        }
+        /* 模拟拉风箱（寻找焦点）时的瞬间模糊 */
+        15% { 
+            filter: blur(8px); 
+            transform: scale(1.05); 
+        }
+        /* 逐渐找回焦点，带一点过冲感 */
+        45% { 
+            filter: blur(2px); 
+            transform: scale(1.01); 
+        }
+        /* 最终锁定：完全清晰且略微放大，增加沉浸感 */
+        100% { 
+            filter: blur(0px); 
+            transform: scale(1.02); 
+        }
+    }
+
+    .st-photo-image-wrapper {
+      width: 100%;
+      display: block;
+      position: relative;
+    }
+    
+    .st-photo-image-wrapper img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      border-radius: 4px;
+      transition: all 0.4s ease;
+      filter: brightness(0.9);
+      border: none !important;
+      padding: 0 !important;
+      background: none !important;
+      box-shadow: none !important;
+    }
+    
+    .st-photo-item:hover img {
+      animation: camera-focus 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    }
+
+    /* 相机HUD效果 */
+    .camera-hud {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 5;
+    }
+    
+    .st-photo-item:hover .camera-hud {
+      opacity: 0.8;
+    }
+    
+    .bracket {
+      position: absolute;
+      width: 15%;
+      height: 15%;
+      max-width: 40px;
+      max-height: 40px;
+    }
+    
+    .bracket-top-left { top: 8%; left: 8%; }
+    .bracket-top-right { top: 8%; right: 8%; }
+    .bracket-bottom-left { bottom: 8%; left: 8%; }
+    .bracket-bottom-right { bottom: 8%; right: 8%; }
+    
+    .crosshair {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8%;
+      max-width: 20px;
+      height: 8%;
+      max-height: 20px;
+    }
+    
+    .level-indicator {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 60px;
+    }
+    
+    .bottom-level {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 12px;
+    }
+
+    /* 展开/折叠按钮 */
+    .toggle-btn {
+      display: block;
+      width: 180px;
+      height: 48px;
+      line-height: 48px;
+      text-align: center;
+      margin: 0 auto 20px;
+      border-radius: 24px;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      outline: none;
+      position: relative;
+      z-index: 10;
+    }
+    
+    /* 展开状态下固定在底部 */
+    .toggle-btn.fixed-bottom {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      margin: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* 模特区按钮：金色风格 */
+    .model-toggle {
+      background: rgba(254, 197, 68, 0.2);
+      border: 1px solid #fec544;
+    }
+    .model-toggle:hover {
+      background: #fec544;
+      color: #0a101e;
+    }
+    /* 产品区按钮：蓝色风格 */
+    .product-toggle {
+      background: rgba(102, 126, 234, 0.2);
+      border: 1px solid #667eea;
+    }
+    .product-toggle:hover {
+      background: #667eea;
+      color: #0a101e;
+    }
+
+    /* 模态框大图预览 */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.85);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      width: 100%;
+      height: 100%;
+    }
+    .modal-overlay.show {
+      display: flex;
+    }
+    .modal-img-container {
+      position: relative;
+      max-width: 90%;
+      max-height: 90vh;
+      cursor: default;
+      overflow: visible;
+    }
+    .modal-img-container.draggable {
+      cursor: grab;
+    }
+    .modal-img-container.dragging {
+      cursor: grabbing;
+    }
+    .modal-img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 6px;
+      box-shadow: 0 10px 60px rgba(0,0,0,0.5);
+      object-fit: contain;
+      transform: scale(1) translate(0, 0);
+      transform-origin: center center;
+      transition: transform 0.1s ease;
+      -webkit-user-select: none;
+      user-select: none;
+      pointer-events: none;
+      border: none !important;
+    }
+    .close-btn {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      color: #fff;
+      font-size: 32px;
+      background: rgba(255,255,255,0.1);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      z-index: 10000;
+    }
+    .close-btn:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* 完全响应式适配 - 适配所有屏幕宽度 */
+    @media (max-width: 1400px) { 
+      .st-photo-gallery { column-count: 4; } 
+      .gallery-collapse { max-height: calc(6 * 170px); }
+    }
+    @media (max-width: 1200px) { 
+      .st-photo-gallery { column-count: 3; } 
+      .gallery-collapse { max-height: calc(6 * 160px); }
+    }
+    @media (max-width: 992px) { 
+      .st-photo-gallery { column-count: 3; } 
+      .gallery-collapse { max-height: calc(6 * 150px); }
+      body { padding-top: 100px !important; } /* 小屏减少顶部间距 */
+      .st-site-header { height: 80px; }
+    }
+    @media (max-width: 768px)  { 
+      .st-photo-gallery { column-count: 2; column-gap: 6px; } 
+      .gallery-collapse { max-height: calc(6 * 140px); }
+      .section-title { font-size: 24px; }
+      .toggle-btn { width: 150px; height: 42px; line-height: 42px; }
+      body { padding-top: 90px !important; }
+      .st-site-header { height: 70px; }
+    }
+    @media (max-width: 576px)  { 
+      .st-photo-gallery { column-count: 1; column-gap: 0; } 
+      .gallery-collapse { max-height: calc(6 * 200px); }
+      .st-photo-item { margin-bottom: 6px; }
+      .close-btn { width: 40px; height: 40px; font-size: 24px; top: 15px; right: 15px; }
+      body { padding-top: 80px !important; }
+      .st-site-header { height: 60px; }
+    }
+    @media (max-width: 400px)  { 
+      .st-photo-gallery { column-count: 1; } 
+      .gallery-collapse { max-height: calc(6 * 180px); }
+    }
+  </style>
+</head>
+
+<body id="portfolio-photo">
+
+<!-- ===== 隐藏式刘海导航 ===== -->
+<div class="notch-nav">
+  <div class="notch-menu">
+    <a href="index.html">首页</a>
+    <a href="index.html#about">关于我</a>
+    <a href="index.html#resume">简历</a>
+    <div class="notch-dropdown">
+      <a href="index.html#portfolio">作品集 ▾</a>
+      <div class="notch-dropdown-menu">
+        <a href="portfolio-photo.html">平面摄影</a>
+        <a href="portfolio-3danimation.html">三维动画</a>
+        <a href="portfolio-video.html">视频影像</a>
+        <a href="portfolio-3dstatic.html">三维静态</a>
+        <a href="portfolio-media.html">社媒创意</a>
+      </div>
+    </div>
+    <a href="index.html#blog">博客</a>
+    <a href="index.html#contact">联系我</a>
+  </div>
+</div>
+
+<!-- 英雄区域 - 摄影作品集头部 -->
+<section class="photography-hero relative flex flex-col items-center text-center overflow-hidden justify-center group cursor-move" id="heroSection">
+  <!-- 背景动态滚动效果 -->
+  <div class="hero-background absolute inset-0 z-0 opacity-[0.03] pointer-events-none overflow-hidden">
+    <div class="flex gap-12 justify-center h-full" id="scrollingBackground">
+      <!-- 动态生成7列滚动内容 -->
+    </div>
+  </div>
+
+  <!-- 标题内容 -->
+  <div class="hero-content z-20 relative group px-6 lg:px-12">
+    <h1 class="font-black tracking-tighter uppercase text-white leading-none perspective-1000 relative hero-title" style="font-size:clamp(48px, 10vw, 140px); font-family:'Noto Sans SC'">
+      <span class="inline-block cursor-default select-none relative hero-title-text">光影</span>
+    </h1>
+  </div>
+
+  <!-- 漂浮的装饰图标 -->
+  <div class="hero-decorations absolute inset-0 pointer-events-none">
+    <div class="absolute top-[15%] left-[12%] text-blue-400 opacity-20 hero-icon hero-icon-1">
+      <i class="fas fa-camera" style="font-size: 80px;"></i>
+    </div>
+    <div class="absolute bottom-[20%] right-[12%] text-white opacity-20 hero-icon hero-icon-2">
+      <i class="fas fa-circle" style="font-size: 70px;"></i>
+    </div>
+    <div class="absolute top-[35%] right-[20%] text-yellow-500 opacity-15 hero-icon hero-icon-3">
+      <i class="fas fa-bullseye" style="font-size: 50px;"></i>
+    </div>
+    <div class="absolute bottom-[35%] left-[20%] text-[#fec544] opacity-15 hero-icon hero-icon-4">
+      <i class="fas fa-image" style="font-size: 45px;"></i>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ═══════════════════════════════════════════
+     ★ 英雄页高度统一控制参数 ★
+     修改 --hero-height 的值可同时调整所有断点的高度
+     ═══════════════════════════════════════════ */
+  :root {
+    --hero-height: 45vh;        /* 桌面端英雄页高度 */
+    --hero-height-md: 28vh;     /* 平板端 (≤992px) */
+    --hero-height-sm: 25vh;     /* 手机端 (≤768px) */
+    --hero-height-xs: 23vh;     /* 小屏手机 (≤480px) */
+  }
+
+  /* 英雄区域样式 */
+  .photography-hero {
+    background: linear-gradient(135deg, rgba(10, 16, 30, 0.8) 0%, rgba(10, 16, 30, 0.95) 100%);
+    min-height: var(--hero-height);
+    margin-top: 0 !important;
+  }
+  
+  /* 动态背景滚动 */
+  .hero-background .scroll-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    animation: scrollY 30s linear infinite;
+  }
+  
+  .hero-background .scroll-column.reverse {
+    animation-direction: reverse;
+  }
+  
+  .hero-background .scroll-item {
+    width: 192px;
+    aspect-ratio: 3/4;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  @keyframes scrollY {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+  }
+  
+  /* 标题动画效果 */
+  .hero-tag {
+    transform-origin: center;
+    transition: transform 0.3s ease, letter-spacing 0.3s ease;
+  }
+  
+  .hero-tag:hover {
+    transform: scale(1.05);
+    letter-spacing: 0.4em;
+  }
+  
+  .hero-title-text {
+    transform-origin: center;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.3s ease;
+  }
+  
+  .hero-title-text:hover {
+    transform: rotateY(10deg) rotateX(-5deg);
+    color: #60a5fa !important;
+  }
+  
+  /* 装饰图标动画 */
+  .hero-icon {
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
+  }
+  
+  /* 响应式调整 */
+  @media (max-width: 992px) {
+    .photography-hero {
+      min-height: var(--hero-height-md);
+    }
+    .hero-icon {
+      transform: scale(0.7);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .photography-hero {
+      min-height: var(--hero-height-sm);
+    }
+    .hero-icon {
+      transform: scale(0.7);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .photography-hero {
+      min-height: var(--hero-height-xs);
+    }
+    .hero-quote {
+      font-size: 0.9rem !important;
+    }
+  }
+</style>
+
+<script>
+  // 英雄区域交互效果
+  document.addEventListener('DOMContentLoaded', function() {
+    const heroSection = document.getElementById('heroSection');
+    const heroContent = document.querySelector('.hero-content');
+    const heroBackground = document.querySelector('.hero-background');
+    const heroIcons = document.querySelectorAll('.hero-icon');
+    
+    if (!heroSection) return;
+    
+    // 创建动态背景
+    const scrollingBackground = document.getElementById('scrollingBackground');
+    if (scrollingBackground) {
+      scrollingBackground.innerHTML = '';
+      for (let i = 0; i < 7; i++) {
+        const column = document.createElement('div');
+        column.className = `scroll-column ${i % 2 === 0 ? '' : 'reverse'}`;
+        column.style.animationDuration = `${25 + i * 5}s`;
+        
+        for (let j = 0; j < 10; j++) {
+          const item = document.createElement('div');
+          item.className = 'scroll-item';
+          column.appendChild(item);
+        }
+        scrollingBackground.appendChild(column);
+      }
+    }
+    
+    // 鼠标跟随效果
+    let mouseX = 0.5;
+    let mouseY = 0.5;
+    let targetMouseX = 0.5;
+    let targetMouseY = 0.5;
+    
+    function updateMousePosition(e) {
+      const rect = heroSection.getBoundingClientRect();
+      targetMouseX = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      targetMouseY = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
+    }
+    
+    function resetMousePosition() {
+      targetMouseX = 0.5;
+      targetMouseY = 0.5;
+    }
+    
+    // 平滑插值函数
+    function lerp(start, end, t) {
+      return start * (1 - t) + end * t;
+    }
+    
+    // 应用模糊和缩放效果
+    function applyEffects() {
+      mouseX = lerp(mouseX, targetMouseX, 0.1);
+      mouseY = lerp(mouseY, targetMouseY, 0.1);
+      
+      // 模糊效果：中心清晰，边缘模糊（左右移动）
+      const blurAmount = Math.min(12, Math.max(0, 
+        mouseX < 0.4 ? (0.4 - mouseX) * 30 : 
+        mouseX > 0.6 ? (mouseX - 0.6) * 30 : 0
+      ));
+      
+      // 缩放效果：上下移动控制焦距（顶部缩小，中心正常，底部放大）
+      const scaleAmount = mouseY < 0.5 ? 0.6 + mouseY * 0.8 : 0.6 + (1 - mouseY) * 0.8;
+      
+      if (heroContent) {
+        heroContent.style.filter = `blur(${blurAmount}px)`;
+        heroContent.style.transform = `scale(${scaleAmount})`;
+      }
+      
+      if (heroBackground) {
+        const bgBlurAmount = Math.min(16, Math.max(2, 
+          mouseX < 0.4 ? (0.4 - mouseX) * 40 + 2 : 
+          mouseX > 0.6 ? (mouseX - 0.6) * 40 + 2 : 2
+        ));
+        heroBackground.style.filter = `blur(${bgBlurAmount}px)`;
+        heroBackground.style.transform = `scale(${scaleAmount})`;
+      }
+      
+      // 装饰图标视差效果
+      heroIcons.forEach((icon, index) => {
+        const parallaxX = (mouseX - 0.5) * 40;
+        const parallaxY = (mouseY - 0.5) * 40;
+        
+        let offsetX = 0, offsetY = 0, rotation = 0;
+        
+        switch(index) {
+          case 0: // Camera icon
+            offsetX = parallaxX * 0.4;
+            offsetY = parallaxY * 0.4 - 20;
+            rotation = parallaxX * 0.1;
+            break;
+          case 1: // Aperture icon
+            offsetX = -parallaxX * 0.6;
+            offsetY = -parallaxY * 0.6 + 40;
+            rotation = -parallaxX * 0.2;
+            break;
+          case 2: // Focus icon
+            offsetX = parallaxX * 0.2;
+            offsetY = parallaxY * 0.8;
+            break;
+          case 3: // Image icon
+            offsetX = -parallaxX * 0.3;
+            offsetY = -parallaxY * 0.3;
+            break;
+        }
+        
+        icon.style.transform = `translate(${offsetX}px, ${offsetY}px) rotate(${rotation}deg)`;
+      });
+      
+      requestAnimationFrame(applyEffects);
+    }
+    
+    // 绑定事件
+    heroSection.addEventListener('mousemove', updateMousePosition);
+    heroSection.addEventListener('mouseleave', resetMousePosition);
+    
+    // 开始动画循环
+    applyEffects();
+  });
+</script>
+
+<!-- 模特图片展示区 - 确保标题在最顶部可见 -->
+<section class="gallery-section model-section">
+  <h2 class="section-title">模特图片</h2>
+  <div class="gallery-collapse" id="modelGalleryWrap">
+    <div class="st-photo-gallery" id="modelGallery"></div>
+  </div>
+  <button class="toggle-btn model-toggle" id="modelToggleBtn">展开更多</button>
+</section>
+
+<!-- 产品图片展示区 -->
+<section class="gallery-section product-section">
+  <h2 class="section-title">产品图片</h2>
+  <div class="gallery-collapse" id="productGalleryWrap">
+    <div class="st-photo-gallery" id="productGallery"></div>
+  </div>
+  <button class="toggle-btn product-toggle" id="productToggleBtn">展开更多</button>
+</section>
+
+<!-- 模态预览层 -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="close-btn" id="closeBtn">×</div>
+  <div class="modal-img-container" id="modalImgContainer">
+    <img src="" class="modal-img" id="modalImg">
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // ========== 图片路径配置 - 使用本地assets目录 ==========
+    // 模特图片：96张，路径为 assets/模特照片/模特(1).jpg 到 assets/模特照片/模特(96).jpg
+    const modelPhotos = [];
+    for (let i = 1; i <= 96; i++) {
+      modelPhotos.push(`assets/模特照片/模特(${i}).jpg`);
+    }
+
+    // 产品图片：73张，路径为 assets/产品图片/产品photo (1).jpg 到 assets/产品图片/产品photo (73).jpg
+    const productPhotos = [];
+    for (let i = 1; i <= 73; i++) {
+      productPhotos.push(`assets/产品图片/产品photo (${i}).jpg`);
+    }
+
+    // ========== 渲染图片 ==========
+    const modelGallery = document.getElementById('modelGallery');
+    const productGallery = document.getElementById('productGallery');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalImgContainer = document.getElementById('modalImgContainer');
+    const modalImg = document.getElementById('modalImg');
+    const closeBtn = document.getElementById('closeBtn');
+
+    // 创建相机HUD SVG元素
+    function createCameraHUD() {
+      const hud = document.createElement('div');
+      hud.className = 'camera-hud';
+      
+      // 四个角的括号
+      const brackets = [
+        { class: 'bracket bracket-top-left', points: '0,12 0,0 12,0' },
+        { class: 'bracket bracket-top-right', points: '12,0 24,0 24,12' },
+        { class: 'bracket bracket-bottom-left', points: '0,12 0,24 12,24' },
+        { class: 'bracket bracket-bottom-right', points: '12,24 24,24 24,12' }
+      ];
+      
+      brackets.forEach(bracket => {
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('class', bracket.class);
+        svg.setAttribute('viewBox', '0 0 24 24');
+        svg.setAttribute('width', '100%');
+        svg.setAttribute('height', '100%');
+        
+        const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+        polyline.setAttribute('points', bracket.points);
+        polyline.setAttribute('fill', 'none');
+        polyline.setAttribute('stroke', 'white');
+        polyline.setAttribute('stroke-width', '1');
+        polyline.setAttribute('stroke-linejoin', 'miter');
+        polyline.setAttribute('stroke-linecap', 'square');
+        
+        svg.appendChild(polyline);
+        hud.appendChild(svg);
+      });
+      
+      // 十字准星
+      const crosshairSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      crosshairSvg.setAttribute('class', 'crosshair');
+      crosshairSvg.setAttribute('viewBox', '0 0 24 24');
+      crosshairSvg.setAttribute('width', '100%');
+      crosshairSvg.setAttribute('height', '100%');
+      
+      const line1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line1.setAttribute('x1', '12');
+      line1.setAttribute('y1', '6');
+      line1.setAttribute('x2', '12');
+      line1.setAttribute('y2', '18');
+      line1.setAttribute('stroke', 'white');
+      line1.setAttribute('stroke-width', '1');
+      
+      const line2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line2.setAttribute('x1', '6');
+      line2.setAttribute('y1', '12');
+      line2.setAttribute('x2', '18');
+      line2.setAttribute('y2', '12');
+      line2.setAttribute('stroke', 'white');
+      line2.setAttribute('stroke-width', '1');
+      
+      crosshairSvg.appendChild(line1);
+      crosshairSvg.appendChild(line2);
+      hud.appendChild(crosshairSvg);
+      
+      // 水平刻度线
+      const levelSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      levelSvg.setAttribute('class', 'level-indicator');
+      levelSvg.setAttribute('viewBox', '0 0 12 100');
+      levelSvg.setAttribute('width', '100%');
+      levelSvg.setAttribute('height', '100%');
+      
+      const lines = [
+        { x1: '0', y1: '10', x2: '12', y2: '10' },
+        { x1: '6', y1: '30', x2: '12', y2: '30' },
+        { x1: '0', y1: '50', x2: '12', y2: '50' },
+        { x1: '6', y1: '70', x2: '12', y2: '70' },
+        { x1: '0', y1: '90', x2: '12', y2: '90' }
+      ];
+      
+      lines.forEach(lineData => {
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', lineData.x1);
+        line.setAttribute('y1', lineData.y1);
+        line.setAttribute('x2', lineData.x2);
+        line.setAttribute('y2', lineData.y2);
+        line.setAttribute('stroke', 'white');
+        line.setAttribute('stroke-width', '1');
+        levelSvg.appendChild(line);
+      });
+      
+      hud.appendChild(levelSvg);
+      
+      // 底部水平刻度
+      const bottomLevelSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      bottomLevelSvg.setAttribute('class', 'bottom-level');
+      bottomLevelSvg.setAttribute('viewBox', '0 0 100 6');
+      bottomLevelSvg.setAttribute('width', '100%');
+      bottomLevelSvg.setAttribute('height', '100%');
+      
+      const bottomLines = [
+        { x1: '10', y1: '0', x2: '10', y2: '6' },
+        { x1: '30', y1: '3', x2: '30', y2: '6' },
+        { x1: '50', y1: '0', x2: '50', y2: '6' },
+        { x1: '70', y1: '3', x2: '70', y2: '6' },
+        { x1: '90', y1: '0', x2: '90', y2: '6' }
+      ];
+      
+      bottomLines.forEach(lineData => {
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', lineData.x1);
+        line.setAttribute('y1', lineData.y1);
+        line.setAttribute('x2', lineData.x2);
+        line.setAttribute('y2', lineData.y2);
+        line.setAttribute('stroke', 'black');
+        line.setAttribute('stroke-width', '1');
+        bottomLevelSvg.appendChild(line);
+      });
+      
+      hud.appendChild(bottomLevelSvg);
+      
+      return hud;
+    }
+
+    // 通用渲染函数
+    function renderGallery(galleryEl, photos, title) {
+      if (!galleryEl) return;
+      photos.forEach((src, idx) => {
+        const item = document.createElement('div');
+        item.className = 'st-photo-item';
+        
+        const wrapper = document.createElement('div');
+        wrapper.className = 'st-photo-image-wrapper';
+        
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `${title} ${idx + 1}`;
+        img.loading = 'lazy';
+        img.referrerPolicy = 'no-referrer';
+        
+        // 加载状态
+        const loadingOverlay = document.createElement('div');
+        loadingOverlay.className = 'loading-overlay';
+        const spinner = document.createElement('div');
+        spinner.className = 'loading-spinner';
+        loadingOverlay.appendChild(spinner);
+        wrapper.appendChild(loadingOverlay);
+        wrapper.appendChild(img);
+        
+        // 相机HUD
+        const cameraHud = createCameraHUD();
+        wrapper.appendChild(cameraHud);
+        
+        item.appendChild(wrapper);
+        
+        // 图片加载完成
+        img.onload = () => {
+          loadingOverlay.style.display = 'none';
+        };
+        
+        // 图片加载失败
+        img.onerror = () => {
+          loadingOverlay.innerHTML = '<div style="color: white; font-size: 12px;">加载失败</div>';
+        };
+        
+        // 点击打开大图
+        item.addEventListener('click', () => {
+          resetZoomState();
+          // 使用高清版本
+          const highResSrc = src.replace('&w=600&fit=cover', '&w=1920&fit=inside');
+          modalImg.src = highResSrc;
+          modalOverlay.classList.add('show');
+          document.body.style.overflow = 'hidden';
+        });
+        
+        galleryEl.appendChild(item);
+      });
+    }
+
+    // 渲染模特和产品图片
+    renderGallery(modelGallery, modelPhotos, '模特图片');
+    renderGallery(productGallery, productPhotos, '产品图片');
+
+    // ========== 折叠/展开功能 ==========
+    const modelToggleBtn = document.getElementById('modelToggleBtn');
+    const productToggleBtn = document.getElementById('productToggleBtn');
+    const modelGalleryWrap = document.getElementById('modelGalleryWrap');
+    const productGalleryWrap = document.getElementById('productGalleryWrap');
+
+    // 模特区折叠/展开
+    modelToggleBtn.addEventListener('click', function() {
+      modelGalleryWrap.classList.toggle('expanded');
+      this.textContent = modelGalleryWrap.classList.contains('expanded') ? '收起' : '展开更多';
+      // 控制按钮固定定位
+      if (modelGalleryWrap.classList.contains('expanded')) {
+        this.classList.add('fixed-bottom');
+      } else {
+        this.classList.remove('fixed-bottom');
+      }
+    });
+
+    // 产品区折叠/展开
+    productToggleBtn.addEventListener('click', function() {
+      productGalleryWrap.classList.toggle('expanded');
+      this.textContent = productGalleryWrap.classList.contains('expanded') ? '收起' : '展开更多';
+      // 控制按钮固定定位
+      if (productGalleryWrap.classList.contains('expanded')) {
+        this.classList.add('fixed-bottom');
+      } else {
+        this.classList.remove('fixed-bottom');
+      }
+    });
+
+    // ========== 原有交互功能（缩放/拖拽/关闭） ==========
+    let scale = 1;
+    let translateX = 0;
+    let translateY = 0;
+    let isDragging = false;
+    let startX, startY;
+    let clickTimer = null;
+
+    function resetZoomState() {
+      scale = 1;
+      translateX = 0;
+      translateY = 0;
+      modalImgContainer.classList.remove('draggable', 'dragging');
+      updateImgTransform();
+    }
+
+    function updateImgTransform() {
+      modalImg.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove('show');
+      document.body.style.overflow = '';
+      resetZoomState();
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalOverlay.classList.contains('show')) {
+        closeModal();
+      }
+    });
+
+    modalImgContainer.addEventListener('mousedown', (e) => {
+      startX = e.clientX;
+      startY = e.clientY;
+      if (scale > 1) {
+        modalImgContainer.classList.add('draggable');
+        clickTimer = setTimeout(() => {
+          clickTimer = null;
+        }, 200);
+      }
+    });
+
+    modalImgContainer.addEventListener('mouseup', (e) => {
+      modalImgContainer.classList.remove('dragging');
+      if (clickTimer) {
+        const dx = Math.abs(e.clientX - startX);
+        const dy = Math.abs(e.clientY - startY);
+        if (dx < 5 && dy < 5) {
+          closeModal();
+        }
+        clearTimeout(clickTimer);
+        clickTimer = null;
+      }
+      modalImgContainer.classList.remove('draggable');
+    });
+
+    modalImgContainer.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? -0.1 : 0.1;
+      const newScale = Math.max(1, Math.min(3, scale + delta));
+      scale = newScale;
+      if (scale > 1) {
+        modalImgContainer.classList.add('draggable');
+      } else {
+        modalImgContainer.classList.remove('draggable');
+        translateX = 0;
+        translateY = 0;
+      }
+      updateImgTransform();
+    }, { passive: false });
+
+    modalImgContainer.addEventListener('mousemove', (e) => {
+      if (!modalImgContainer.classList.contains('draggable') || !clickTimer) return;
+      if (e.buttons === 1) {
+        isDragging = true;
+        modalImgContainer.classList.add('dragging');
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        translateX += dx;
+        translateY += dy;
+        startX = e.clientX;
+        startY = e.clientY;
+        const imgRect = modalImg.getBoundingClientRect();
+        if (imgRect.width * scale > window.innerWidth) {
+          translateX = Math.max(-(imgRect.width * scale - window.innerWidth)/2, 
+                                Math.min((imgRect.width * scale - window.innerWidth)/2, translateX));
+        } else {
+          translateX = 0;
+        }
+        if (imgRect.height * scale > window.innerHeight) {
+          translateY = Math.max(-(imgRect.height * scale - window.innerHeight)/2, 
+                                Math.min((imgRect.height * scale - window.innerHeight)/2, translateY));
+        } else {
+          translateY = 0;
+        }
+        updateImgTransform();
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        modalImgContainer.classList.remove('dragging');
+        if (clickTimer) {
+          clearTimeout(clickTimer);
+          clickTimer = null;
+        }
+      }
+    });
+
+    modalImgContainer.addEventListener('mouseleave', () => {
+      isDragging = false;
+      modalImgContainer.classList.remove('dragging');
+    });
+
+    // ========== 窗口大小变化时重新适配布局 ==========
+    window.addEventListener('resize', function() {
+      // 重置瀑布流布局，避免错乱
+      const galleries = document.querySelectorAll('.st-photo-gallery');
+      galleries.forEach(gallery => {
+        const temp = gallery.innerHTML;
+        gallery.innerHTML = temp; // 重新渲染，触发瀑布流重排
+      });
+      // 重置模态框图片位置
+      if (modalOverlay.classList.contains('show')) {
+        resetZoomState();
+      }
+    });
+  });
+</script>
+
+
+<!-- ==================== 跑马灯标语区 ==================== -->
+<section class="py-24 border-t border-white/5 overflow-hidden relative" style="background:#0a101e;">
+  <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+  <div class="flex whitespace-nowrap overflow-hidden py-10 opacity-10 rotate-1">
+    <div class="marquee-content text-[6vw] font-black uppercase italic tracking-tighter"><span>Compositional Art</span><span>*</span><span>Natural Lighting</span><span>*</span><span>Focal Excellence</span><span>*</span><span>Stillness</span><span>*</span></div>
+    <div class="marquee-content text-[6vw] font-black uppercase italic tracking-tighter"><span>Compositional Art</span><span>*</span><span>Natural Lighting</span><span>*</span><span>Focal Excellence</span><span>*</span><span>Stillness</span><span>*</span></div>
+  </div>
+  <div class="max-w-4xl mx-auto px-6 text-center mt-12 relative z-10">
+    <div class="inline-block p-4 rounded-full mb-8 bg-zinc-900 animate-bounce" style="box-shadow:0 0 0 1px rgba(255,255,255,0.1);"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#a9adb8" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></div>
+    <h3 class="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-tight mb-8">Start your project <br> with visual aesthetic.</h3>
+    <p class="text-xs md:text-sm text-white/30 tracking-[0.3em] uppercase leading-relaxed max-w-xl mx-auto">Focusing on high-end commercial video production and artistic experimental shorts. Let's create something memorable.</p>
+    <div class="mt-12"><button class="group relative text-xs font-bold uppercase tracking-[0.4em] px-12 rounded-full transition-all duration-300" style="padding-top:20px;padding-bottom:20px;box-shadow:0 0 0 1px rgba(255,255,255,0.2);" onmouseenter="this.style.boxShadow='0 0 0 1px rgba(58,134,255,0.6), 0 0 30px rgba(58,134,255,0.3)'" onmouseleave="this.style.boxShadow='0 0 0 1px rgba(255,255,255,0.2)'"><span class="relative z-10">请联系我</span><div class="absolute inset-0 rounded-full bg-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div></button></div>
+  </div>
+</section>
+
+<!-- ==================== 页脚 ==================== -->
+<footer class="py-20 border-t border-white/5 text-center text-white/30 text-xs tracking-[0.3em] uppercase">© 2026 MINGO Creative Studio. All Rights Reserved.</footer>
+
+<!-- ==================== 回到顶部按钮 ==================== -->
+<style>
+#scroll-top-btn{position:fixed;bottom:2rem;right:2rem;z-index:999;cursor:pointer;width:3.5rem;height:3.5rem;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.4);backdrop-filter:blur(8px);border-radius:50%;border:1px solid rgba(255,255,255,0.1);opacity:0;transform:translateY(20px);transition:all .3s;pointer-events:none}#scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:auto}#scroll-top-btn:hover{border-color:#3a86ff;transform:scale(1.1)}#scroll-top-btn svg.progress-ring{position:absolute;inset:0;transform:rotate(-90deg)}
+</style>
+<div id="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+<svg class="progress-ring" width="56" height="56"><circle cx="28" cy="28" r="24" fill="transparent" stroke="rgba(255,255,255,0.1)" stroke-width="2"/><circle id="progress-circle" cx="28" cy="28" r="24" fill="transparent" stroke="#3a86ff" stroke-width="2" stroke-dasharray="150.8" stroke-dashoffset="150.8" stroke-linecap="round" style="transition:stroke-dashoffset .1s"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</div>
+<script>const stb=document.getElementById('scroll-top-btn'),pc=document.getElementById('progress-circle'),circ=2*Math.PI*24;window.addEventListener('scroll',()=>{const s=window.scrollY,t=document.documentElement.scrollHeight-window.innerHeight,p=(s/t)*100;s>300?stb.classList.add('visible'):stb.classList.remove('visible');pc.style.strokeDashoffset=circ-(p/100)*circ});</script>
+
+</body>
+</html>

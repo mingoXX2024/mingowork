@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频案例 - 爱德华·戴维斯</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;700;900&family=Noto+Sans+SC:wght@200;300;400;700&display=swap');
+        /* ═══════════════════════════════════════════
+           ★ 英雄页高度统一控制参数 ★
+           修改 --hero-height 的值可同时调整所有断点的高度
+           ═══════════════════════════════════════════ */
+        :root {
+          --hero-height: 45vh;        /* 桌面端英雄页高度 */
+          --hero-height-md: 28vh;     /* 平板端 (≤992px) */
+          --hero-height-sm: 25vh;     /* 手机端 (≤768px) */
+          --hero-height-xs: 23vh;     /* 小屏手机 (≤480px) */
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a101e;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 噪点纹理 */
+        .grain-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 100; opacity: .03; background-image: url('https://grainy-gradients.vercel.app/noise.svg'); mix-blend-mode: screen; }
+
+        /* 背景装饰列滚动 */
+        @keyframes scroll-y { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+        .animate-scroll-y { animation: scroll-y 30s linear infinite; }
+        .direction-reverse { animation-direction: reverse; }
+
+        /* 3D 透视 */
+        .perspective-1000 { perspective: 1000px; }
+
+        /* 色差重影层 */
+        .chromatic { position: absolute; inset: 0; font-weight: 900; text-transform: uppercase; line-height: 1; font-style: italic; letter-spacing: -0.05em; user-select: none; pointer-events: none; mix-blend-mode: screen; filter: blur(3px); opacity: 0; transition: opacity .2s ease; }
+
+        /* 扫描线 */
+        .scanline::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent, rgba(255,255,255,.05) 50%, transparent); pointer-events: none; animation: scanline 8s linear infinite; }
+        @keyframes scanline { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+
+        /* 跑马灯 */
+        @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .marquee-content { display: flex; gap: 5rem; animation: marquee 20s linear infinite; }
+
+        /* ===== 隐藏式刘海导航栏 ===== */
+        .notch-nav {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 200;
+            width: 200px;
+            height: 18px;
+            background: rgba(255,140,0,0.5);
+            border-radius: 0 0 20px 20px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            overflow: clip;              /* ★ 裁剪刘海内部，但不裁弹出菜单 */
+        }
+        .notch-nav:hover {
+            overflow: visible;           /* ★ 展开后允许下拉菜单溢出 */
+            width: 520px;
+            height: 56px;
+            background: rgba(76, 87, 112, 0.92);
+            border-radius: 0 0 28px 28px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+        }
+        /* 提示小圆点 */
+        .notch-nav::before {
+            content: '';
+            position: absolute;
+            top: 1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 4px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 1px;
+            transition: all 0.4s;
+        }
+        .notch-nav:hover::before {
+            opacity: 0;
+        }
+        /* 菜单（默认隐藏） */
+        .notch-menu {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.3s 0.1s;
+            padding: 0 20px;
+        }
+        .notch-nav:hover .notch-menu {
+            opacity: 1;
+        }
+        .notch-menu a {
+            color: #fff0f0;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 4px;
+            font-family: 'Inter', 'Microsoft YaHei', sans-serif;
+            letter-spacing: 0.06em;
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+        .notch-menu a:hover, .notch-menu a.active {
+            color: #ff9900;
+        }
+        /* 下拉 */
+        .notch-dropdown {
+            position: relative;
+        }
+        .notch-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(8px);
+            background: rgba(82, 134, 255, 0);
+            border: 1px solid rgba(58, 133, 255, 0);
+            border-radius: 8px;
+            padding: 8px 0;
+            min-width: 140px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+        }
+        .notch-dropdown:hover .notch-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+        }
+        .notch-dropdown-menu a {
+            display: block;
+            padding: 10px 20px;
+            font-size: 12px;
+            color: #ccc;
+        }
+        .notch-dropdown-menu a:hover {
+            background: rgba(58,134,255,0.1);
+            color: #3a86ff;
+        }
+
+        /* 视频卡片容器 - 一排4个自适应 */
+        .video-container {
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 20px 80px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 1400px) {
+            .video-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .video-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .video-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .video-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .video-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.15);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            background: #000;
+        }
+
+        .video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 全屏遮罩层 - 磨砂透明效果 */
+        .fullscreen-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(10, 16, 30, 0.65);
+            backdrop-filter: blur(24px) saturate(0.6);
+            -webkit-backdrop-filter: blur(24px) saturate(0.6);
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* 视频容器包装器 */
+        .video-container-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+
+        .fullscreen-video {
+            display: block;
+            width: auto;
+            height: auto;
+            max-width: 90vw;
+            max-height: calc(90vh - 70px);
+            border-radius: 8px;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            background: #000;
+            aspect-ratio: auto;
+        }
+
+        /* 外部控制栏 */
+        .video-controls {
+            width: 100%;
+            height: 44px;
+            margin-top: 10px;
+            background: rgba(10, 16, 30, 0.55);
+            backdrop-filter: blur(20px) saturate(0.8);
+            -webkit-backdrop-filter: blur(20px) saturate(0.8);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            padding: 0 18px;
+            gap: 14px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .control-btn {
+            background: transparent;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+            overflow: visible;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ff6b6b);
+            border-radius: 3px;
+            transition: width 0.1s;
+        }
+
+        .progress-handle {
+            position: absolute;
+            top: 50%;
+            width: 14px;
+            height: 14px;
+            background: #fff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.2s;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-bar:hover .progress-handle {
+            opacity: 1;
+        }
+
+        .time-display {
+            color: #fff;
+            font-size: 14px;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .volume-bar {
+            width: 80px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .volume-fill {
+            height: 100%;
+            background: #ffd700;
+            border-radius: 2px;
+            transition: width 0.1s;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 40px;
+            color: #ffd700;
+            cursor: pointer;
+            z-index: 10000;
+            transition: transform 0.2s;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.1);
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .top-banner {
+                height: 80px;
+            }
+            .close-btn {
+                font-size: 30px;
+                top: 20px;
+                right: 20px;
+            }
+            .navbar {
+                height: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== 隐藏式刘海导航 ===== -->
+<div class="notch-nav">
+  <div class="notch-menu">
+    <a href="index.html">首页</a>
+    <a href="index.html#about">关于我</a>
+    <a href="index.html#resume">简历</a>
+    <div class="notch-dropdown">
+      <a href="index.html#portfolio">作品集 ▾</a>
+      <div class="notch-dropdown-menu">
+        <a href="portfolio-photo.html">平面摄影</a>
+        <a href="portfolio-3danimation.html">三维动画</a>
+        <a href="portfolio-video.html" class="active">视频影像</a>
+        <a href="portfolio-3dstatic.html">三维静态</a>
+        <a href="portfolio-media.html">社媒创意</a>
+      </div>
+    </div>
+    <a href="index.html#contact">联系我</a>
+  </div>
+</div>
+
+<!-- 噪点覆盖层 -->
+<div class="grain-overlay"></div>
+
+<!-- 背景装饰列 -->
+<div class="absolute inset-0 z-0 opacity-[0.02] pointer-events-none overflow-hidden h-screen" id="bgCols"><script>
+document.addEventListener('DOMContentLoaded',()=>{const c=document.getElementById('bgCols');c.innerHTML='';for(let i=0;i<12;i++){const col=document.createElement('div');col.className=`flex flex-col gap-6 animate-scroll-y ${i%2!==0?'direction-reverse':''}`;col.style.animationDuration=`${30+i*5}s`;for(let j=0;j<15;j++){const item=document.createElement('div');item.className='w-24 h-36 bg-white/20 rounded-lg shadow-inner flex items-center justify-center p-4';item.innerHTML='<i data-lucide="film" class="opacity-20" style="width:24px;height:24px"></i>';col.appendChild(item);}c.appendChild(col);}lucide.createIcons();});
+</script></div>
+
+<!-- 浮动装饰图标 -->
+<div class="absolute inset-0 pointer-events-none overflow-hidden z-20 h-screen" id="floatIcons">
+  <div class="absolute top-[10%] left-[5%] text-blue-500 opacity-20"><i data-lucide="camera" style="width:50px;height:50px" stroke-width="1"></i></div>
+  <div class="absolute bottom-[45%] right-[5%] text-blue-400 opacity-20"><i data-lucide="clapperboard" style="width:45px;height:45px" stroke-width="1"></i></div>
+  <div class="absolute top-[30%] right-[10%] text-white opacity-15"><i data-lucide="film" style="width:35px;height:35px" stroke-width="1"></i></div>
+  <div class="absolute bottom-[15%] left-[10%] text-white opacity-15"><i data-lucide="tv" style="width:40px;height:40px" stroke-width="1"></i></div>
+  <div class="absolute top-[15%] right-[25%] text-blue-500 opacity-10"><i data-lucide="monitor" style="width:45px;height:45px" stroke-width="1"></i></div>
+  <div class="absolute top-[60%] left-[8%] text-blue-400 opacity-10"><i data-lucide="projector" style="width:50px;height:50px" stroke-width="1"></i></div>
+  <div class="absolute bottom-[15%] left-[20%] text-white opacity-10"><i data-lucide="mic" style="width:45px;height:45px" stroke-width="1"></i></div>
+  <div class="absolute top-[40%] right-[30%] text-white opacity-10"><i data-lucide="lightbulb" style="width:40px;height:40px" stroke-width="1"></i></div>
+  <div class="absolute bottom-[40%] right-[15%] text-blue-500 opacity-10"><i data-lucide="cassette-tape" style="width:40px;height:40px" stroke-width="1"></i></div>
+  <div class="absolute top-[20%] left-[30%] text-white opacity-10"><i data-lucide="aperture" style="width:30px;height:30px" stroke-width="1.5"></i></div>
+</div>
+
+<!-- ==================== 英雄页（Hero Section）==================== -->
+<section class="relative flex flex-col items-center justify-center overflow-hidden py-12 md:py-16 scanline" id="hero" style="min-height:var(--hero-height, 30vh); background:#0a101e;">
+  <div class="absolute inset-0 z-0"><div class="absolute inset-0 bg-gradient-to-t from-[#0a101e] via-transparent to-[#0a101e]/60 z-10"></div><video autoplay muted loop playsinline class="w-full h-full object-cover grayscale opacity-40"><source src="https://assets.mixkit.co/videos/preview/mixkit-girl-filming-with-a-camera-at-home-43407-large.mp4" type="video/mp4"></video></div>
+  <div style="position:absolute; top:16px; left:16px; right:16px; bottom:16px; z-index:20; pointer-events:none; border:1px solid rgba(255,255,255,0.08); border-radius:24px; padding:24px; color:#fff; font-size:11px; letter-spacing:0.2em; font-weight:400; text-transform:uppercase; display:flex; flex-direction:column; justify-content:space-between; opacity:0.2;">
+    <div style="display:flex; justify-content:space-between;">
+      <div style="display:flex; gap:16px; align-items:center;">
+        <span><span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#dc2626; margin-right:6px;"></span>REC</span>
+        <span>00:12:45:08</span>
+        <span style="background:rgba(255,255,255,0.15); padding:2px 8px; border-radius:4px;">4K 60FPS</span>
+      </div>
+      <div style="display:flex; gap:16px; align-items:center;">
+        <span>120 <svg style="width:14px;height:14px;vertical-align:middle;transform:rotate(270deg)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="6" width="18" height="12" rx="2"/><line x1="23" y1="13" x2="23" y2="11"/></svg></span>
+        <span>CH1 -12dB</span>
+      </div>
+    </div>
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:192px; height:192px; border:1px solid rgba(255,255,255,0.12);">
+      <div style="position:absolute; top:0; left:0; width:16px; height:16px; border-top:1px solid rgba(255,255,255,0.35); border-left:1px solid rgba(255,255,255,0.35);"></div>
+      <div style="position:absolute; top:0; right:0; width:16px; height:16px; border-top:1px solid rgba(255,255,255,0.35); border-right:1px solid rgba(255,255,255,0.35);"></div>
+      <div style="position:absolute; bottom:0; left:0; width:16px; height:16px; border-bottom:1px solid rgba(255,255,255,0.35); border-left:1px solid rgba(255,255,255,0.35);"></div>
+      <div style="position:absolute; bottom:0; right:0; width:16px; height:16px; border-bottom:1px solid rgba(255,255,255,0.35); border-right:1px solid rgba(255,255,255,0.35);"></div>
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+      <div>
+        <div>ISO 800</div><div>WB 5600K</div><div>LUT: CINEMA_V2</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:28px; font-weight:900; margin-bottom:4px;">F1.8</div><div>1/200 SEC</div>
+      </div>
+    </div>
+  </div>
+  <div class="relative z-30 flex items-center justify-center px-6 text-center" style="position:absolute;inset:0;pointer-events:none;" id="heroContent">
+      <div class="relative group perspective-1000" id="titleWrap"><h1 class="chromatic z-30 text-[#ff0000]" id="red" style="font-size:clamp(48px,10vw,140px);font-family:'Noto Sans SC'">影像</h1><h1 class="chromatic z-31 text-[#00f2ff]" id="cyan" style="font-size:clamp(48px,10vw,140px);font-family:'Noto Sans SC'">影像</h1><h1 class="chromatic z-32 text-[#0000ff]" id="blue" style="font-size:clamp(48px,10vw,140px);font-family:'Noto Sans SC'">影像</h1><h1 class="font-black tracking-tighter uppercase leading-none select-none relative z-20 transition-colors duration-500 hover:text-white cursor-default" id="mainHeading" style="font-size:clamp(48px,10vw,140px);font-family:'Noto Sans SC';text-shadow:0 0 40px rgba(255,255,255,.1)">影像</h1><h1 class="font-black tracking-tighter uppercase leading-none select-none absolute inset-0 z-0 text-white/20" id="shadow" style="font-size:clamp(48px,10vw,140px);font-family:'Noto Sans SC';filter:blur(40px);opacity:.1">影像</h1></div>
+  </div>
+</section>
+
+<!-- 视频卡片列表（16个视频） -->
+<div class="video-container">
+    <div class="video-card" data-video-src="./assets/video/video (1).mp4">
+        <div class="video-wrapper">
+            <video loop preload="metadata" autoplay muted playsinline>
+                <source src="./assets/video/video (1).mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-src="./assets/video/video (2).mp4">
+        <div class="video-wrapper">
+            <video loop preload="metadata" autoplay muted playsinline>
+                <source src="./assets/video/video (2).mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-src="./assets/video/video (3).mp4">
+        <div class="video-wrapper">
+            <video loop preload="metadata" autoplay muted playsinline>
+                <source src="./assets/video/video (3).mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-src="./assets/video/video (4).mp4">
+        <div class="video-wrapper">
+            <video loop preload="metadata" autoplay muted playsinline>
+                <source src="./assets/video/video (4).mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-src="./assets/video/video (5).mp4">
+        <div class="video-wrapper">
+            <video loop preload="metadata" autoplay muted playsinline>
+                <source src="./assets/video/video (5).mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-src="./assets/video/video (6).mp4">
+        <div class="video-wrapper">
+            <video loop preload="metadata" autoplay muted playsinline>
+                <source src="./assets/video/video (6).mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-src="./assets/video/video (7).mp4">
+        <div class="video-wrapper">
+            <video loop preload="metadata" autoplay muted playsinline>
+                <source src="./assets/video/video (7).mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-src="./assets/video/video (8).mp4">
+        <div class="video-wrapper">
+            <video loop preload="metadata" autoplay muted playsinline>
+                <source src="./assets/video/video (8).mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-src="./assets/video/video (9).mp4">
+        <div class="video-wrapper">
+            <video loop preload="metadata" autoplay muted playsinline>
+                <source src="./assets/video/video (9).mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-src="./assets/video/video (10).mp4">
+        <div class="video-wrapper">
+            <video loop preload="metadata" autoplay muted playsinline>
+                <source src="./assets/video/video (10).mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-src="./assets/video/video (11).mp4">
+        <div class="video-wrapper">
+            <video loop preload="metadata" autoplay muted playsinline>
+                <source src="./assets/video/video (11).mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-src="./assets/video/video (12).mp4">
+        <div class="video-wrapper">
+            <video loop preload="metadata" autoplay muted playsinline>
+                <source src="./assets/video/video (12).mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-src="./assets/video/video (13).mp4">
+        <div class="video-wrapper">
+            <video loop preload="metadata" autoplay muted playsinline>
+                <source src="./assets/video/video (13).mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-src="./assets/video/video (14).mp4">
+        <div class="video-wrapper">
+            <video loop preload="metadata" autoplay muted playsinline>
+                <source src="./assets/video/video (14).mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-src="./assets/video/video (15).mp4">
+        <div class="video-wrapper">
+            <video loop preload="metadata" autoplay muted playsinline>
+                <source src="./assets/video/video (15).mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-src="./assets/video/video (16).mp4">
+        <div class="video-wrapper">
+            <video loop preload="metadata" autoplay muted playsinline>
+                <source src="./assets/video/video (16).mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-src="./assets/video/video (17).mp4">
+        <div class="video-wrapper">
+            <video loop preload="metadata" autoplay muted playsinline>
+                <source src="./assets/video/video (17).mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-src="./assets/video/video (18).mp4">
+        <div class="video-wrapper">
+            <video loop preload="metadata" autoplay muted playsinline>
+                <source src="./assets/video/video (18).mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-src="./assets/video/video (19).mp4">
+        <div class="video-wrapper">
+            <video loop preload="metadata" autoplay muted playsinline>
+                <source src="./assets/video/video (19).mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-src="./assets/video/video (20).mp4">
+        <div class="video-wrapper">
+            <video loop preload="metadata" autoplay muted playsinline>
+                <source src="./assets/video/video (20).mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== 跑马灯标语区 ==================== -->
+<section class="py-24 border-t border-white/5 overflow-hidden relative" style="background:#0a101e;">
+  <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+  <div class="flex whitespace-nowrap overflow-hidden py-10 opacity-10 rotate-1">
+    <div class="marquee-content text-[6vw] font-black uppercase italic tracking-tighter"><span>Narrative Flow</span><span>*</span><span>Color Grading</span><span>*</span><span>Sound Scaping</span><span>*</span><span>Cinematic Rhythms</span><span>*</span></div>
+    <div class="marquee-content text-[6vw] font-black uppercase italic tracking-tighter"><span>Narrative Flow</span><span>*</span><span>Color Grading</span><span>*</span><span>Sound Scaping</span><span>*</span><span>Cinematic Rhythms</span><span>*</span></div>
+  </div>
+  <div class="max-w-4xl mx-auto px-6 text-center mt-12 relative z-10">
+    <div class="inline-block p-4 rounded-full mb-8 bg-zinc-900 animate-bounce" style="box-shadow:0 0 0 1px rgba(255,255,255,0.1);"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#a9adb8" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/><line x1="17" y1="17" x2="22" y2="17"/></svg></div>
+    <h3 class="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-tight mb-8">Start your project <br> with visual aesthetic.</h3>
+    <p class="text-xs md:text-sm text-white/30 tracking-[0.3em] uppercase leading-relaxed max-w-xl mx-auto">Focusing on high-end commercial video production and artistic experimental shorts. Let's create something memorable.</p>
+    <div class="mt-12"><button class="group relative text-xs font-bold uppercase tracking-[0.4em] px-12 rounded-full transition-all duration-300" style="padding-top:20px;padding-bottom:20px;box-shadow:0 0 0 1px rgba(255,255,255,0.2);" onmouseenter="this.style.boxShadow='0 0 0 1px rgba(58,134,255,0.6), 0 0 30px rgba(58,134,255,0.3)'" onmouseleave="this.style.boxShadow='0 0 0 1px rgba(255,255,255,0.2)'"><span class="relative z-10">请联系我</span><div class="absolute inset-0 rounded-full bg-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div></button></div>
+  </div>
+</section>
+
+<!-- ==================== 页脚 ==================== -->
+<footer class="py-20 border-t border-white/5 text-center text-white/30 text-xs tracking-[0.3em] uppercase">© 2026 MINGO Creative Studio. All Rights Reserved.</footer>
+
+<!-- 全屏播放遮罩层 -->
+<div class="fullscreen-overlay" id="fullOverlay">
+    <span class="close-btn" id="closeBtn">&times;</span>
+    <div class="video-container-wrapper">
+        <video class="fullscreen-video" id="fullVideo" autoplay playsinline></video>
+        <div class="video-controls" id="videoControls">
+            <button class="control-btn play-pause-btn" id="playPauseBtn">
+                <i data-lucide="pause" size="24"></i>
+            </button>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+                <div class="progress-handle" id="progressHandle"></div>
+            </div>
+            <span class="time-display" id="timeDisplay">00:00 / 00:00</span>
+            <button class="control-btn mute-btn" id="muteBtn">
+                <i data-lucide="volume-2" size="24"></i>
+            </button>
+            <div class="volume-bar">
+                <div class="volume-fill" id="volumeFill"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+lucide.createIcons();
+
+// ==================== 色差偏移效果 ====================
+const mainHeading = document.getElementById('mainHeading');
+const red = document.getElementById('red');
+const cyan = document.getElementById('cyan');
+const blue = document.getElementById('blue');
+const shadow = document.getElementById('shadow');
+
+function handlePointerMove(mx, my) {
+    const dx = (mx - 0.5) * 40, dy = (my - 0.5) * 40;
+    document.querySelectorAll('#floatIcons > div').forEach(el => {
+        const f = parseFloat(el.style.opacity || 0.1);
+        el.style.transform = `translate(${dx * f * 20}px, ${dy * f * 20}px)`;
+    });
+    if (mainHeading) mainHeading.style.transform = `rotateX(${-dy * 0.05}deg) rotateY(${dx * 0.05}deg) translateZ(50px)`;
+    if (shadow) shadow.style.filter = 'blur(40px)';
+    const dist = Math.sqrt(dx*dx + dy*dy), strength = Math.max(0, 1 - dist/28);
+    const angleR = Math.atan2(dy, dx) + 0.4, angleC = Math.atan2(dy, dx) + 2.5, angleB = Math.atan2(dy, dx) - 1.2;
+    const off = 30 + strength * 40;
+    const aL = (el, ang, op) => { if (!el) return; el.style.opacity = Math.min(op, strength*(op/0.75)); el.style.transform = `translate(${Math.cos(ang)*off}px, ${Math.sin(ang)*off}px)`; };
+    aL(red, angleR, 0.85); aL(cyan, angleC, 0.75); aL(blue, angleB, 0.80);
+}
+document.addEventListener('mousemove', e => handlePointerMove(e.clientX/innerWidth, e.clientY/innerHeight));
+document.addEventListener('touchmove', e => { if (e.touches.length) handlePointerMove(e.touches[0].clientX/innerWidth, e.touches[0].clientY/innerHeight); }, { passive: true });
+
+// ==================== 视频播放器 ====================
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.video-card'), ov = document.getElementById('fullOverlay'),
+          fv = document.getElementById('fullVideo'), cb = document.getElementById('closeBtn'),
+          ppb = document.getElementById('playPauseBtn'), pb = document.querySelector('.progress-bar'),
+          pf = document.getElementById('progressFill'), ph = document.getElementById('progressHandle'),
+          td = document.getElementById('timeDisplay'), mb = document.getElementById('muteBtn'),
+          vb = document.querySelector('.volume-bar'), vf = document.getElementById('volumeFill');
+    function pa() { document.querySelectorAll('.video-wrapper video').forEach(v => v.pause()); }
+    function ft(s) { const m = Math.floor(s/60), se = Math.floor(s%60); return m.toString().padStart(2,'0')+':'+se.toString().padStart(2,'0'); }
+    function upi() { ppb.querySelector('i').dataset.lucide = fv.paused ? 'play' : 'pause'; lucide.createIcons(); }
+    cards.forEach((cd, i) => {
+        const v = cd.querySelector('video'), src = cd.dataset.videoSrc; if (v) v.muted = true;
+        cd.addEventListener('mouseenter', () => { if (v) { pa(); v.play().catch(() => {}); } });
+        cd.addEventListener('mouseleave', () => { if (v) v.pause(); });
+        cd.addEventListener('click', () => { if (src) { pa(); fv.src = src; ov.style.display = 'flex'; document.body.style.overflow = 'hidden'; fv.volume = 0.7; fv.muted = false; } else alert('视频'+(i+1)+'地址错误！'); });
+    });
+    fv.addEventListener('click', () => { fv.paused ? fv.play() : fv.pause(); upi(); });
+    ppb.addEventListener('click', () => { fv.paused ? fv.play() : fv.pause(); upi(); });
+    fv.addEventListener('timeupdate', () => { const pct = (fv.currentTime / fv.duration) * 100 || 0; pf.style.width = pct+'%'; ph.style.left = pct+'%'; td.textContent = ft(fv.currentTime) + ' / ' + ft(fv.duration || 0); });
+    pb.addEventListener('click', e => { const r = pb.getBoundingClientRect(); fv.currentTime = ((e.clientX-r.left)/r.width) * fv.duration; });
+    mb.addEventListener('click', () => { fv.muted = !fv.muted; mb.querySelector('i').dataset.lucide = fv.muted ? 'volume-x' : 'volume-2'; lucide.createIcons(); });
+    vb.addEventListener('click', e => { const r = vb.getBoundingClientRect(), vol = (e.clientX-r.left)/r.width; fv.volume = vol; vf.style.width = (vol*100)+'%'; });
+    fv.addEventListener('ended', () => { fv.currentTime = 0; fv.play(); });
+    function cl() { ov.style.display = 'none'; fv.pause(); fv.src = ''; document.body.style.overflow = 'auto'; }
+    cb.addEventListener('click', cl);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') cl(); });
+    ov.addEventListener('click', e => { if (e.target === ov) cl(); });
+});
+</script>
+
+<!-- ==================== 回到顶部按钮 ==================== -->
+<style>
+#scroll-top-btn{position:fixed;bottom:2rem;right:2rem;z-index:999;cursor:pointer;width:3.5rem;height:3.5rem;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.4);backdrop-filter:blur(8px);border-radius:50%;border:1px solid rgba(255,255,255,0.1);opacity:0;transform:translateY(20px);transition:all .3s;pointer-events:none}#scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:auto}#scroll-top-btn:hover{border-color:#3a86ff;transform:scale(1.1)}#scroll-top-btn svg.progress-ring{position:absolute;inset:0;transform:rotate(-90deg)}
+</style>
+<div id="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+<svg class="progress-ring" width="56" height="56"><circle cx="28" cy="28" r="24" fill="transparent" stroke="rgba(255,255,255,0.1)" stroke-width="2"/><circle id="progress-circle" cx="28" cy="28" r="24" fill="transparent" stroke="#3a86ff" stroke-width="2" stroke-dasharray="150.8" stroke-dashoffset="150.8" stroke-linecap="round" style="transition:stroke-dashoffset .1s"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</div>
+<script>const stb=document.getElementById('scroll-top-btn'),pc=document.getElementById('progress-circle'),circ=2*Math.PI*24;window.addEventListener('scroll',()=>{const s=window.scrollY,t=document.documentElement.scrollHeight-window.innerHeight,p=(s/t)*100;s>300?stb.classList.add('visible'):stb.classList.remove('visible');pc.style.strokeDashoffset=circ-(p/100)*circ});</script>
+
+</body>
+</html>

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>三维静态作品集 - 戴维斯</title>
+  <link rel="icon" href="assets/img/favicon.png">
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/fontawesome.css">
+  <link rel="stylesheet" href="assets/css/slick.css">
+  <link rel="stylesheet" href="assets/css/animate.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ===== 跑马灯动画 ===== */
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .marquee-content { display: flex; gap: 5rem; animation: marquee 20s linear infinite; }
+    body { background: #0a101e !important; margin: 0; padding: 0; width: 100%; overflow-x: hidden; }
+    /* ===== 隐藏式刘海导航 ===== */
+    .notch-nav { position:fixed;top:0;left:50%;transform:translateX(-50%);z-index:200;width:200px;height:18px;background:rgba(255,140,0,0.5);border-radius:0 0 20px 20px;transition:all .4s cubic-bezier(.4,0,.2,1);cursor:pointer;overflow:clip; }
+    .notch-nav::before { content:'';position:absolute;top:1px;left:50%;transform:translateX(-50%);width:40px;height:4px;background:rgba(255,180,80,.8);border-radius:1px;transition:all .4s; }
+    .notch-nav:hover { overflow:visible;width:520px;height:56px;background:rgba(76,87,112,.92);border-radius:0 0 28px 28px;box-shadow:0 4px 30px rgba(0,0,0,.5); }
+    .notch-nav:hover::before { opacity:0; }
+    .notch-menu { display:flex;align-items:center;justify-content:center;gap:24px;height:100%;opacity:0;transition:opacity .3s .1s;padding:0 20px; }
+    .notch-nav:hover .notch-menu { opacity:1; }
+    .notch-menu a { color:#ccc;text-decoration:none;font-size:14px;padding:8px 4px;font-family:'Inter','Microsoft YaHei',sans-serif;letter-spacing:.06em;transition:color .2s;white-space:nowrap; }
+    .notch-menu a:hover,.notch-menu a.active { color:#3a86ff; }
+    .notch-dropdown { position:relative; }
+    .notch-dropdown-menu { position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(8px);background:rgba(10,16,30,.95);border:1px solid rgba(58,134,255,.2);border-radius:8px;padding:8px 0;min-width:140px;opacity:0;visibility:hidden;transition:all .3s;box-shadow:0 8px 30px rgba(0,0,0,.5); }
+    .notch-dropdown:hover .notch-dropdown-menu { opacity:1;visibility:visible; }
+    .notch-dropdown-menu a { display:block;padding:10px 20px;font-size:12px;color:#ccc; }
+    .notch-dropdown-menu a:hover { background:rgba(58,134,255,.1);color:#3a86ff; }
+    .st-site-header { display:none !important; }
+    .st-site-header { display:none !important; }
+
+    /* ===== 旧定制导航栏移除后的骨架保留 ===== */
+    .st-nav-list a { color: #fdfeff !important; }
+
+    .st-photo-gallery-wrapper { padding: 20px 0; }
+    .st-gallery-title { text-align: center; margin-bottom: 20px; color: #fdfeff; }
+
+    .st-photo-gallery {
+      max-width: 98%;
+      margin: 0 auto;
+      column-count: 4;
+      column-gap: 6px;
+      padding: 0;
+    }
+
+    .st-photo-item {
+      break-inside: avoid;
+      margin-bottom: 6px;
+      border-radius: 4px;
+      cursor: pointer;
+      perspective: 800px;
+    }
+
+    .st-photo-image-wrapper {
+      width: 100%;
+      display: block;
+    }
+
+    /* 所有图片默认变暗10% */
+    .st-photo-image-wrapper img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      border-radius: 4px;
+      filter: brightness(0.9); /* 默认变暗10% */
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      will-change: transform;
+    }
+
+    /* 悬停时提亮+电影质感 */
+    .st-photo-item:hover img {
+      filter: brightness(1.1) contrast(1.04) saturate(1.06); /* 提亮到110% */
+    }
+
+    /* 模态框大图预览 */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .modal-overlay.show {
+      display: flex;
+    }
+    /* 核心：大图容器支持拖拽和缩放 */
+    .modal-img-container {
+      position: relative;
+      max-width: 90%;
+      max-height: 90vh;
+      cursor: default; /* 默认光标 */
+      overflow: visible;
+    }
+    /* 只有缩放后且拖拽时才变抓取光标 */
+    .modal-img-container.draggable {
+      cursor: grab;
+    }
+    .modal-img-container.dragging {
+      cursor: grabbing;
+    }
+    .modal-img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 6px;
+      box-shadow: 0 10px 60px rgba(0,0,0,0.5);
+      object-fit: contain;
+      transform: scale(1) translate(0, 0);
+      transform-origin: center center;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      user-select: none;
+      pointer-events: none;
+      /* 增强阴影跟随旋转的立体感 — JS动态更新 */
+      transition: box-shadow 0.15s ease;
+    }
+    .close-btn {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      color: #fff;
+      font-size: 32px;
+      background: rgba(255,255,255,0.1);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      z-index: 10000;
+    }
+    .close-btn:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    @media (max-width: 1200px) { 
+      .st-photo-gallery { column-count: 3; } 
+      body { padding-top: 100px !important; }
+      .st-site-header { height: 80px; }
+    }
+    @media (max-width: 768px)  { 
+      .st-photo-gallery { column-count: 2; } 
+      body { padding-top: 90px !important; }
+      .st-site-header { height: 70px; }
+    }
+    @media (max-width: 480px)  { 
+      .st-photo-gallery { column-count: 1; } 
+      body { padding-top: 80px !important; }
+      .st-site-header { height: 60px; }
+    }
+  </style>
+</head>
+
+<body id="portfolio-3dstatic">
+
+<!-- ===== 隐藏式刘海导航 ===== -->
+<div class="notch-nav">
+  <div class="notch-menu">
+    <a href="index.html">首页</a>
+    <a href="index.html#about">关于我</a>
+    <a href="index.html#resume">简历</a>
+    <div class="notch-dropdown">
+      <a href="index.html#portfolio">作品集 ▾</a>
+      <div class="notch-dropdown-menu">
+        <a href="portfolio-photo.html">平面摄影</a>
+        <a href="portfolio-3danimation.html">三维动画</a>
+        <a href="portfolio-video.html">视频影像</a>
+        <a href="portfolio-3dstatic.html">三维静态</a>
+        <a href="portfolio-media.html">社媒创意</a>
+      </div>
+    </div>
+    <a href="index.html#blog">博客</a>
+    <a href="index.html#contact">联系我</a>
+  </div>
+</div>
+
+<!-- ===== 深渊镜英雄区（背景与平面摄影统一渐变） ===== -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;700;900&family=Noto+Sans+SC:wght@200;300;400;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   ★ 英雄页高度统一控制参数 ★
+   修改 --hero-height 的值可同时调整所有断点的高度
+   ═══════════════════════════════════════════ */
+:root {
+  --hero-height: 45vh;        /* 桌面端英雄页高度 */
+  --hero-height-md: 28vh;     /* 平板端 (≤992px) */
+  --hero-height-sm: 25vh;     /* 手机端 (≤768px) */
+  --hero-height-xs: 23vh;     /* 小屏手机 (≤480px) */
+}
+.hero-3dstatic{position:relative;width:100%;min-height:var(--hero-height);overflow:hidden;
+  background:linear-gradient(135deg,rgba(10,16,30,0.8) 0%,rgba(10,16,30,0.95) 100%);
+  cursor:none;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.hero-3dstatic .stage-3dstatic{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transform-style:preserve-3d;pointer-events:none}
+.hero-3dstatic .txt{position:absolute;pointer-events:none;display:flex;align-items:center;justify-content:center}
+.hero-3dstatic .txt h1{font-size:clamp(48px,10vw,140px);font-weight:900;text-align:center;user-select:none;white-space:nowrap;letter-spacing:.04em;font-family:'Noto Sans SC'}
+.hero-3dstatic .fg{position:absolute;inset:0;pointer-events:none;
+  -webkit-mask-image:radial-gradient(circle 200px at 50% 50%,white 0%,transparent 100%);
+  mask-image:radial-gradient(circle 200px at 50% 50%,white 0%,transparent 100%);
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.hero-3dstatic .o1{-webkit-text-stroke:1.5px #66aaff;color:transparent;opacity:.7}
+.hero-3dstatic .o2{-webkit-text-stroke:2px #88ccff;color:transparent;opacity:.85}
+.hero-3dstatic .o3{-webkit-text-stroke:3px #cceeff;color:transparent;opacity:1}
+.hero-3dstatic .core{color:#fff;filter:drop-shadow(0 0 60px rgba(100,180,255,.5));animation:pulse 3s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.7}50%{opacity:1}}
+.hero-3dstatic .bloom{position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(50,120,255,.2),transparent 65%);filter:blur(60px);pointer-events:none;transform:translate(-50%,-50%)}
+.hero-3dstatic .bloom2{position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(100,200,255,.12),transparent 60%);filter:blur(35px);pointer-events:none;transform:translate(-50%,-50%)}
+</style>
+
+<section class="hero-3dstatic" id="heroStatic">
+  <div class="stage-3dstatic" id="stageStatic">
+    <div class=txt style=transform:translateZ(0)><h1 style=color:rgba(255,255,255,.5);-webkit-text-stroke:1px rgba(255,255,255,.1)>渲染</h1></div>
+    <div class="txt fg" style=transform:translateZ(-60px)><h1 class=o1>渲染</h1></div>
+    <div class="txt fg" style=transform:translateZ(-30px)><h1 class=o2>渲染</h1></div>
+    <div class="txt fg" style=transform:translateZ(30px)><h1 class=o1>渲染</h1></div>
+    <div class="txt fg" style=transform:translateZ(60px)><h1 class=o2>渲染</h1></div>
+    <div class="txt fg" style=transform:translateZ(90px)><h1 class=o3>渲染</h1></div>
+    <div class="txt fg" style=transform:translateZ(70px)><h1 class=core>渲染</h1></div>
+    <div class=bloom id=b0s></div>
+    <div class=bloom2 id=b1s></div>
+  </div>
+</section>
+<script>
+(function(){
+const G=document.getElementById('stageStatic'),B0=document.getElementById('b0s'),B1=document.getElementById('b1s'),H=document.getElementById('heroStatic'),M=[...G.querySelectorAll('.fg')];
+const initR=H.getBoundingClientRect();
+let cx=initR.width/2,cy=initR.height/2;  // ★ 初始化为英雄区中心，不是视口中心
+let mx=cx,my=cy;
+function upd(x,y){const v=`radial-gradient(circle 200px at ${x}px ${y}px,white 0%,transparent 100%)`;M.forEach(e=>{e.style.webkitMaskImage=v;e.style.maskImage=v})}
+
+// ─── 7 个随机图标（围绕"渲染"文字上/左/右三侧）─────
+const svgI=[
+`<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="3" x2="9" y2="21"/>`,
+`<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1" fill="rgba(150,200,255,.6)"/>`,
+`<polygon points="12,2 22,7 22,17 12,22 2,17 2,7"/><line x1="12" y1="12" x2="12" y2="2"/><line x1="12" y1="12" x2="22" y2="7"/>`,
+`<circle cx="12" cy="12" r="10"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/>`,
+`<polyline points="4 17 10 11 14 15 20 7"/><polyline points="15 7 20 7 20 12"/>`,
+`<circle cx="12" cy="12" r="3"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/>`];
+const cols=['rgba(100,200,255,.55)','rgba(150,220,255,.50)','rgba(130,200,255,.45)','rgba(90,170,255,.40)','rgba(180,230,255,.60)','rgba(70,150,255,.35)'];
+for(let i=0;i<7;i++){
+  const el=document.createElement('div');
+  // ★ 位置限制：只出现在上下20%区域和左右20%区域（避免盖住中央"渲染"文字）
+  const side=Math.random();
+  let x,y;
+  if(side<0.4){x=4+Math.random()*18;y=10+Math.random()*80}        // 左边缘 4%~22%
+  else if(side<0.8){x=78+Math.random()*18;y=10+Math.random()*80}   // 右边缘 78%~96%
+  else{x=15+Math.random()*70;y=4+Math.random()*18}                  // 上边缘 4%~22%
+  const sz=16+Math.random()*28;
+  const z=(Math.random()-0.5)*5;const op=0.35+Math.random()*0.45;
+  el.style.cssText=`position:absolute;left:${x}%;top:${y}%;width:${sz}px;height:${sz}px;pointer-events:none;transform:translateZ(${z.toFixed(1)}em);opacity:${op.toFixed(2)}`;
+  el.innerHTML=`<svg viewBox="0 0 24 24" fill=none stroke="${cols[i%cols.length]}" stroke-width="2" width="100%" height="100%">${svgI[i%svgI.length]}</svg>`;
+  G.appendChild(el);
+}
+
+onmousemove=e=>{const r=H.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top};
+function loop(){
+  cx+=(mx-cx)*.08;cy+=(my-cy)*.08;
+  G.style.transform=`rotateX(${(cy-H.offsetHeight/2)/20}deg) rotateY(${-(cx-H.offsetWidth/2)/30}deg)`;
+  upd(cx,cy);B0.style.left=cx+'px';B0.style.top=cy+'px';B1.style.left=cx+'px';B1.style.top=cy+'px';
+  requestAnimationFrame(loop)
+}
+loop();
+})();
+</script>
+
+<section class="st-photo-gallery-wrapper">
+  <div class="st-gallery-title">
+    <h1>三维静态作品集</h1>
+  </div>
+  <div class="st-photo-gallery" id="photo-gallery"></div>
+</section>
+
+<!-- 模态预览层 -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="close-btn" id="closeBtn">×</div>
+  <div class="modal-img-container" id="modalImgContainer">
+    <img src="" class="modal-img" id="modalImg">
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const photos = [];
+    for (let i = 1; i <= 43; i++) {
+      photos.push(`assets/三维静态/3photo (${i}).jpg`);
+    }
+
+    const gallery = document.getElementById('photo-gallery');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalImgContainer = document.getElementById('modalImgContainer');
+    const modalImg = document.getElementById('modalImg');
+    const closeBtn = document.getElementById('closeBtn');
+
+    // 🔥 取图片主色（核心功能）
+    function getImageColor(img, callback) {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const image = new Image();
+      image.crossOrigin = 'Anonymous';
+      image.src = img.src;
+      image.onload = () => {
+        canvas.width = 1;
+        canvas.height = 1;
+        ctx.drawImage(image, 0, 0, 1, 1);
+        const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+        callback(`rgb(${r},${g},${b})`);
+      };
+    }
+
+    // 渲染图片
+    photos.forEach(src => {
+      const item = document.createElement('div');
+      item.className = 'st-photo-item';
+      item.innerHTML = `
+        <div class="st-photo-image-wrapper">
+          <img src="${src}" alt="作品" crossOrigin="Anonymous">
+        </div>
+      `;
+
+      const img = item.querySelector('img');
+      let hoverColor = 'rgb(255,255,255)';
+
+      // 预加载获取主色
+      getImageColor(img, (color) => {
+        hoverColor = color;
+      });
+
+      // 鼠标悬停：3D旋转 + 图片主色边框光晕
+      item.addEventListener('mousemove', (e) => {
+        const rect = item.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+
+        const strength = 28;
+        const rotY = (x / (rect.width / 2)) * -strength;
+        const rotX = (y / (rect.height / 2)) * strength;
+
+        img.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+        
+        // ✅ 自动使用图片主色作为光晕
+        img.style.boxShadow = `0 0 0 1px ${hoverColor}, 0 0 15px 4px ${hoverColor}`;
+      });
+
+      item.addEventListener('mouseleave', () => {
+        img.style.transform = 'rotateX(0) rotateY(0)';
+        img.style.boxShadow = 'none';
+      });
+
+      item.addEventListener('click', () => {
+        resetZoomState();
+        modalImg.src = src;
+        modalOverlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      });
+
+      gallery.appendChild(item);
+    });
+
+    // ========== 核心参数 ==========
+    let scale = 1;
+    let translateX = 0;
+    let translateY = 0;
+    let isDragging = false;
+
+    function resetZoomState() {
+      scale = 1;
+      translateX = 0;
+      translateY = 0;
+      targetRotateX = 0;
+      targetRotateY = 0;
+      smoothRotateX = 0;
+      smoothRotateY = 0;
+      updateImgTransform();
+    }
+
+    let targetRotateX = 0, targetRotateY = 0;
+    let smoothRotateX = 0, smoothRotateY = 0;
+
+    function updateImgTransform() {
+      modalImg.style.transform =
+        `scale(${scale}) translate(${translateX}px, ${translateY}px) rotateX(${smoothRotateX}deg) rotateY(${smoothRotateY}deg)`;
+      // 动态阴影 — 旋转角度越大，阴影偏移越明显，增强立体感
+      const shadowX = smoothRotateY * 0.8;
+      const shadowY = smoothRotateX * 0.6;
+      const shadowBlur = 40 + Math.abs(smoothRotateX + smoothRotateY) * 2;
+      modalImg.style.boxShadow =
+        `${shadowX}px ${shadowY}px ${shadowBlur}px rgba(0,0,0,0.6), 0 0 40px rgba(58,134,255,${Math.min(0.3, Math.abs(smoothRotateX + smoothRotateY) * 0.008)})`;
+    }
+
+    modalImgContainer.addEventListener('mousemove', (e) => {
+      if (isDragging) return;
+      const rect = modalImgContainer.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const s = 28; // ★ 旋转强度（越大转动越明显）
+      targetRotateY = (x / (rect.width / 2)) * -s;
+      targetRotateX = (y / (rect.height / 2)) * s;
+    });
+
+    modalImgContainer.addEventListener('mouseleave', () => {
+      targetRotateX = 0; targetRotateY = 0;
+    });
+
+    // 平滑动画循环
+    function animateModalRotate() {
+      smoothRotateX += (targetRotateX - smoothRotateX) * 0.12;
+      smoothRotateY += (targetRotateY - smoothRotateY) * 0.12;
+      if (Math.abs(smoothRotateX - targetRotateX) > 0.01 || Math.abs(smoothRotateY - targetRotateY) > 0.01) {
+        updateImgTransform();
+      }
+      requestAnimationFrame(animateModalRotate);
+    }
+    animateModalRotate();
+
+    function closeModal() {
+      modalOverlay.classList.remove('show');
+      document.body.style.overflow = '';
+      resetZoomState();
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // 单击图片关闭
+    modalImgContainer.addEventListener('click', (e) => {
+      if (isDragging) return;
+      closeModal();
+    });
+  });
+</script>
+
+
+<!-- ==================== 跑马灯标语区 ==================== -->
+<section class="py-24 border-t border-white/5 overflow-hidden relative" style="background:#0a101e;">
+  <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+  <div class="flex whitespace-nowrap overflow-hidden py-10 opacity-10 rotate-1">
+    <div class="marquee-content text-[6vw] font-black uppercase italic tracking-tighter"><span>Architectural Stills</span><span>*</span><span>Material Science</span><span>*</span><span>Global Illumination</span><span>*</span><span>Texture Art</span><span>*</span></div>
+    <div class="marquee-content text-[6vw] font-black uppercase italic tracking-tighter"><span>Architectural Stills</span><span>*</span><span>Material Science</span><span>*</span><span>Global Illumination</span><span>*</span><span>Texture Art</span><span>*</span></div>
+  </div>
+  <div class="max-w-4xl mx-auto px-6 text-center mt-12 relative z-10">
+    <div class="inline-block p-4 rounded-full mb-8 bg-zinc-900 animate-bounce" style="box-shadow:0 0 0 1px rgba(255,255,255,0.1);"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#a9adb8" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M8.3 10a.7.7 0 0 1-.626-1.079L11.4 3a.7.7 0 0 1 1.198-.043L16.3 8.9a.7.7 0 0 1-.572 1.1Z"/><rect x="3" y="14" width="7" height="7" rx="1"/><circle cx="17.5" cy="17.5" r="3.5"/></svg></div>
+    <h3 class="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-tight mb-8">Start your project <br> with visual aesthetic.</h3>
+    <p class="text-xs md:text-sm text-white/30 tracking-[0.3em] uppercase leading-relaxed max-w-xl mx-auto">Focusing on high-end commercial video production and artistic experimental shorts. Let's create something memorable.</p>
+    <div class="mt-12"><button class="group relative text-xs font-bold uppercase tracking-[0.4em] px-12 rounded-full transition-all duration-300" style="padding-top:20px;padding-bottom:20px;box-shadow:0 0 0 1px rgba(255,255,255,0.2);" onmouseenter="this.style.boxShadow='0 0 0 1px rgba(58,134,255,0.6), 0 0 30px rgba(58,134,255,0.3)'" onmouseleave="this.style.boxShadow='0 0 0 1px rgba(255,255,255,0.2)'"><span class="relative z-10">请联系我</span><div class="absolute inset-0 rounded-full bg-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div></button></div>
+  </div>
+</section>
+
+<!-- ==================== 页脚 ==================== -->
+<footer class="py-20 border-t border-white/5 text-center text-white/30 text-xs tracking-[0.3em] uppercase">© 2026 MINGO Creative Studio. All Rights Reserved.</footer>
+
+<!-- ==================== 回到顶部按钮 ==================== -->
+<style>
+#scroll-top-btn{position:fixed;bottom:2rem;right:2rem;z-index:999;cursor:pointer;width:3.5rem;height:3.5rem;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.4);backdrop-filter:blur(8px);border-radius:50%;border:1px solid rgba(255,255,255,0.1);opacity:0;transform:translateY(20px);transition:all .3s;pointer-events:none}#scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:auto}#scroll-top-btn:hover{border-color:#3a86ff;transform:scale(1.1)}#scroll-top-btn svg.progress-ring{position:absolute;inset:0;transform:rotate(-90deg)}
+</style>
+<div id="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+<svg class="progress-ring" width="56" height="56"><circle cx="28" cy="28" r="24" fill="transparent" stroke="rgba(255,255,255,0.1)" stroke-width="2"/><circle id="progress-circle" cx="28" cy="28" r="24" fill="transparent" stroke="#3a86ff" stroke-width="2" stroke-dasharray="150.8" stroke-dashoffset="150.8" stroke-linecap="round" style="transition:stroke-dashoffset .1s"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</div>
+<script>const stb=document.getElementById('scroll-top-btn'),pc=document.getElementById('progress-circle'),circ=2*Math.PI*24;window.addEventListener('scroll',()=>{const s=window.scrollY,t=document.documentElement.scrollHeight-window.innerHeight,p=(s/t)*100;s>300?stb.classList.add('visible'):stb.classList.remove('visible');pc.style.strokeDashoffset=circ-(p/100)*circ});</script>
+
+</body>
+</html>

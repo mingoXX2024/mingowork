@@ -1,0 +1,18 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="128" height="128" fill="#010907"/>
+<g>
+<!-- Brain/AI Icon -->
+<circle cx="40" cy="40" r="8" fill="white" opacity="0.9"/>
+<circle cx="88" cy="40" r="8" fill="white" opacity="0.9"/>
+<circle cx="40" cy="88" r="8" fill="white" opacity="0.9"/>
+<circle cx="88" cy="88" r="8" fill="white" opacity="0.9"/>
+<circle cx="64" cy="64" r="12" fill="white"/>
+<!-- Connection lines -->
+<line x1="48" y1="40" x2="56" y2="60" stroke="white" stroke-width="1.5" opacity="0.6"/>
+<line x1="80" y1="40" x2="72" y2="60" stroke="white" stroke-width="1.5" opacity="0.6"/>
+<line x1="48" y1="88" x2="56" y2="68" stroke="white" stroke-width="1.5" opacity="0.6"/>
+<line x1="80" y1="88" x2="72" y2="68" stroke="white" stroke-width="1.5" opacity="0.6"/>
+<!-- Outer circle -->
+<circle cx="64" cy="64" r="55" fill="none" stroke="white" stroke-width="1.5" opacity="0.3"/>
+</g>
+</svg>

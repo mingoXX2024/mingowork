@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>社媒创意 - 戴维斯</title>
+  <link rel="icon" href="assets/img/favicon.png">
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/fontawesome.css">
+  <link rel="stylesheet" href="assets/css/slick.css">
+  <link rel="stylesheet" href="assets/css/animate.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;700;900&family=Noto+Sans+SC:wght@200;300;400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== 跑马灯动画 ===== */
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .marquee-content { display: flex; gap: 5rem; animation: marquee 20s linear infinite; }
+    body { 
+      background: #0a101e !important; 
+      margin: 0; 
+      padding: 0; 
+      width: 100%;
+      overflow-x: hidden;
+    }
+    /* ===== 隐藏式刘海导航 ===== */
+    .notch-nav { position:fixed;top:0;left:50%;transform:translateX(-50%);z-index:200;width:200px;height:18px;background:rgba(255,140,0,0.5);border-radius:0 0 20px 20px;transition:all .4s cubic-bezier(.4,0,.2,1);cursor:pointer;overflow:clip; }
+    .notch-nav::before { content:'';position:absolute;top:1px;left:50%;transform:translateX(-50%);width:40px;height:4px;background:rgba(255,180,80,.8);border-radius:1px;transition:all .4s; }
+    .notch-nav:hover { overflow:visible;width:520px;height:56px;background:rgba(76,87,112,.92);border-radius:0 0 28px 28px;box-shadow:0 4px 30px rgba(0,0,0,.5); }
+    .notch-nav:hover::before { opacity:0; }
+    .notch-menu { display:flex;align-items:center;justify-content:center;gap:24px;height:100%;opacity:0;transition:opacity .3s .1s;padding:0 20px; }
+    .notch-nav:hover .notch-menu { opacity:1; }
+    .notch-menu a { color:#ccc;text-decoration:none;font-size:14px;padding:8px 4px;font-family:'Inter','Microsoft YaHei',sans-serif;letter-spacing:.06em;transition:color .2s;white-space:nowrap; }
+    .notch-menu a:hover,.notch-menu a.active { color:#3a86ff; }
+    .notch-dropdown { position:relative; }
+    .notch-dropdown-menu { position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(8px);background:rgba(10,16,30,.95);border:1px solid rgba(58,134,255,.2);border-radius:8px;padding:8px 0;min-width:140px;opacity:0;visibility:hidden;transition:all .3s;box-shadow:0 8px 30px rgba(0,0,0,.5); }
+    .notch-dropdown:hover .notch-dropdown-menu { opacity:1;visibility:visible; }
+    .notch-dropdown-menu a { display:block;padding:10px 20px;font-size:12px;color:#ccc; }
+    .notch-dropdown-menu a:hover { background:rgba(58,134,255,.1);color:#3a86ff; }
+    .st-site-header { display:none !important; }
+    .st-nav-list a { color: #fdfeff !important; }
+
+    /* 导航栏居中 */
+    .st-main-header-in {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      gap: 30px;
+    }
+
+    .st-main-header-left {
+      position: absolute;
+      left: 30px;
+    }
+
+    .st-main-header-right {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .st-nav {
+      display: flex;
+      justify-content: center;
+    }
+
+    .st-nav-list {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* 下拉菜单样式 */
+    .st-dropdown-nav {
+      position: relative;
+    }
+
+    .st-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: rgba(10, 10, 24, 0.95);
+      min-width: 180px;
+      list-style: none;
+      padding: 0;
+      margin-top: 5px;
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 4px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+    }
+
+    .st-dropdown-nav:hover .st-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .st-dropdown-menu li {
+      margin: 0;
+      padding: 0;
+      border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+    }
+
+    .st-dropdown-menu li:last-child {
+      border-bottom: none;
+    }
+
+    .st-dropdown-menu a {
+      display: block;
+      padding: 12px 20px;
+      color: #fdfeff;
+      text-decoration: none;
+      font-size: 13px;
+      text-transform: capitalize;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .st-dropdown-menu a:hover {
+      background: rgba(255, 215, 0, 0.1);
+      color: #ffd700;
+      padding-left: 25px;
+    }
+
+    /* ═══════════════════════════════════════════
+       ★ 英雄页高度统一控制参数 ★
+       修改 --hero-height 的值可同时调整所有断点的高度
+       ═══════════════════════════════════════════ */
+    :root {
+      --hero-height: 45vh;        /* 桌面端英雄页高度 */
+      --hero-height-md: 28vh;     /* 平板端 (≤992px) */
+      --hero-height-sm: 25vh;     /* 手机端 (≤768px) */
+      --hero-height-xs: 23vh;     /* 小屏手机 (≤480px) */
+    }
+
+    /* 社媒创意页面特有样式 */
+    .social-hero {
+      position: relative;
+      text-align: center;
+      overflow: hidden;
+      min-height: var(--hero-height);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hearts-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 100;
+      overflow: hidden;
+    }
+
+    .heart-item {
+      position: absolute;
+      color: #ef4444;
+      filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.5));
+      pointer-events: none;
+      /* Enable hardware acceleration */
+      will-change: transform, opacity;
+      backface-visibility: hidden;
+      perspective: 1000px;
+    }
+
+    .scrolling-background {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.03;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .scroll-column {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      animation: scroll-y 25s linear infinite;
+    }
+
+    .scroll-column.reverse {
+      animation-direction: reverse;
+    }
+
+    @keyframes scroll-y {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-100%); }
+    }
+
+    .placeholder-card {
+      width: 144px;
+      aspect-ratio: 9/16;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.1);
+    }
+
+    .social-badge {
+      display: inline-block;
+      padding: 6px 24px;
+      background: rgba(255, 215, 0, 0.1);
+      border: 2px solid rgba(255, 215, 0, 0.2);
+      color: #ffd700;
+      font-size: 10px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      border-radius: 9999px;
+      margin-bottom: 24px;
+      transition: all 0.3s ease;
+    }
+
+    .social-badge:hover {
+      transform: scale(1.05);
+      letter-spacing: 0.4em;
+    }
+
+    .social-title {
+      font-size: clamp(48px, 10vw, 140px);
+      font-weight: 900;
+      margin-bottom: 0;
+      line-height: 1;
+      text-transform: uppercase;
+      color: white;
+      cursor: default;
+      transition: all 0.3s ease;
+      font-family: 'Noto Sans SC';
+    }
+
+    .social-quote {
+      max-width: 48rem;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1rem;
+      font-weight: 200;
+      line-height: 1.5;
+      letter-spacing: 0.05em;
+      font-style: italic;
+      margin: 0 auto;
+      opacity: 0;
+      animation: fade-in 1s 0.5s forwards;
+    }
+
+    @keyframes fade-in {
+      to { opacity: 1; }
+    }
+
+    @media (min-width: 768px) {
+      .social-quote {
+        font-size: 1.25rem;
+      }
+    }
+
+    .social-icons {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .social-icon {
+      position: absolute;
+      opacity: 0.2;
+      font-size: 40px;
+      transition: transform 0.1s ease-out;
+    }
+
+    .social-icon.instagram { top: 15%; left: 12%; font-size: 80px; color: #ffd700; }
+    .social-icon.clapperboard { bottom: 20%; right: 12%; font-size: 70px; color: white; }
+    .social-icon.youtube { top: 35%; right: 20%; font-size: 50px; color: #ef4444; }
+    .social-icon.twitter { bottom: 35%; left: 20%; font-size: 45px; color: #60a5fa; }
+    .social-icon.music { top: 55%; left: 15%; font-size: 55px; color: #ec4899; }
+    .social-icon.send { top: 20%; right: 30%; font-size: 40px; color: white; }
+
+    .social-main {
+      padding: 40px 24px 192px;
+    }
+
+    .social-grid {
+      columns: 2;
+      column-gap: 16px;
+    }
+
+    @media (min-width: 768px) {
+      .social-grid {
+        columns: 3;
+        column-gap: 24px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .social-grid {
+        columns: 4;
+        column-gap: 24px;
+      }
+    }
+
+    .social-card-wrapper {
+      break-inside: avoid;
+      margin-bottom: 16px;
+    }
+
+    @media (min-width: 768px) {
+      .social-card-wrapper {
+        margin-bottom: 24px;
+      }
+    }
+
+    .social-card {
+      position: relative;
+      width: 100%;
+      /* Default is 9/16 for vertical videos */
+      aspect-ratio: 9/16;
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      background: black;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.5s ease;
+    }
+
+    /* Horizontal video style - 16/9 aspect ratio */
+    .social-card.horizontal {
+      aspect-ratio: 16/9;
+    }
+
+    .social-card:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: scale(1.02);
+    }
+
+    .social-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .play-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.2);
+      transition: all 0.5s ease;
+    }
+
+    .social-card:hover .play-overlay {
+      background: transparent;
+    }
+
+    .play-button {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .play-button::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 10px solid white;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      margin-left: 2px;
+    }
+
+    .loading-spinner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.4);
+      -webkit-backdrop-filter: blur(2px);
+      backdrop-filter: blur(2px);
+    }
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top: 2px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .social-footer {
+      padding: 80px 24px 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    .social-footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .social-footer-link {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .social-footer-link:hover {
+      background: #ffd700;
+      color: #0a101e;
+    }
+
+    .social-copyright {
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      text-align: center;
+    }
+
+    /* 全屏视频模态框 */
+    .video-modal {
+      position: fixed;
+      inset: 0;
+      /* 修改1: 增强磨砂玻璃效果，使用更深的半透明背景配合模糊 */
+      background: rgba(10, 16, 30, 0.85);
+      -webkit-backdrop-filter: blur(20px); /* 添加Safari兼容前缀 */
+      backdrop-filter: blur(20px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      /* 优化触摸体验 */
+      touch-action: none; 
+    }
+
+    .video-modal.show {
+      display: flex;
+    }
+
+    /* 修改: 移除固定宽高比，允许视频自适应原始比例 */
+    .modal-video {
+      max-width: 90%;
+      max-height: 90%;
+      width: auto;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      object-fit: contain; /* 确保视频完整显示，不裁剪 */
+      background: #000; /* 视频周围填充黑色，避免透明背景 */
+      /* 添加过渡效果，使切换更平滑 */
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      /* 添加aspect-ratio属性以支持现代浏览器的比例控制 */
+      aspect-ratio: attr(data-aspect-ratio);
+    }
+
+    /* 新增: 视频切换提示 - 改为滚轮图标 */
+    .scroll-hint {
+      position: absolute;
+      bottom: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1001;
+      pointer-events: none;
+      animation: pulse 2s infinite;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      scale: 0.5;
+    }
+
+    .scroll-wheel {
+      width: 32px;
+      height: 60px;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 2px;
+      animation: scrollAnimation 1.5s infinite ease-in-out;
+    }
+
+    .scroll-label {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 12px;
+      text-align: center;
+      margin-top: 2px;
+    }
+
+    @keyframes scrollAnimation {
+      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+      50% { transform: translateX(-50%) translateY(20px); opacity: 0.3; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+
+    /* 新增: 视频切换时的动画类 */
+    .modal-video.slide-out {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    
+    .modal-video.slide-in {
+      animation: slideInAnim 0.3s ease forwards;
+    }
+
+    @keyframes slideInAnim {
+      from { opacity: 0; transform: scale(1.05); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      color: white;
+      font-size: 32px;
+      cursor: pointer;
+      z-index: 1001;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      /* 增加点击区域 */
+      padding: 10px;
+    }
+
+    @media (max-width: 1200px) {
+      body { padding-top: 100px !important; }
+      .st-site-header { height: 80px; }
+    }
+
+    @media (max-width: 768px) {
+      body { padding-top: 90px !important; }
+      .st-site-header { height: 70px; }
+      .social-title { font-size: 3rem; }
+      .social-grid { columns: 2; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding-top: 80px !important; }
+      .st-site-header { height: 60px; }
+      .social-grid { columns: 1; }
+    }
+  </style>
+</head>
+
+<body id="social-media">
+
+<!-- ===== 隐藏式刘海导航 ===== -->
+<div class="notch-nav">
+  <div class="notch-menu">
+    <a href="index.html">首页</a>
+    <a href="index.html#about">关于我</a>
+    <a href="index.html#resume">简历</a>
+    <div class="notch-dropdown">
+      <a href="index.html#portfolio">作品集 ▾</a>
+      <div class="notch-dropdown-menu">
+        <a href="portfolio-photo.html">平面摄影</a>
+        <a href="portfolio-3danimation.html">三维动画</a>
+        <a href="portfolio-video.html">视频影像</a>
+        <a href="portfolio-3dstatic.html">三维静态</a>
+        <a href="portfolio-media.html">社媒创意</a>
+      </div>
+    </div>
+    <a href="index.html#blog">博客</a>
+    <a href="index.html#contact">联系我</a>
+  </div>
+</div>
+
+<!-- Hero Section -->
+<section class="social-hero" id="heroSection">
+  <div class="hearts-overlay" id="heartsOverlay"></div>
+  
+  <div class="scrolling-background" id="scrollingBackground"></div>
+  
+  <h1 class="social-title" id="socialTitle">社媒</h1>
+
+  
+  <div class="social-icons" id="socialIcons">
+    <div class="social-icon instagram">📷</div>
+    <div class="social-icon clapperboard">🎬</div>
+    <div class="social-icon youtube">📺</div>
+    <div class="social-icon twitter">🐦</div>
+    <div class="social-icon music">🎵</div>
+    <div class="social-icon send">📤</div>
+  </div>
+</section>
+
+<!-- Main Content -->
+<main class="social-main">
+  <div class="social-grid" id="socialGrid">
+    <!-- Social media cards will be generated by JavaScript -->
+  </div>
+</main>
+
+<!-- Video Modal -->
+<div class="video-modal" id="videoModal">
+  <span class="close-modal" id="closeModal">&times;</span>
+  <video class="modal-video" id="modalVideo" loop></video>
+  <div class="scroll-hint">
+    <div class="scroll-wheel">
+      <div class="scroll-indicator"></div>
+    </div>
+    <div class="scroll-label">滚动切换</div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Create scrolling background
+    function createScrollingBackground() {
+      const container = document.getElementById('scrollingBackground');
+      for (let i = 0; i < 7; i++) {
+        const column = document.createElement('div');
+        column.className = `scroll-column ${i % 2 === 1 ? 'reverse' : ''}`;
+        column.style.animationDuration = `${25 + i * 5}s`;
+        
+        for (let j = 0; j < 10; j++) {
+          const card = document.createElement('div');
+          card.className = 'placeholder-card';
+          column.appendChild(card);
+        }
+        
+        container.appendChild(column);
+      }
+    }
+    
+    // Create hearts animation
+    let isHoveringHero = false;
+    let mouseX = 0;
+    let mouseY = 0;
+    const heartsContainer = document.getElementById('heartsOverlay');
+    const heroSection = document.getElementById('heroSection');
+    let activeHearts = 0;
+    const maxHearts = 15; // Limit to 15 hearts at once
+    
+    function createHeart(x, y) {
+      if (activeHearts >= maxHearts) return;
+      
+      const heart = document.createElement('div');
+      heart.className = 'heart-item';
+      heart.innerHTML = '❤️';
+      // Set initial position using transform for better performance
+      heart.style.position = 'absolute';
+      heart.style.left = x + 'px';
+      heart.style.top = y + 'px';
+      heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+      heart.style.opacity = '1';
+      heart.style.transform = 'translate(0, 0) scale(0.2) rotate(0deg)';
+      
+      heartsContainer.appendChild(heart);
+      activeHearts++;
+      
+      // Animate heart - move upward in Y direction
+      animateHeart(heart);
+    }
+    
+    function animateHeart(heart) {
+      // Slower speed: 1000-1400ms (slower than before)
+      const duration = Math.random() * 400 + 1000;
+      // Lower Y offset: -80 to -120px (reduced height)
+      const yOffset = -80 - Math.random() * 40;
+      
+      let startTime = null;
+      
+      function animate(currentTime) {
+        if (!startTime) startTime = currentTime;
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        if (progress < 1) {
+          // Use smoother easing function
+          const easeOutQuad = 1 - Math.pow(1 - progress, 2);
+          
+          // Only move upward in Y direction with reduced offset
+          const translateY = yOffset * easeOutQuad;
+          const newOpacity = 1 - easeOutQuad;
+          const newScale = 0.2 + (1.3 * easeOutQuad);
+          
+          heart.style.transform = `translateY(${translateY}px) scale(${newScale})`;
+          heart.style.opacity = newOpacity.toString();
+          
+          requestAnimationFrame(animate);
+        } else {
+          heart.remove();
+          activeHearts--;
+        }
+      }
+      
+      requestAnimationFrame(animate);
+    }
+    
+    // Mouse tracking
+    document.addEventListener('mousemove', function(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+    
+    // Hero section hover events
+    heroSection.addEventListener('mouseenter', function() {
+      isHoveringHero = true;
+      const heartInterval = setInterval(() => {
+        if (isHoveringHero) {
+          // Create heart at current mouse position
+          createHeart(mouseX, mouseY);
+        }
+      }, 250); // Adjusted from 200ms to 250ms for better spacing
+      
+      heroSection.heartInterval = heartInterval;
+    });
+    
+    heroSection.addEventListener('mouseleave', function() {
+      isHoveringHero = false;
+      if (heroSection.heartInterval) {
+        clearInterval(heroSection.heartInterval);
+        heroSection.heartInterval = null;
+      }
+      // Keep existing hearts but don't create new ones
+    });
+    
+    // Parallax effect implementation
+    let parallaxX = 0;
+    let parallaxY = 0;
+    
+    document.addEventListener('mousemove', function(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      
+      // Update parallax values based on window center
+      parallaxX = (e.clientX / window.innerWidth - 0.5) * 50;
+      parallaxY = (e.clientY / window.innerHeight - 0.5) * 50;
+      
+      // Apply parallax to social icons
+      const icons = document.querySelectorAll('.social-icon');
+      icons.forEach(icon => {
+        const transformX = parallaxX * 0.004;
+        const transformY = parallaxY * 0.004;
+        icon.style.transform = `translate(${transformX}px, ${transformY}px)`;
+      });
+    });
+    
+    // Title hover effect
+    const title = document.getElementById('socialTitle');
+    title.addEventListener('mouseenter', function() {
+      this.style.color = '#ffd700';
+      this.style.transform = 'rotateY(10deg) rotateX(-5deg)';
+    });
+    
+    title.addEventListener('mouseleave', function() {
+      this.style.color = 'white';
+      this.style.transform = 'rotateY(0) rotateX(0)';
+    });
+    
+    // Create portfolio items - use actual video files with proper aspect ratios
+    const portfolioItems = [];
+    
+    // Generate 64 video items with proper categories and aspect ratios
+    const categories = ['品牌设计', '数字艺术', 'AI生成', '概念设计', '虚拟人', '元宇宙', '营销策划', '内容创作'];
+    const titleSuffixes = ['系列', '创意', '展示', '作品', '项目', '案例'];
+    
+    for (let i = 1; i <= 64; i++) {
+      const categoryIndex = (i - 1) % categories.length;
+      const titleSuffix = titleSuffixes[(i - 1) % titleSuffixes.length];
+      
+      // Set aspect ratio:社媒(1) and 社媒(2) are horizontal (16/9), others are vertical (9/16)
+      const isHorizontal = (i === 1 || i === 2);
+      const aspectRatio = isHorizontal ? '16/9' : '9/16';
+      
+      portfolioItems.push({
+        id: i.toString(),
+        title: `社媒创意_${titleSuffix} ${i}`,
+        category: categories[categoryIndex],
+        videoUrl: `assets/社媒视频/社媒 (${i}).mp4`,
+        aspectRatio: aspectRatio,
+        isHorizontal: isHorizontal
+      });
+    }
+    
+    const socialGrid = document.getElementById('socialGrid');
+    
+    portfolioItems.forEach((item, index) => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'social-card-wrapper';
+      
+      const card = document.createElement('div');
+      card.className = `social-card ${item.isHorizontal ? 'horizontal' : ''}`;
+      card.dataset.videoUrl = item.videoUrl;
+      // 存储当前索引，方便后续查找
+      card.dataset.index = index;
+      
+      const video = document.createElement('video');
+      video.className = 'social-video';
+      video.src = item.videoUrl;
+      video.muted = true;
+      video.playsInline = true;
+      video.preload = 'metadata';
+      
+      const playOverlay = document.createElement('div');
+      playOverlay.className = 'play-overlay';
+      
+      const playButton = document.createElement('div');
+      playButton.className = 'play-button';
+      
+      playOverlay.appendChild(playButton);
+      
+      // Loading spinner
+      const loadingSpinner = document.createElement('div');
+      loadingSpinner.className = 'loading-spinner';
+      loadingSpinner.innerHTML = '<div class="spinner"></div>';
+      loadingSpinner.style.display = 'none';
+      
+      card.appendChild(video);
+      card.appendChild(playOverlay);
+      card.appendChild(loadingSpinner);
+      
+      // Hover events
+      card.addEventListener('mouseenter', function() {
+        video.play().catch(e => console.warn("Hover play failed:", e));
+        playOverlay.style.display = 'none';
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        video.pause();
+        video.currentTime = 0;
+        playOverlay.style.display = 'flex';
+      });
+      
+      // Click to open modal
+      card.addEventListener('click', function() {
+        openModal(index);
+      });
+      
+      // Video load events
+      video.addEventListener('waiting', function() {
+        loadingSpinner.style.display = 'flex';
+      });
+      
+      video.addEventListener('canplay', function() {
+        loadingSpinner.style.display = 'none';
+      });
+      
+      wrapper.appendChild(card);
+      socialGrid.appendChild(wrapper);
+    });
+    
+    // Modal logic variables
+    let currentVideoIndex = -1;
+    let lastScrollTime = 0;
+    const scrollDelay = 300; // 减少滚动冷却时间，提高流畅度
+    
+    const videoModal = document.getElementById('videoModal');
+    const modalVideo = document.getElementById('modalVideo');
+    const closeModalBtn = document.getElementById('closeModal');
+    const scrollHint = document.querySelector('.scroll-hint');
+
+    // 预加载视频缓存
+    const videoCache = new Map();
+
+    // 预加载函数
+    function preloadVideo(url) {
+      if (videoCache.has(url)) {
+        return videoCache.get(url);
+      }
+      
+      const video = document.createElement('video');
+      video.src = url;
+      video.preload = 'auto';
+      video.muted = true;
+      video.playsInline = true;
+      videoCache.set(url, video);
+      return video;
+    }
+
+    // 打开模态框函数
+    function openModal(index) {
+      if (index < 0 || index >= portfolioItems.length) return;
+      currentVideoIndex = index;
+      const item = portfolioItems[index];
+      
+      // 设置视频的aspect-ratio属性
+      modalVideo.setAttribute('data-aspect-ratio', item.aspectRatio);
+      modalVideo.src = item.videoUrl;
+      // 设置默认音量为45%
+      modalVideo.volume = 0.45;
+      // 确保循环播放
+      modalVideo.loop = true;
+      videoModal.classList.add('show');
+      document.body.style.overflow = 'hidden';
+      
+      // 显示滚动提示
+      if (scrollHint) {
+        scrollHint.style.display = 'flex';
+      }
+      
+      // 移除动画类以便重新触发
+      modalVideo.classList.remove('slide-in', 'slide-out');
+      void modalVideo.offsetWidth; // 触发重绘
+      modalVideo.classList.add('slide-in');
+      
+      setTimeout(() => {
+        modalVideo.play().catch(e => console.log("Auto-play prevented", e));
+      }, 50); // 减少延迟时间
+      
+      // 预加载相邻视频
+      if (index > 0) {
+        preloadVideo(portfolioItems[index - 1].videoUrl);
+      }
+      if (index < portfolioItems.length - 1) {
+        preloadVideo(portfolioItems[index + 1].videoUrl);
+      }
+    }
+
+    // 关闭模态框函数
+    function closeModal() {
+      videoModal.classList.remove('show');
+      modalVideo.pause();
+      modalVideo.src = '';
+      document.body.style.overflow = 'auto';
+      currentVideoIndex = -1;
+      
+      // 隐藏滚动提示
+      if (scrollHint) {
+        scrollHint.style.display = 'none';
+      }
+    }
+
+    // 切换视频函数 - 优化版本
+    function switchVideo(direction) {
+      const now = Date.now();
+      if (now - lastScrollTime < scrollDelay) return;
+      
+      let newIndex = currentVideoIndex + direction;
+      
+      // 边界检查
+      if (newIndex < 0 || newIndex >= portfolioItems.length) return;
+      
+      lastScrollTime = now;
+      
+      // 暂停当前视频
+      modalVideo.pause();
+      
+      // 直接切换到新视频，避免清空src导致的黑屏
+      const newItem = portfolioItems[newIndex];
+      modalVideo.setAttribute('data-aspect-ratio', newItem.aspectRatio);
+      modalVideo.src = newItem.videoUrl;
+      
+      // 添加平滑过渡
+      modalVideo.classList.remove('slide-in');
+      modalVideo.classList.add('slide-out');
+      
+      setTimeout(() => {
+        currentVideoIndex = newIndex;
+        const item = portfolioItems[newIndex];
+        // 更新aspect-ratio属性
+        modalVideo.setAttribute('data-aspect-ratio', item.aspectRatio);
+        modalVideo.src = item.videoUrl;
+        // 设置默认音量为45%
+        modalVideo.volume = 0.45;
+        // 确保循环播放
+        modalVideo.loop = true;
+        
+        // 移除退出动画，添加入场动画
+        modalVideo.classList.remove('slide-out');
+        void modalVideo.offsetWidth; // 触发重绘
+        modalVideo.classList.add('slide-in');
+        
+        modalVideo.play().catch(e => console.log("Auto-play prevented", e));
+        
+        // 预加载下一个可能的视频
+        if (newIndex > 0 && newIndex - 1 !== currentVideoIndex) {
+          preloadVideo(portfolioItems[newIndex - 1].videoUrl);
+        }
+        if (newIndex < portfolioItems.length - 1 && newIndex + 1 !== currentVideoIndex) {
+          preloadVideo(portfolioItems[newIndex + 1].videoUrl);
+        }
+      }, 150); // 减少过渡时间，提高流畅度
+    }
+
+    // 修改2: 点击视频外部区域即可关闭视频
+    videoModal.addEventListener('click', function(e) {
+      // 如果点击目标是模态框背景（即视频外部区域），则关闭
+      if (e.target === videoModal) {
+        closeModal();
+      }
+    });
+
+    closeModalBtn.addEventListener('click', closeModal);
+    
+    // 修改3: 鼠标滚轮滚动视频，视频就会上下切换
+    videoModal.addEventListener('wheel', function(e) {
+      e.preventDefault();
+      //  deltaY > 0 表示向下滚动（下一个），< 0 表示向上滚动（上一个）
+      const direction = e.deltaY > 0 ? 1 : -1;
+      switchVideo(direction);
+    }, { passive: false });
+
+    // Close modal on ESC key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+      // 支持键盘上下键切换
+      if (videoModal.classList.contains('show')) {
+        if (e.key === 'ArrowDown') switchVideo(1);
+        if (e.key === 'ArrowUp') switchVideo(-1);
+      }
+    });
+    
+    // Initialize scrolling background
+    createScrollingBackground();
+  });
+</script>
+
+
+<!-- ==================== 跑马灯标语区 ==================== -->
+<section class="py-24 border-t border-white/5 overflow-hidden relative" style="background:#0a101e;">
+  <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+  <div class="flex whitespace-nowrap overflow-hidden py-10 opacity-10 rotate-1">
+    <div class="marquee-content text-[6vw] font-black uppercase italic tracking-tighter"><span>Viral Strategy</span><span>*</span><span>Content Curation</span><span>*</span><span>Scroll-Stopping Art</span><span>*</span><span>Digital Growth</span><span>*</span></div>
+    <div class="marquee-content text-[6vw] font-black uppercase italic tracking-tighter"><span>Viral Strategy</span><span>*</span><span>Content Curation</span><span>*</span><span>Scroll-Stopping Art</span><span>*</span><span>Digital Growth</span><span>*</span></div>
+  </div>
+  <div class="max-w-4xl mx-auto px-6 text-center mt-12 relative z-10">
+    <div class="inline-block p-4 rounded-full mb-8 bg-zinc-900 animate-bounce" style="box-shadow:0 0 0 1px rgba(255,255,255,0.1);"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#a9adb8" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
+    <h3 class="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-tight mb-8">Start your project <br> with visual aesthetic.</h3>
+    <p class="text-xs md:text-sm text-white/30 tracking-[0.3em] uppercase leading-relaxed max-w-xl mx-auto">Focusing on high-end commercial video production and artistic experimental shorts. Let's create something memorable.</p>
+    <div class="mt-12"><button class="group relative text-xs font-bold uppercase tracking-[0.4em] px-12 rounded-full transition-all duration-300" style="padding-top:20px;padding-bottom:20px;box-shadow:0 0 0 1px rgba(255,255,255,0.2);" onmouseenter="this.style.boxShadow='0 0 0 1px rgba(58,134,255,0.6), 0 0 30px rgba(58,134,255,0.3)'" onmouseleave="this.style.boxShadow='0 0 0 1px rgba(255,255,255,0.2)'"><span class="relative z-10">请联系我</span><div class="absolute inset-0 rounded-full bg-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div></button></div>
+  </div>
+</section>
+
+<!-- ==================== 页脚 ==================== -->
+<footer class="py-20 border-t border-white/5 text-center text-white/30 text-xs tracking-[0.3em] uppercase">© 2026 MINGO Creative Studio. All Rights Reserved.</footer>
+
+<!-- ==================== 回到顶部按钮 ==================== -->
+<style>
+#scroll-top-btn{position:fixed;bottom:2rem;right:2rem;z-index:999;cursor:pointer;width:3.5rem;height:3.5rem;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.4);backdrop-filter:blur(8px);border-radius:50%;border:1px solid rgba(255,255,255,0.1);opacity:0;transform:translateY(20px);transition:all .3s;pointer-events:none}#scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:auto}#scroll-top-btn:hover{border-color:#3a86ff;transform:scale(1.1)}#scroll-top-btn svg.progress-ring{position:absolute;inset:0;transform:rotate(-90deg)}
+</style>
+<div id="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+<svg class="progress-ring" width="56" height="56"><circle cx="28" cy="28" r="24" fill="transparent" stroke="rgba(255,255,255,0.1)" stroke-width="2"/><circle id="progress-circle" cx="28" cy="28" r="24" fill="transparent" stroke="#3a86ff" stroke-width="2" stroke-dasharray="150.8" stroke-dashoffset="150.8" stroke-linecap="round" style="transition:stroke-dashoffset .1s"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</div>
+<script>const stb=document.getElementById('scroll-top-btn'),pc=document.getElementById('progress-circle'),circ=2*Math.PI*24;window.addEventListener('scroll',()=>{const s=window.scrollY,t=document.documentElement.scrollHeight-window.innerHeight,p=(s/t)*100;s>300?stb.classList.add('visible'):stb.classList.remove('visible');pc.style.strokeDashoffset=circ-(p/100)*circ});</script>
+
+</body>
+</html>
