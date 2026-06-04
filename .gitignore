@@ -1,0 +1,14 @@
+# Large video files
+assets/**/*.mp4
+assets/**/*.webm
+assets/images/video/*.mp4
+assets/images/video/*.webm
+assets/三维动态/*.mp4
+assets/视频/*.mp4
+
+# Node modules
+node_modules/
+
+# Build outputs
+dist/
+build/
