@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>视频案例 - 爱德华·戴维斯</title>
+    <title>视频案例 - mingo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -55,7 +55,7 @@
         @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .marquee-content { display: flex; gap: 5rem; animation: marquee 20s linear infinite; }
 
-        /* ===== 隐藏式刘海导航栏 ===== */
+        /* ===== 隐藏式刘海导航（Notch Navigation）===== */
         .notch-nav {
             position: fixed;
             top: 0;
@@ -64,21 +64,20 @@
             z-index: 200;
             width: 200px;
             height: 18px;
-            background: rgba(255,140,0,0.5);
+            background: rgba(255,140,0,1);
             border-radius: 0 0 20px 20px;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
-            overflow: clip;              /* ★ 裁剪刘海内部，但不裁弹出菜单 */
+            overflow: clip;
         }
         .notch-nav:hover {
-            overflow: visible;           /* ★ 展开后允许下拉菜单溢出 */
-            width: 520px;
-            height: 56px;
-            background: rgba(76, 87, 112, 0.92);
+            overflow: visible;
+            width: 550px;
+            height: 60px;
+            background: rgba(76, 87, 112, 0.98);
             border-radius: 0 0 28px 28px;
             box-shadow: 0 4px 30px rgba(0,0,0,0.5);
         }
-        /* 提示小圆点 */
         .notch-nav::before {
             content: '';
             position: absolute;
@@ -87,14 +86,13 @@
             transform: translateX(-50%);
             width: 40px;
             height: 4px;
-            background: rgba(255,255,255,0.6);
+            background: rgba(255,180,80,0.8);
             border-radius: 1px;
             transition: all 0.4s;
         }
         .notch-nav:hover::before {
             opacity: 0;
         }
-        /* 菜单（默认隐藏） */
         .notch-menu {
             display: flex;
             align-items: center;
@@ -109,9 +107,9 @@
             opacity: 1;
         }
         .notch-menu a {
-            color: #fff0f0;
+            color: #ccc;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 20px;
             padding: 8px 4px;
             font-family: 'Inter', 'Microsoft YaHei', sans-serif;
             letter-spacing: 0.06em;
@@ -119,9 +117,8 @@
             white-space: nowrap;
         }
         .notch-menu a:hover, .notch-menu a.active {
-            color: #ff9900;
+            color: #ff7a05;
         }
-        /* 下拉 */
         .notch-dropdown {
             position: relative;
         }
@@ -130,8 +127,8 @@
             top: 100%;
             left: 50%;
             transform: translateX(-50%) translateY(8px);
-            background: rgba(82, 134, 255, 0);
-            border: 1px solid rgba(58, 133, 255, 0);
+            background: rgba(10,16,30,0.95);
+            border: 1px solid rgba(58,134,255,0.2);
             border-radius: 8px;
             padding: 8px 0;
             min-width: 140px;
@@ -147,12 +144,12 @@
         .notch-dropdown-menu a {
             display: block;
             padding: 10px 20px;
-            font-size: 12px;
+            font-size: 16px;
             color: #ccc;
         }
         .notch-dropdown-menu a:hover {
             background: rgba(58,134,255,0.1);
-            color: #3a86ff;
+            color: #ff7a05;
         }
 
         /* 视频卡片容器 - 一排4个自适应 */
@@ -390,7 +387,7 @@
         <a href="portfolio-media.html">社媒创意</a>
       </div>
     </div>
-    <a href="index.html#contact">联系我</a>
+    <a href="index.html#contactScroll">联系我</a>
   </div>
 </div>
 
@@ -625,7 +622,7 @@ document.addEventListener('DOMContentLoaded',()=>{const c=document.getElementByI
     <div class="inline-block p-4 rounded-full mb-8 bg-zinc-900 animate-bounce" style="box-shadow:0 0 0 1px rgba(255,255,255,0.1);"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#a9adb8" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/><line x1="17" y1="17" x2="22" y2="17"/></svg></div>
     <h3 class="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-tight mb-8">Start your project <br> with visual aesthetic.</h3>
     <p class="text-xs md:text-sm text-white/30 tracking-[0.3em] uppercase leading-relaxed max-w-xl mx-auto">Focusing on high-end commercial video production and artistic experimental shorts. Let's create something memorable.</p>
-    <div class="mt-12"><button class="group relative text-xs font-bold uppercase tracking-[0.4em] px-12 rounded-full transition-all duration-300" style="padding-top:20px;padding-bottom:20px;box-shadow:0 0 0 1px rgba(255,255,255,0.2);" onmouseenter="this.style.boxShadow='0 0 0 1px rgba(58,134,255,0.6), 0 0 30px rgba(58,134,255,0.3)'" onmouseleave="this.style.boxShadow='0 0 0 1px rgba(255,255,255,0.2)'"><span class="relative z-10">请联系我</span><div class="absolute inset-0 rounded-full bg-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div></button></div>
+    <div class="mt-12"><a href="index.html#contactScroll"><button class="group relative text-xs font-bold uppercase tracking-[0.4em] px-12 rounded-full transition-all duration-300" style="padding-top:20px;padding-bottom:20px;box-shadow:0 0 0 1px rgba(255,255,255,0.2);" onmouseenter="this.style.boxShadow='0 0 0 1px rgba(58,134,255,0.6), 0 0 30px rgba(58,134,255,0.3)'" onmouseleave="this.style.boxShadow='0 0 0 1px rgba(255,255,255,0.2)'"><span class="relative z-10">请联系我</span><div class="absolute inset-0 rounded-full bg-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div></button></a></div>
   </div>
 </section>
 

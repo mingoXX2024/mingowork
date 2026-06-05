@@ -232,7 +232,7 @@
 
             document.querySelectorAll(".effectFade").forEach((el) => {
                 let fromVars = { autoAlpha: 0 };
-                let toVars = { autoAlpha: 1, duration: 1, ease: "power3.out" };
+                let toVars = { autoAlpha: 1, duration: 0.6, ease: "power3.out" };
                 let wrapper = null;
                 let startPush = "top 95%";
                 let delay = el.dataset.delay ? parseFloat(el.dataset.delay) : 0;
@@ -305,16 +305,16 @@
                     var randomWidth = Math.floor(Math.random() * 101);
                     gsap.to(innerBars[i + increment], {
                         width: randomWidth + "%",
-                        duration: 0.3,
+                        duration: 0.15,
                         ease: "none",
                     });
                 }
 
-                gsap.delayedCall(0.3, function () {
+                gsap.delayedCall(0.15, function () {
                     for (var i = 0; i < 2; i++) {
                         gsap.to(innerBars[i + increment], {
                             width: "100%",
-                            duration: 0.3,
+                            duration: 0.15,
                             ease: "none",
                         });
                     }
@@ -333,16 +333,15 @@
 
                         preloaderTL.to(".preloader", {
                             "--preloader-clip": "100%",
-                            duration: 0.3,
+                            duration: 0.2,
                             ease: "none",
                         });
                     }
                 });
             }
 
-            $(window).on("load", function () {
-                animateBars();
-            });
+            // DOM 就绪后立即启动动画，不再等待所有资源（视频/图片）加载完毕
+            animateBars();
         } else {
             runAnimations();
         }
