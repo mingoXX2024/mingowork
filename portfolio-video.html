@@ -8,15 +8,15 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;700;900&family=Noto+Sans+SC:wght@200;300;400;700&display=swap');
-        /* ══════════════════════════════════════════�?
-           �?英雄页高度统一控制参数 �?
+        /* ══════════════════════════════════════════�?
+           �?英雄页高度统一控制参数 �?
            修改 --hero-height 的值可同时调整所有断点的高度
-           ══════════════════════════════════════════�?*/
+           ══════════════════════════════════════════�?*/
         :root {
           --hero-height: 45vh;        /* 桌面端英雄页高度 */
-          --hero-height-md: 28vh;     /* 平板�?(�?92px) */
-          --hero-height-sm: 25vh;     /* 手机�?(�?68px) */
-          --hero-height-xs: 23vh;     /* 小屏手机 (�?80px) */
+          --hero-height-md: 28vh;     /* 平板�?(�?92px) */
+          --hero-height-sm: 25vh;     /* 手机�?(�?68px) */
+          --hero-height-xs: 23vh;     /* 小屏手机 (�?80px) */
         }
         * {
             margin: 0;
@@ -36,7 +36,7 @@
         /* 噪点纹理 */
         .grain-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 100; opacity: .03; background-image: url('https://grainy-gradients.vercel.app/noise.svg'); mix-blend-mode: screen; }
 
-        /* 背景装饰列滚�?*/
+        /* 背景装饰列滚�?*/
         @keyframes scroll-y { from { transform: translateY(0); } to { transform: translateY(-50%); } }
         .animate-scroll-y { animation: scroll-y 30s linear infinite; }
         .direction-reverse { animation-direction: reverse; }
@@ -44,18 +44,18 @@
         /* 3D 透视 */
         .perspective-1000 { perspective: 1000px; }
 
-        /* 色差重影�?*/
+        /* 色差重影�?*/
         .chromatic { position: absolute; inset: 0; font-weight: 900; text-transform: uppercase; line-height: 1; font-style: italic; letter-spacing: -0.05em; user-select: none; pointer-events: none; mix-blend-mode: screen; filter: blur(3px); opacity: 0; transition: opacity .2s ease; }
 
-        /* 扫描�?*/
+        /* 扫描�?*/
         .scanline::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent, rgba(255,255,255,.05) 50%, transparent); pointer-events: none; animation: scanline 8s linear infinite; }
         @keyframes scanline { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
 
-        /* 跑马�?*/
+        /* 跑马�?*/
         @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .marquee-content { display: flex; gap: 5rem; animation: marquee 20s linear infinite; }
 
-        /* ===== 隐藏式刘海导航（Notch Navigation�?==== */
+        /* ===== 隐藏式刘海导航（Notch Navigation�?==== */
         .notch-nav {
             position: fixed;
             top: 0;
@@ -152,7 +152,7 @@
             color: #ff7a05;
         }
 
-        /* 视频卡片容器 - 一�?个自适应 */
+        /* 视频卡片容器 - 一�?个自适应 */
         .video-container {
             width: 100%;
             margin: 0 auto;
@@ -213,7 +213,7 @@
             object-fit: cover;
         }
 
-        /* 全屏遮罩�?- 磨砂透明效果 */
+        /* 全屏遮罩�?- 磨砂透明效果 */
         .fullscreen-overlay {
             position: fixed;
             top: 0;
@@ -230,7 +230,7 @@
             padding: 20px;
         }
 
-        /* 视频容器包装�?*/
+        /* 视频容器包装�?*/
         .video-container-wrapper {
             display: flex;
             flex-direction: column;
@@ -251,7 +251,7 @@
             aspect-ratio: auto;
         }
 
-        /* 外部控制�?*/
+        /* 外部控制�?*/
         .video-controls {
             width: 100%;
             height: 44px;
@@ -371,30 +371,30 @@
 </head>
 <body>
 
-<!-- ===== 隐藏式刘海导�?===== -->
+<!-- ===== 隐藏式刘海导�?===== -->
 <div class="notch-nav">
   <div class="notch-menu">
     <a href="index.html">首页</a>
-    <a href="index.html#about">关于�?/a>
-    <a href="index.html#resume">简�?/a>
+    <a href="index.html#about">关于我</a>
+    <a href="index.html#resume">简历</a>
     <div class="notch-dropdown">
-      <a href="index.html#portfolio">作品�?�?/a>
+      <a href="index.html#portfolio">作品集</a>
       <div class="notch-dropdown-menu">
         <a href="portfolio-photo.html">平面摄影</a>
         <a href="portfolio-3danimation.html">三维动画</a>
         <a href="portfolio-video.html" class="active">视频影像</a>
-        <a href="portfolio-3dstatic.html">三维静�?/a>
+        <a href="portfolio-3dstatic.html">三维静态</a>
         <a href="portfolio-media.html">社媒创意</a>
       </div>
     </div>
-    <a href="index.html#contactScroll">联系�?/a>
+    <a href="index.html#contactScroll">联系我</a>
   </div>
 </div>
 
-<!-- 噪点覆盖�?-->
+<!-- 噪点覆盖层-->
 <div class="grain-overlay"></div>
 
-<!-- 背景装饰�?-->
+<!-- 背景装饰层-->
 <div class="absolute inset-0 z-0 opacity-[0.02] pointer-events-none overflow-hidden h-screen" id="bgCols"><script>
 document.addEventListener('DOMContentLoaded',()=>{const c=document.getElementById('bgCols');c.innerHTML='';for(let i=0;i<12;i++){const col=document.createElement('div');col.className=`flex flex-col gap-6 animate-scroll-y ${i%2!==0?'direction-reverse':''}`;col.style.animationDuration=`${30+i*5}s`;for(let j=0;j<15;j++){const item=document.createElement('div');item.className='w-24 h-36 bg-white/20 rounded-lg shadow-inner flex items-center justify-center p-4';item.innerHTML='<i data-lucide="film" class="opacity-20" style="width:24px;height:24px"></i>';col.appendChild(item);}c.appendChild(col);}lucide.createIcons();});
 </script></div>
@@ -413,7 +413,7 @@ document.addEventListener('DOMContentLoaded',()=>{const c=document.getElementByI
   <div class="absolute top-[20%] left-[30%] text-white opacity-10"><i data-lucide="aperture" style="width:30px;height:30px" stroke-width="1.5"></i></div>
 </div>
 
-<!-- ==================== 英雄页（Hero Section�?=================== -->
+<!-- ==================== 英雄页（Hero Section）=================== -->
 <section class="relative flex flex-col items-center justify-center overflow-hidden py-12 md:py-16 scanline" id="hero" style="min-height:var(--hero-height, 30vh); background:#0a101e;">
   <div class="absolute inset-0 z-0"><div class="absolute inset-0 bg-gradient-to-t from-[#0a101e] via-transparent to-[#0a101e]/60 z-10"></div><video autoplay muted loop playsinline class="w-full h-full object-cover grayscale opacity-40"><source src="https://assets.mixkit.co/videos/preview/mixkit-girl-filming-with-a-camera-at-home-43407-large.mp4" type="video/mp4"></video></div>
   <div style="position:absolute; top:16px; left:16px; right:16px; bottom:16px; z-index:20; pointer-events:none; border:1px solid rgba(255,255,255,0.08); border-radius:24px; padding:24px; color:#fff; font-size:11px; letter-spacing:0.2em; font-weight:400; text-transform:uppercase; display:flex; flex-direction:column; justify-content:space-between; opacity:0.2;">
@@ -448,7 +448,7 @@ document.addEventListener('DOMContentLoaded',()=>{const c=document.getElementByI
   </div>
 </section>
 
-<!-- 视频卡片列表�?6个视频） -->
+<!-- 视频卡片列表（6个视频） -->
 <div class="video-container">
     <div class="video-card" data-video-src="./assets/video/video_1.mp4">
         <div class="video-wrapper">
@@ -629,7 +629,7 @@ document.addEventListener('DOMContentLoaded',()=>{const c=document.getElementByI
 <!-- ==================== 页脚 ==================== -->
 <footer class="py-20 border-t border-white/5 text-center text-white/30 text-xs tracking-[0.3em] uppercase">© 2026 MINGO Creative Studio. All Rights Reserved.</footer>
 
-<!-- 全屏播放遮罩�?-->
+<!-- 全屏播放遮罩层 -->
 <div class="fullscreen-overlay" id="fullOverlay">
     <span class="close-btn" id="closeBtn">&times;</span>
     <div class="video-container-wrapper">
@@ -654,34 +654,34 @@ document.addEventListener('DOMContentLoaded',()=>{const c=document.getElementByI
 </div>
 
 <script>
-lucide.createIcons();
-
-// ==================== 色差偏移效果 ====================
-const mainHeading = document.getElementById('mainHeading');
-const red = document.getElementById('red');
-const cyan = document.getElementById('cyan');
-const blue = document.getElementById('blue');
-const shadow = document.getElementById('shadow');
-
-function handlePointerMove(mx, my) {
-    const dx = (mx - 0.5) * 40, dy = (my - 0.5) * 40;
-    document.querySelectorAll('#floatIcons > div').forEach(el => {
-        const f = parseFloat(el.style.opacity || 0.1);
-        el.style.transform = `translate(${dx * f * 20}px, ${dy * f * 20}px)`;
-    });
-    if (mainHeading) mainHeading.style.transform = `rotateX(${-dy * 0.05}deg) rotateY(${dx * 0.05}deg) translateZ(50px)`;
-    if (shadow) shadow.style.filter = 'blur(40px)';
-    const dist = Math.sqrt(dx*dx + dy*dy), strength = Math.max(0, 1 - dist/28);
-    const angleR = Math.atan2(dy, dx) + 0.4, angleC = Math.atan2(dy, dx) + 2.5, angleB = Math.atan2(dy, dx) - 1.2;
-    const off = 30 + strength * 40;
-    const aL = (el, ang, op) => { if (!el) return; el.style.opacity = Math.min(op, strength*(op/0.75)); el.style.transform = `translate(${Math.cos(ang)*off}px, ${Math.sin(ang)*off}px)`; };
-    aL(red, angleR, 0.85); aL(cyan, angleC, 0.75); aL(blue, angleB, 0.80);
-}
-document.addEventListener('mousemove', e => handlePointerMove(e.clientX/innerWidth, e.clientY/innerHeight));
-document.addEventListener('touchmove', e => { if (e.touches.length) handlePointerMove(e.touches[0].clientX/innerWidth, e.touches[0].clientY/innerHeight); }, { passive: true });
-
-// ==================== 视频播放�?====================
 document.addEventListener('DOMContentLoaded', () => {
+    lucide.createIcons();
+
+    // ==================== 色差偏移效果 ====================
+    const mainHeading = document.getElementById('mainHeading');
+    const red = document.getElementById('red');
+    const cyan = document.getElementById('cyan');
+    const blue = document.getElementById('blue');
+    const shadow = document.getElementById('shadow');
+
+    function handlePointerMove(mx, my) {
+        const dx = (mx - 0.5) * 40, dy = (my - 0.5) * 40;
+        document.querySelectorAll('#floatIcons > div').forEach(el => {
+            const f = parseFloat(el.style.opacity || 0.1);
+            el.style.transform = `translate(${dx * f * 20}px, ${dy * f * 20}px)`;
+        });
+        if (mainHeading) mainHeading.style.transform = `rotateX(${-dy * 0.05}deg) rotateY(${dx * 0.05}deg) translateZ(50px)`;
+        if (shadow) shadow.style.filter = 'blur(40px)';
+        const dist = Math.sqrt(dx*dx + dy*dy), strength = Math.max(0, 1 - dist/28);
+        const angleR = Math.atan2(dy, dx) + 0.4, angleC = Math.atan2(dy, dx) + 2.5, angleB = Math.atan2(dy, dx) - 1.2;
+        const off = 30 + strength * 40;
+        const aL = (el, ang, op) => { if (!el) return; el.style.opacity = Math.min(op, strength*(op/0.75)); el.style.transform = `translate(${Math.cos(ang)*off}px, ${Math.sin(ang)*off}px)`; };
+        aL(red, angleR, 0.85); aL(cyan, angleC, 0.75); aL(blue, angleB, 0.80);
+    }
+    document.addEventListener('mousemove', e => handlePointerMove(e.clientX/innerWidth, e.clientY/innerHeight));
+    document.addEventListener('touchmove', e => { if (e.touches.length) handlePointerMove(e.touches[0].clientX/innerWidth, e.touches[0].clientY/innerHeight); }, { passive: true });
+
+    // ==================== 视频播放层 ====================
     const cards = document.querySelectorAll('.video-card'), ov = document.getElementById('fullOverlay'),
           fv = document.getElementById('fullVideo'), cb = document.getElementById('closeBtn'),
           ppb = document.getElementById('playPauseBtn'), pb = document.querySelector('.progress-bar'),
@@ -695,7 +695,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const v = cd.querySelector('video'), src = cd.dataset.videoSrc; if (v) v.muted = true;
         cd.addEventListener('mouseenter', () => { if (v) { pa(); v.play().catch(() => {}); } });
         cd.addEventListener('mouseleave', () => { if (v) v.pause(); });
-        cd.addEventListener('click', () => { if (src) { pa(); fv.src = src; ov.style.display = 'flex'; document.body.style.overflow = 'hidden'; fv.volume = 0.7; fv.muted = false; } else alert('视频'+(i+1)+'地址错误�?); });
+        cd.addEventListener('click', () => { if (src) { pa(); fv.src = src; ov.style.display = 'flex'; document.body.style.overflow = 'hidden'; fv.volume = 0.7; fv.muted = false; } else alert('视频'+(i+1)+'地址错误'); });
     });
     fv.addEventListener('click', () => { fv.paused ? fv.play() : fv.pause(); upi(); });
     ppb.addEventListener('click', () => { fv.paused ? fv.play() : fv.pause(); upi(); });
